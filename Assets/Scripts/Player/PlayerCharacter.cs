@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SuperShooter
+namespace SuperShooter.PB
 {
 
     [RequireComponent(typeof(Rigidbody))]

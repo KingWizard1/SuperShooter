@@ -140,6 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5aebbb02c9d6acc45ad908fac94e8c7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  displayName: 
   damage: 100
   ammo: 30
   accuracy: 1
@@ -147,7 +148,7 @@ MonoBehaviour:
   fireRate: 5
   projectile: {fileID: 1937224646689520, guid: 5fa12ad5397e71545ba892dea7fc93db, type: 2}
   spawnPoint: {fileID: 4101853727398142}
-  hitPoint: {x: 0, y: 0, z: 0}
+  hitPoint: {x: 10.414824, y: 3.5839086, z: 2.22}
   spread: 0
   magSize: 0
 --- !u!212 &212707766807440770
@@ -193,7 +194,7 @@ SpriteRenderer:
   m_Size: {x: 0.32, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!212 &212959485954561734
@@ -239,6 +240,6 @@ SpriteRenderer:
   m_Size: {x: 0.48, y: 0.3}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0

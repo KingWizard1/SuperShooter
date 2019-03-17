@@ -22,18 +22,23 @@ namespace SuperShooter
 
     public abstract class Weapon : MonoBehaviour
     {
+
+        [Header("Name")]
+        public string displayName;
+
+        [Header("Values")]
         public int damage = 1;
         public int ammo = 30;
         public float accuracy = 1f;
         public float range = 10f;
         public float fireRate = 5f;
 
+        [Header("Prefabs")]
         public GameObject projectile;
 
+        [Header("World Points")]
         public Transform spawnPoint;
-
         public Vector3 hitPoint;
-
         Quaternion hitRotation;
 
         // ------------------------------------------------- //

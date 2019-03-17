@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using SuperShooter.PB;
+
 namespace SuperShooter
 {
 
@@ -49,6 +51,8 @@ namespace SuperShooter
             if (Input.GetKeyDown(KeyCode.Alpha2)) characterModel.SelectWeapon(1);
             if (Input.GetKeyDown(KeyCode.Alpha3)) characterModel.SelectWeapon(2);
         }
+
+        // ------------------------------------------------- //
 
         void CheckScrollWheel()
         {

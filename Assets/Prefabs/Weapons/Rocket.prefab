@@ -148,7 +148,7 @@ MonoBehaviour:
   fireRate: 5
   projectile: {fileID: 1937224646689520, guid: 5fa12ad5397e71545ba892dea7fc93db, type: 2}
   spawnPoint: {fileID: 4101853727398142}
-  hitPoint: {x: 10.414824, y: 3.5839086, z: 2.22}
+  hitPoint: {x: 0.36106873, y: 4.7301517, z: -2.0450463}
   spread: 0
   magSize: 0
 --- !u!212 &212707766807440770

@@ -23,7 +23,11 @@ public class PlayerController : MonoBehaviour {
 
     private Animator anim;
     private CharacterController controller;
-    private Vector3 movement;   // Current movement vector
+
+    /// <summary>Current movement vector.</summary>
+    private Vector3 movement;
+    /// <summary>Current movement speed.</summary>
+    private float moveSpeed;
 
     public Weapon currentWeapon; // Public for testing, make private later.
     private List<Weapon> weapons = new List<Weapon>();
@@ -87,7 +91,7 @@ public class PlayerController : MonoBehaviour {
 
         // Set move speed
         // NOTE: Add speed mechanic here (crouch/walk/run). Just need if statements.
-        float moveSpeed = walkSpeed;
+        moveSpeed = walkSpeed;
         if (Input.GetKey(KeyCode.LeftShift)) moveSpeed = runSpeed;
         if (Input.GetKey(KeyCode.LeftControl)) moveSpeed = crouchSpeed;
 
@@ -222,6 +226,35 @@ public class PlayerController : MonoBehaviour {
     }
 
     // ----------------------------------------------------- //
+
+    /// <summary>Called when the controller hits a collider while performing a move.</summary>
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        // This method allows a CharacterController to push Rigidbodies!!
+
+        // Get the Rigidbody of the object we collided with.
+        var other = hit.gameObject.GetComponent<Rigidbody>();
+
+        // Bail if the object does not have a Rigidbody, or has one but isKinematic.
+        if (other == null || other.isKinematic)
+            return;
+
+        // We don't want to push objects below us
+        if (hit.moveDirection.y < -0.3)
+            return;
+
+        // Calculate push direction from move direction.
+        // We only push objects to the sides, never up and down (???)
+        var pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
+
+        // Apply!
+        other.velocity = pushDir * moveSpeed;
+
+
+    }
+
+    // ----------------------------------------------------- //
+
 
     // ----------------------------------------------------- //
 

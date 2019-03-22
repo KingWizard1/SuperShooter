@@ -6,9 +6,10 @@ namespace SuperShooter
 {
     public enum InteractableType
     {
+        Unknown = 0,
         Weapon,
-        Gadget,
-
+        Ability,
+        Consumable,
     }
 
     // ----------------------------------------------------- //
@@ -20,6 +21,9 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
+        protected PlayerController player;
+
+        // ------------------------------------------------- //
 
         public virtual void Interact()
         {

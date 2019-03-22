@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour {
     public float jumpHeight = 20f;
     public float interactRange = 10f;
     public float groundRayDistance = 1.1f;
+    public bool isDoubleSpeed;
 
     [Header("References")]
     public Camera attachedCamera;
@@ -91,9 +92,15 @@ public class PlayerController : MonoBehaviour {
         if (Input.GetKey(KeyCode.LeftShift)) moveSpeed = runSpeed;
         if (Input.GetKey(KeyCode.LeftControl)) moveSpeed = crouchSpeed;
 
+        if (isDoubleSpeed)
+        {
+            moveSpeed *= 2;
+        }
+
         // Apply movement to X and Z.
         movement.x = input.x * moveSpeed;
         movement.z = input.z * moveSpeed;
+
     }
 
     #endregion

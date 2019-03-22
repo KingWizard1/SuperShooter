@@ -14,10 +14,15 @@ public class PlayerController : MonoBehaviour {
     public float jumpHeight = 20f;
     public float interactRange = 10f;
     public float groundRayDistance = 1.1f;
+    public bool onLadder = false;
 
-    [Header("References")]
+
+   [Header("References")]
     public Camera attachedCamera;
     public Transform playerHand;
+    public Transform Player;
+    public GameObject player;
+
 
     // ----------------------------------------------------- //
 
@@ -79,6 +84,8 @@ public class PlayerController : MonoBehaviour {
     /// <param name="inputV"></param>
     void Move(float inputH, float inputV)
     {
+
+        
         // Create direction from input
         Vector3 input = new Vector3(inputH, 0, inputV);
 
@@ -145,13 +152,41 @@ public class PlayerController : MonoBehaviour {
     void Movement()
     {
         // Get input from user and set the movement vector
-        float inputH = Input.GetAxis("Horizontal");
-        float inputV = Input.GetAxis("Vertical");
-        Move(inputH, inputV);
+
+        if (onLadder == false)
+        {
+            float inputH = Input.GetAxis("Horizontal");
 
 
-        // Is the controller grounded?
-        Ray groundRay = new Ray(transform.position, -transform.up);
+            float inputV = Input.GetAxis("Vertical");
+
+            Move(inputH, inputV);
+        }
+
+
+        if (onLadder == true )
+        {
+            float inputV = Input.GetAxis("Ladder");
+            if (Input.GetKey("w"))
+            {
+                movement.y = walkSpeed;
+                movement.x = 0;
+                movement.z = 0;
+                
+
+
+            }
+            else
+            {
+                return;
+            }
+            
+            Move(0, inputV);
+        }
+
+
+            // Is the controller grounded?
+            Ray groundRay = new Ray(transform.position, -transform.up);
         RaycastHit hit;
         if (Physics.Raycast(groundRay, out hit, groundRayDistance)) {
             
@@ -212,6 +247,7 @@ public class PlayerController : MonoBehaviour {
         Shooting();
         Switching();
 
+
     }
 
     // ----------------------------------------------------- //
@@ -224,5 +260,21 @@ public class PlayerController : MonoBehaviour {
     // ----------------------------------------------------- //
 
     // ----------------------------------------------------- //
+
+private void OnTriggerEnter(Collider collider)
+    {
+        if (collider.name == "LDRBottom" )
+        {
+            onLadder = true;
+        }
+        else
+        {
+            onLadder = false;
+        }
+
+
+
+
+    }
 
 }

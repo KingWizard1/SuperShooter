@@ -25,6 +25,7 @@ public class CameraLook : MonoBehaviour {
 
 	void Start () {
 
+
         // Hide and lock the cursor to the game view, if enabled
         Cursor.visible = showCursor;
         Cursor.lockState = showCursor ? CursorLockMode.Locked : CursorLockMode.None;
@@ -59,6 +60,7 @@ public class CameraLook : MonoBehaviour {
         // Rotate parent on Y axis (Yaw)
         transform.parent.rotation = Quaternion.Euler(0, x, 0);
         transform.localRotation = Quaternion.Euler(y, 0, 0);
+
 
     }
 }

@@ -10,8 +10,9 @@ A 3D Multiplayer FPS for NSI TAFE Diploma of Interactive Games S1-2019. Powered 
 
 # Contributors:
 
-* Aryan
-* Henri
-* James
-* Patrick
-* Phil
+* Aryan (Aryan2213)
+* Henri (Diendophyx)
+* James ()
+* Patrick ()
+* Phil (perfectdark420)
+* Alex (Ori954)

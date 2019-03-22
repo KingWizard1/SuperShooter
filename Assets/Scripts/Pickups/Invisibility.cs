@@ -2,37 +2,43 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Invisibility : MonoBehaviour
+namespace SuperShooter
 {
-    public float invisTime = 5.0f;
 
-    private MeshRenderer playerRend;
-
-    private void OnTriggerEnter(Collider other)
+    public class Invisibility : Interactable
     {
-        if (other.gameObject.tag == ("Player"))
+        public float invisTime = 5.0f;
+
+        private MeshRenderer playerRend;
+
+
+
+        private void OnTriggerEnter(Collider other)
         {
-            playerRend = other.gameObject.GetComponent<MeshRenderer>();
-        }
-    }
-
-    private void Update()
-    {
-
-        if (playerRend)
-        {
-            playerRend.enabled = false;
-
-            invisTime -= Time.deltaTime;
-
-            if (invisTime <= 0)
+            if (other.gameObject.tag == ("Player"))
             {
-                playerRend.enabled = true;
-                print("workin");
-
-                playerRend = null;
+                playerRend = other.gameObject.GetComponent<MeshRenderer>();
             }
+        }
 
+        private void Update()
+        {
+
+            if (playerRend)
+            {
+                playerRend.enabled = false;
+
+                invisTime -= Time.deltaTime;
+
+                if (invisTime <= 0)
+                {
+                    playerRend.enabled = true;
+
+                    playerRend = null;
+                }
+
+            }
         }
     }
+
 }

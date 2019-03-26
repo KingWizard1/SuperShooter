@@ -116,9 +116,10 @@ GameObject:
   - component: {fileID: 23812701450401842}
   - component: {fileID: 143862794934404832}
   - component: {fileID: 114973145238870596}
+  - component: {fileID: 114841521953329366}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -170,15 +171,15 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1891511372562458}
-  m_LocalRotation: {x: -0, y: 0.84511673, z: -0, w: 0.5345819}
-  m_LocalPosition: {x: -6, y: 1, z: 10}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: 0.4257818, z: -0, w: 0.90482587}
+  m_LocalPosition: {x: -23.640556, y: 16.297, z: -25.541983}
+  m_LocalScale: {x: 1, y: 2, z: 1}
   m_Children:
   - {fileID: 4143313847015986}
   - {fileID: 4597451510964996}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 115.369, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 50.4, z: 0}
 --- !u!4 &4597451510964996
 Transform:
   m_ObjectHideFlags: 1
@@ -309,6 +310,34 @@ AudioListener:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1041676389413348}
   m_Enabled: 1
+--- !u!114 &114841521953329366
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1891511372562458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -36112512, guid: 5b00bf8b25851d440940a40ec23344f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sceneGuid: 
+  _serializerGuid: c5fd5d82-ebb4-412a-844c-bb9c31fe4ffe
+  _prefabId: 1
+  _updateRate: 1
+  _autoFreezeProxyFrames: 0
+  _clientPredicted: 1
+  _allowInstantiateOnClient: 1
+  _persistThroughSceneLoads: 0
+  _sceneObjectDestroyOnDetach: 1
+  _sceneObjectAutoAttach: 1
+  _alwaysProxy: 0
+  _detachOnDisable: 1
+  _allowFirstReplicationWhenFrozen: 0
+  _autoRemoveChildEntities: 0
+  _entityBehaviourQueryOption: 0
+  _entityPriorityCalculatorQueryOption: 0
+  _entityReplicationFilterQueryOption: 0
 --- !u!114 &114887433016423768
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -337,13 +366,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
-  runSpeed: 10
-  walkSpeed: 6
+  runSpeed: 12
+  walkSpeed: 12
   gravity: 25
-  crouchSpeed: 4
+  crouchSpeed: 6
   jumpHeight: 10
   interactRange: 10
-  groundRayDistance: 2
+  groundRayDistance: 2.5
+  isDoubleSpeed: 0
   attachedCamera: {fileID: 0}
   playerHand: {fileID: 0}
   currentWeapon: {fileID: 0}

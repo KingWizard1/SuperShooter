@@ -32,7 +32,7 @@ namespace SuperShooter
             {
                 GetComponent<Rigidbody>().freezeRotation = true;
             }
-            player = GameObject.FindGameObjectWithTag(GOTags.Player);
+            player = GameObject.FindGameObjectWithTag("Player");
             fpsCamera = GameObject.FindGameObjectWithTag("MainCamera");
         }
 

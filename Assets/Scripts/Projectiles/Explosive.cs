@@ -25,7 +25,7 @@ namespace SuperShooter
         public override void OnCollisionEnter(Collision collision)
         {
             string tag = collision.collider.tag;
-            if (tag != GOTags.Player || tag != GOTags.Weapon)
+            if (tag != "Player" || tag != "Weapon")
             {
                 DoExplosion();
                 DoEffects();

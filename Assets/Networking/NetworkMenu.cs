@@ -57,6 +57,7 @@ public class NetworkMenu : GlobalEventListener
             BoltNetwork.LoadScene("Main");
 
         }
+
     }
 
     /// <summary>Invoked when new room info arrives internally.</summary>

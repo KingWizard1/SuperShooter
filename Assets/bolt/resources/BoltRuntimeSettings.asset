@@ -49,7 +49,7 @@ MonoBehaviour:
   debugPlayAsServer: 0
   showDebugInfo: 1
   overrideTimeScale: 1
-  logUncaughtExceptions: 0
+  logUncaughtExceptions: 1
   debugEditorMode: 1
   consoleToggleKey: 9
   consoleVisibleByDefault: 1
@@ -58,7 +58,7 @@ MonoBehaviour:
   scopeModeHideWarningInGui: 0
   showHelpButtons: 1
   masterServerGameId: 09A20926-601A-4EF4-BFEE-374761B0D2A5
-  showBoltEntityHints: 0
+  showBoltEntityHints: 1
   serializeProjectAsText: 0
   photonAppId: d97439bc-d2f8-4775-90af-66200e18157a
   photonUsePunch: 1
@@ -68,7 +68,7 @@ MonoBehaviour:
   globalEntityPriorityCalculatorQueryOption: 3
   globalEntityReplicationFilterQueryOption: 3
   a2sServerPort: 21777
-  RoomUpdateRate: 5
+  RoomUpdateRate: 1
   RoomCreateTimeout: 10
   RoomJoinTimeout: 10
   enableClientMetrics: 0

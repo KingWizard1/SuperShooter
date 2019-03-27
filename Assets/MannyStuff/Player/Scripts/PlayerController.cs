@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterController))]
-public class PlayerController : MonoBehaviour {
+//[RequireComponent(typeof(CharacterController))]
+public class PlayerController : NetworkPlayerBehaviour {
 
     [Header("Mechanics")]
     public int health = 100;
@@ -105,6 +105,14 @@ public class PlayerController : MonoBehaviour {
         movement.x = input.x * moveSpeed;
         movement.z = input.z * moveSpeed;
 
+    }
+
+    // ----------------------------------------------------- //
+
+    internal void SetCameraLook(Quaternion rotation)
+    {
+        if (entity.isOwner)
+            transform.rotation = rotation;
     }
 
     #endregion
@@ -218,6 +226,9 @@ public class PlayerController : MonoBehaviour {
 
     private void Update()
     {
+        if (BoltNetwork.IsRunning && !entity.isOwner)
+            return;
+
         Movement();
         Interact();
         Shooting();
@@ -262,6 +273,22 @@ public class PlayerController : MonoBehaviour {
 
     // ----------------------------------------------------- //
 
+    public override void AttachComplete()
+    {
+        if (entity.isOwner)
+        {
+            
+        }
+        else
+        {
+            // Don't render this camera. It belongs to another player.
+            GetComponentInChildren<FPSCameraLook>().gameObject.SetActive(false);
+
+            // Disable all controller/physics components on this instance.
+            GetComponent<CharacterController>().enabled = false;
+            GetComponent<PlayerController>().enabled = false;
+        }
+    }
 
     // ----------------------------------------------------- //
 

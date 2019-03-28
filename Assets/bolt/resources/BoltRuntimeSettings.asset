@@ -58,7 +58,7 @@ MonoBehaviour:
   scopeModeHideWarningInGui: 0
   showHelpButtons: 1
   masterServerGameId: 09A20926-601A-4EF4-BFEE-374761B0D2A5
-  showBoltEntityHints: 1
+  showBoltEntityHints: 0
   serializeProjectAsText: 0
   photonAppId: d97439bc-d2f8-4775-90af-66200e18157a
   photonUsePunch: 1

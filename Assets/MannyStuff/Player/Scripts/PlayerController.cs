@@ -30,6 +30,9 @@ public class PlayerController : NetworkPlayerBehaviour {
     /// <summary>Current movement speed.</summary>
     private float moveSpeed;
 
+    private int jumps = 0;
+    private int maxJumps = 2;
+
     public Weapon currentWeapon; // Public for testing, make private later.
     private List<Weapon> weapons = new List<Weapon>();
     private int currentWeaponIndex = 0;
@@ -172,29 +175,44 @@ public class PlayerController : NetworkPlayerBehaviour {
         // Is the controller grounded?
         Ray groundRay = new Ray(transform.position, -transform.up);
         RaycastHit hit;
-        if (Physics.Raycast(groundRay, out hit, groundRayDistance)) {
-            
-            // We're grounded.
+        bool isGrounded = Physics.Raycast(groundRay, out hit, groundRayDistance);
 
-            // If jump is pressed
-            if (Input.GetButtonDown("Jump"))
+        bool isJumpPressed = Input.GetButtonDown("Jump");
+        bool canJump = jumps < maxJumps; // jumps = int, maxJumps = int
+
+        if (isGrounded)
+        {
+
+            if (isJumpPressed)
             {
+                jumps = 1;
+
                 // Move controller up (Y)
                 movement.y = jumpHeight;
             }
 
         }
-        else {
+        else
+        {
+
+            if (isJumpPressed && canJump)
+            {
+                movement.y += jumpHeight;
+                jumps++;
+            }
 
             // NOT grounded.
             // Apply gravity. We then select the max value to prevent gravity from
             // growing infinitely while the player is grounded. If we let this happen,
             // then when the player walks off a ledge, their Y vector will be so strong
             // that they'll fall almost immediately into void space... and die.
-            movement.y -= gravity * Time.deltaTime;
+            //movement.y -= gravity * Time.deltaTime;
             movement.y = Mathf.Max(movement.y, -gravity);
 
         }
+
+        // Apply gravity
+        movement.y -= gravity * Time.deltaTime;
 
 
         // Move the controller

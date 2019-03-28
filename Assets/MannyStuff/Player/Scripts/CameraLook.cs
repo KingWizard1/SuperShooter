@@ -16,8 +16,6 @@ public class CameraLook : MonoBehaviour {
     public float yMinLimit = -80f;
     public float yMaxLimit = 80f;
 
-    public GameObject objectToRotate;
-
     // ----------------------------------------------------- //
 
     // Current X and Y rotation
@@ -26,6 +24,7 @@ public class CameraLook : MonoBehaviour {
     // ----------------------------------------------------- //
 
 	void Start () {
+
 
         // Hide and lock the cursor to the game view, if enabled
         Cursor.visible = showCursor;
@@ -61,7 +60,6 @@ public class CameraLook : MonoBehaviour {
         // Rotate parent on Y axis (Yaw)
         transform.parent.rotation = Quaternion.Euler(0, x, 0);
         transform.localRotation = Quaternion.Euler(y, 0, 0);
-
 
 
     }

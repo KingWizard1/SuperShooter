@@ -23,6 +23,10 @@ public class PlayerController : MonoBehaviour {
     public Transform Player;
     public GameObject player;
 
+    //[Header("UI")]
+    //public GameObject interactUI;
+    //public Transform interactUIParent;
+
     // ----------------------------------------------------- //
 
     private Animator anim;
@@ -74,6 +78,8 @@ public class PlayerController : MonoBehaviour {
 
     void RegisterWeapons()
     {
+
+        weapons = new List<Weapon>(GetComponentsInChildren<Weapon>());
 
     }
 
@@ -236,6 +242,8 @@ public class PlayerController : MonoBehaviour {
     void Interact()
     {
 
+        //interactUI.SetActive(false);
+
     }
 
     /// <summary>Handles current weapon fire mechanics.</summary>
@@ -276,9 +284,9 @@ public class PlayerController : MonoBehaviour {
 
     // ----------------------------------------------------- //
 
-private void OnTriggerEnter(Collider collider)
+    private void OnTriggerEnter(Collider collider)
     {
-        if (collider.name == "LDRBottom" )
+        if (collider.name == "LDRBottom")
         {
             onLadder = true;
         }

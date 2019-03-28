@@ -7,6 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(LineRenderer))]
 public class Weapon : MonoBehaviour, IInteractable {
 
+    [SerializeField]
     public int damage = 10;
     public int maxAmmo = 500;
     public int maxClip = 30;

@@ -14,15 +14,14 @@ public class PlayerController : MonoBehaviour {
     public float jumpHeight = 20f;
     public float interactRange = 10f;
     public float groundRayDistance = 1.1f;
-    public bool onLadder = false;
 
+    public bool isDoubleSpeed;
 
-   [Header("References")]
+    [Header("References")]
     public Camera attachedCamera;
     public Transform playerHand;
     public Transform Player;
     public GameObject player;
-
 
     // ----------------------------------------------------- //
 
@@ -32,6 +31,8 @@ public class PlayerController : MonoBehaviour {
 
     private int jumps = 0;
     private int maxJumps = 2;
+
+    private bool onLadder = false;
 
     public Weapon currentWeapon; // Public for testing, make private later.
     private List<Weapon> weapons = new List<Weapon>();
@@ -87,7 +88,6 @@ public class PlayerController : MonoBehaviour {
     /// <param name="inputV"></param>
     void Move(float inputH, float inputV)
     {
-
         
         // Create direction from input
         Vector3 input = new Vector3(inputH, 0, inputV);
@@ -96,11 +96,13 @@ public class PlayerController : MonoBehaviour {
         input = transform.TransformDirection(input);
 
         // Set move speed
-        // NOTE: Add speed mechanic here (crouch/walk/run). Just need if statements.
         float moveSpeed = walkSpeed;
         if (Input.GetKey(KeyCode.LeftShift)) moveSpeed = runSpeed;
         if (Input.GetKey(KeyCode.LeftControl)) moveSpeed = crouchSpeed;
 
+        if (isDoubleSpeed)
+            moveSpeed *= 2;
+        
         // Apply movement to X and Z.
         movement.x = input.x * moveSpeed;
         movement.z = input.z * moveSpeed;
@@ -154,30 +156,25 @@ public class PlayerController : MonoBehaviour {
     /// <summary>Handles player movement.</summary>
     void Movement()
     {
+        
         // Get input from user and set the movement vector
-
-        if (onLadder == false)
+        if (!onLadder)
         {
+            // Not on ladder.
             float inputH = Input.GetAxis("Horizontal");
-
-
             float inputV = Input.GetAxis("Vertical");
-
             Move(inputH, inputV);
         }
-
-
-        if (onLadder == true )
+        else
         {
+            // We're on a ladder.
+
             float inputV = Input.GetAxis("Ladder");
-            if (Input.GetKey("w"))
+            if (Input.GetKey("W"))
             {
                 movement.y = walkSpeed;
                 movement.x = 0;
                 movement.z = 0;
-                
-
-
             }
             else
             {
@@ -188,8 +185,8 @@ public class PlayerController : MonoBehaviour {
         }
 
 
-            // Is the controller grounded?
-            Ray groundRay = new Ray(transform.position, -transform.up);
+        // Is the controller grounded?
+        Ray groundRay = new Ray(transform.position, -transform.up);
         RaycastHit hit;
         bool isGrounded = Physics.Raycast(groundRay, out hit, groundRayDistance);
 

@@ -1,0 +1,1 @@
+﻿** All scripts in this directory pertain to the implementation of Photon Bolt, which adds cloud-assisted multiplayer networking capabilities. **

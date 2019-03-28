@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Chronos;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,6 +32,7 @@ public class PlayerController : MonoBehaviour {
 
     private Animator anim;
     private CharacterController controller;
+    private Timeline timeline;
     private Vector3 movement;   // Current movement vector
 
     private int jumps = 0;
@@ -54,10 +56,9 @@ public class PlayerController : MonoBehaviour {
 
     private void Awake()
     {
-
         anim = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
-
+        timeline = GetComponent<Timeline>();
     }
 
     // ----------------------------------------------------- //
@@ -231,11 +232,11 @@ public class PlayerController : MonoBehaviour {
         }
 
         // Apply gravity
-        movement.y -= gravity * Time.deltaTime;
+        movement.y -= gravity * timeline.deltaTime;
 
 
         // Move the controller
-        controller.Move(movement * Time.deltaTime);  // Returns CollisionFlags
+        controller.Move(movement * timeline.deltaTime);  // Returns CollisionFlags
     }
 
     /// <summary>Handles interaction with items in the world.</summary>

@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider))]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(LineRenderer))]
-public class Weapon : MonoBehaviour {
+public class Weapon : MonoBehaviour, IInteractable {
 
     public int damage = 10;
     public int maxAmmo = 500;
@@ -27,15 +27,13 @@ public class Weapon : MonoBehaviour {
     // Components
     private Rigidbody rigid;
     private BoxCollider boxCollider;
-    private LineRenderer lineRenderer;
+    private LineRenderer line;
 
     // ----------------------------------------------------- //
 
-    private void GetComponentReferences()
+    private void Awake()
     {
-        rigid = GetComponent<Rigidbody>();
-        boxCollider = GetComponent<BoxCollider>();
-        lineRenderer = GetComponent<LineRenderer>();
+        GetComponentReferences();
     }
 
     private void Reset()
@@ -49,7 +47,7 @@ public class Weapon : MonoBehaviour {
             bounds.Encapsulate(rend.bounds);
 
         // Turn off line renderer
-        lineRenderer.enabled = false;
+        line.enabled = false;
 
         // Turn off rigidbody
         rigid.isKinematic = false;
@@ -59,10 +57,83 @@ public class Weapon : MonoBehaviour {
         boxCollider.size = bounds.size;
     }
 
-    private void Awake()
+    private void GetComponentReferences()
     {
-        GetComponentReferences();
+        rigid = GetComponent<Rigidbody>();
+        boxCollider = GetComponent<BoxCollider>();
+        line = GetComponent<LineRenderer>();
     }
+
+    // ----------------------------------------------------- //
+
+    private void Update()
+    {
+        // Increase shoot timer
+        shootTimer += Time.deltaTime;
+
+        // If time reaches rate
+        if (shootTimer >= shootRate)
+        {
+            canShoot = true;
+        }
+
+
+    }
+
+    // ----------------------------------------------------- //
+
+    public void Pickup()
+    {
+        // Disable physics (set to true)
+        rigid.isKinematic = true;
+    }
+
+    public void Drop()
+    {
+        // Enable physics (set to false)
+        rigid.isKinematic = false;
+    }
+
+    // ----------------------------------------------------- //
+
+    public virtual void Reload()
+    {
+        // THIS IS CRAP, DON'T USE IT.
+        clip += ammo;
+        ammo -= maxClip;
+    }
+
+    // ----------------------------------------------------- //
+
+    public virtual void Shoot()
+    {
+
+    }
+
+    // ----------------------------------------------------- //
+
+    IEnumerator ShotLine(Ray bulletRay, float lineDelay)
+    {
+        line.enabled = true;
+        line.SetPosition(0, bulletRay.origin);
+        line.SetPosition(1, bulletRay.origin + bulletRay.direction * range);
+
+        yield return new WaitForSeconds(lineDelay);
+
+
+    }
+
+    // ----------------------------------------------------- //
+
+
+    // ----------------------------------------------------- //
+
+
+    // ----------------------------------------------------- //
+
+
+    // ----------------------------------------------------- //
+
 
     // ----------------------------------------------------- //
 

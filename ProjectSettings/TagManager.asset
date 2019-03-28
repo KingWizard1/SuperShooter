@@ -5,9 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Weapon
-  - SpawnPoints
-  - LocalPlayer
-  - RemotePlayer
+  - Ladder
+  - LDRBottom
+  - Air
   layers:
   - Default
   - TransparentFX
@@ -19,9 +19,9 @@ TagManager:
   - 
   - PostProcessing
   - 
-  - GroundZero
-  - StaticEnvironment
-  - InteractableEnvironment
+  - 
+  - 
+  - 
   - 
   - 
   - 

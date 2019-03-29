@@ -145,7 +145,7 @@ namespace SuperShooter
             {
                 // We're on a ladder.
                 float inputV = Input.GetAxis("Ladder");
-                if (Input.GetKey("W"))
+                if (Input.GetKey("w"))
                 {
                     movement.y = walkSpeed;
                     movement.x = 0;

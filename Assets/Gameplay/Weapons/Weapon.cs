@@ -4,9 +4,10 @@ using UnityEngine;
 
 namespace SuperShooter
 {
-    [RequireComponent(typeof(BoxCollider))]
     [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(BoxCollider))]
     [RequireComponent(typeof(LineRenderer))]
+    [RequireComponent(typeof(SphereCollider))]
     public class Weapon : MonoBehaviour, IInteractable
     {
 

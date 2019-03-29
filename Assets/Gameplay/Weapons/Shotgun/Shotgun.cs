@@ -16,7 +16,7 @@ namespace SuperShooter
 
         public override string GetTitle()
         {
-            return "Shotty";
+            return "Shotgun";
         }
     }
 

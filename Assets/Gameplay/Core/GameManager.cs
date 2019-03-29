@@ -126,18 +126,18 @@ namespace SuperShooter
             // Get random spawn point for local player.
             // FOR DEBUG
             Transform spawnPoint;
-            if (BoltNetwork.IsServer)
-                spawnPoint = spawnPoints.PlayerSpawns[1];
-            else if (BoltNetwork.IsClient)
-                spawnPoint = spawnPoints.PlayerSpawns[0];
-            else
+            //if (BoltNetwork.IsServer)
+            //    spawnPoint = spawnPoints.PlayerSpawns[1];
+            //else if (BoltNetwork.IsClient)
+            //    spawnPoint = spawnPoints.PlayerSpawns[0];
+            //else
                 spawnPoint = GetRandomSpawnPoint();
 
             // Create player. They should have control immediately.
             // The static BoltPrefabs class is compiled and updated by Bolt, and
             // contains a unique reference to each prefab with a Bolt Entity on it.
             // You can also pass in a normal GameObject reference instead.
-            var player = BoltNetwork.Instantiate(BoltPrefabs.Player, spawnPoint.position, spawnPoint.rotation);
+            var player = BoltNetwork.Instantiate(BoltPrefabs.FPSController, spawnPoint.position, spawnPoint.rotation);
             player.name = name;
 
 

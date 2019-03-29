@@ -9,6 +9,18 @@ public class SpawnPoints : MonoBehaviour {
 
     // ------------------------------------------------- //
 
+
+    // ------------------------------------------------- //
+
+    public static SpawnPoints Main { get; set; }
+
+    // ------------------------------------------------- //
+
+    private void Awake()
+    {
+        Main = this;
+    }
+
     private void Start () {
 
         // Relies on this script being placed on the PARENT object which
@@ -23,32 +35,26 @@ public class SpawnPoints : MonoBehaviour {
 
     // ------------------------------------------------- //
 
+    private int CURRENT_SPAWN_ID = 0;
+
+    /// <summary>Gets the next player spawn point in the collection.</summary>
+    public Transform GetNextPlayerSpawnPoint()
+    {
+        // Get next spawn point.
+        var nextSpawn = PlayerSpawns[CURRENT_SPAWN_ID++];
+        // Loop around back to zero when we reach the end of the collection.
+        if (CURRENT_SPAWN_ID >= PlayerSpawns.Length)
+            CURRENT_SPAWN_ID = 0;
+        // Convert transform to world position (its currently local, because its a sub-object).
+        //nextSpawn.rotation = nextSpawn.rotation.Inverse();
+        // Return
+        return nextSpawn;
+    }
+
+    /// <summary>Gets a random next player spawn point from the collection.</summary>
     public Transform GetRandomPlayerSpawnPoint()
     {
         return PlayerSpawns[Random.Range(0, PlayerSpawns.Length)];
-    }
-
-    // ------------------------------------------------- //
-
-    // For debugging only!
-    private int DEBUG_CURRENT_SPAWN_ID = 0;
-
-    // For debugging only!
-    private void Update()
-    {
-        
-        if (Input.GetKeyDown(KeyCode.BackQuote))
-        {
-            var nextSpawn = PlayerSpawns[DEBUG_CURRENT_SPAWN_ID++];
-            if (DEBUG_CURRENT_SPAWN_ID >= PlayerSpawns.Length)
-                DEBUG_CURRENT_SPAWN_ID = 0;
-
-            var player = GameObject.FindGameObjectWithTag("Player");
-            player.transform.SetPositionAndRotation(nextSpawn.position, nextSpawn.rotation);
-
-        }
-
-
     }
 
     // ------------------------------------------------- //

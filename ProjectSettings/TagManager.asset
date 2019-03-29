@@ -9,6 +9,9 @@ TagManager:
   - LDRBottom
   - Air
   - SpawnPoints
+  - Vehicle
+  - DebugPlayer
+  - LocalPlayer
   layers:
   - Default
   - TransparentFX

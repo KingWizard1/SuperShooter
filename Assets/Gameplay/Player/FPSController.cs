@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace SuperShooter
 {
-
     [RequireComponent(typeof(CharacterController))]
     public class FPSController : NetworkPlayerBehaviour, IKillable
     {
@@ -33,19 +32,21 @@ namespace SuperShooter
         // ------------------------------------------------- //
 
         #region Privates
-
+        
+        // References
         private Animator anim;
         private CharacterController controller;
+        private FPSCameraLook cameraLook;
         private Timeline timeline;
 
+        // Movement
         private Vector3 movement;   // Current movement vector
         private float moveSpeed;    // Current movemend speed
-
         private int jumps = 0;      // Current number of jumps executed (resets when grounded)
         private int maxJumps = 2;   // Max number of times player can jump
-
         private bool onLadder = false;
 
+        // Inventory
         private Weapon currentWeapon; // Public for testing, make private later.
         private List<Weapon> weapons = new List<Weapon>();
         private int currentWeaponIndex = 0;
@@ -90,6 +91,8 @@ namespace SuperShooter
             controller = GetComponent<CharacterController>();
             timeline = GetComponent<Timeline>();
 
+            cameraLook = GetComponentInChildren<FPSCameraLook>();
+
             //RegisterWeapons();
         }
 
@@ -123,6 +126,18 @@ namespace SuperShooter
             Interact();
             Shooting();
             Switching();
+
+
+            // DEBUG
+            if (Input.GetKeyDown(KeyCode.BackQuote))
+            {
+                var nextSpawn = SpawnPoints.Main.GetNextPlayerSpawnPoint();
+                //transform.SetPositionAndRotation(nextSpawn.position, nextSpawn.rotation);
+                transform.position = nextSpawn.position;
+                //transform.Rotate(nextSpawn.eulerAngles);
+                cameraLook.SetRotation(nextSpawn.eulerAngles.y, 0f);   // 0 on the Y, to force looking straight ahead
+            }
+
         }
 
         // ------------------------------------------------- //
@@ -318,6 +333,10 @@ namespace SuperShooter
             if (other == null || other.isKinematic)
                 return;
 
+            // Handle non-physical collisions.
+            // Returns false if there weren't any.
+
+
             // We don't want to push objects below us
             if (hit.moveDirection.y < -0.3)
                 return;
@@ -328,8 +347,23 @@ namespace SuperShooter
 
             // Apply!
             other.velocity = pushDir * moveSpeed;
+            
+
+        }
+
+        // ------------------------------------------------- //
+
+        private bool HandleControllerCollision(ControllerColliderHit hit)
+        {
+
+            if (hit.gameObject.tag == "Vehicle")
+            {
+                Kill();
+            }
 
 
+            // There was no condition for us to handle. Let the default action occur.
+            return false;
         }
 
         #endregion

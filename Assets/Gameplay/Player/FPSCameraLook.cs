@@ -72,11 +72,24 @@ namespace SuperShooter
             //if (parentController != null)
             //parentController.SetCameraLook(Quaternion.Euler(0, x, 0));
             //else
+
+            _applyRotation();
+
+        }
+
+        private void _applyRotation()
+        {
             transform.parent.rotation = Quaternion.Euler(0, x, 0);
             transform.localRotation = Quaternion.Euler(y, 0, 0);
+        }
 
+        // ------------------------------------------------- //
 
-
+        public void SetRotation(float x, float y)
+        {
+            this.x = x;
+            this.y = y;
+            _applyRotation();
         }
 
         // ------------------------------------------------- //

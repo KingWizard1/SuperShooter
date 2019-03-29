@@ -137,7 +137,7 @@ namespace SuperShooter
             // The static BoltPrefabs class is compiled and updated by Bolt, and
             // contains a unique reference to each prefab with a Bolt Entity on it.
             // You can also pass in a normal GameObject reference instead.
-            var player = BoltNetwork.Instantiate(BoltPrefabs.Player, spawnPoint.position, spawnPoint.rotation);
+            var player = BoltNetwork.Instantiate(BoltPrefabs.FPSController, spawnPoint.position, spawnPoint.rotation);
             player.name = name;
 
 

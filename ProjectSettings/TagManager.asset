@@ -8,6 +8,7 @@ TagManager:
   - Ladder
   - LDRBottom
   - Air
+  - SpawnPoints
   layers:
   - Default
   - TransparentFX
@@ -19,10 +20,10 @@ TagManager:
   - 
   - PostProcessing
   - 
-  - 
-  - 
-  - 
-  - 
+  - Ground
+  - Environment
+  - Interactables
+  - Physics
   - 
   - 
   - 

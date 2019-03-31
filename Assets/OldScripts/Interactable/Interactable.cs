@@ -12,7 +12,7 @@ namespace SuperShooterOld
         Consumable,
     }
 
-    // ----------------------------------------------------- //
+    // ------------------------------------------------- //
 
     public class Interactable : MonoBehaviour
     {

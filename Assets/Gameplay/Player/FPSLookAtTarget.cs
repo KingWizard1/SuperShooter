@@ -8,7 +8,7 @@ public class FPSLookAtTarget : MonoBehaviour
     [Tooltip("Set to the AimTarget of the CameraSystem.")]
     public Transform target;
 
-    // ----------------------------------------------------- //
+    // ------------------------------------------------- //
 
     private void LateUpdate()
     {
@@ -16,6 +16,6 @@ public class FPSLookAtTarget : MonoBehaviour
             transform.LookAt(target);
     }
 
-    // ----------------------------------------------------- //
+    // ------------------------------------------------- //
 
 }

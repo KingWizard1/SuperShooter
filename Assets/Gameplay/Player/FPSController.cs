@@ -243,7 +243,7 @@ namespace SuperShooter
                     return;
 
                 // Enable the UI and show the interactable name
-                var interactableName = interactable.GetTitle();
+                var interactableName = interactable.GetDisplayName();
                 UIManager.Main.ShowPickupPrompt(interactableName);
 
 

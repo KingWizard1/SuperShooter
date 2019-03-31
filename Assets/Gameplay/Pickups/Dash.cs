@@ -38,7 +38,7 @@ namespace SuperShooter
             throw new System.NotImplementedException();
         }
 
-        public string GetTitle()
+        public string GetDisplayName()
         {
             return "Super Speed";
         }

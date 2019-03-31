@@ -54,7 +54,7 @@ namespace SuperShooter
             throw new System.NotImplementedException();
         }
 
-        public string GetTitle()
+        public string GetDisplayName()
         {
             return "Cloaking Device";
         }

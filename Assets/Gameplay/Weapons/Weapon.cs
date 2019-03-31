@@ -4,20 +4,28 @@ using UnityEngine;
 
 namespace SuperShooter
 {
-    [RequireComponent(typeof(BoxCollider))]
     [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(BoxCollider))]
     [RequireComponent(typeof(LineRenderer))]
+    [RequireComponent(typeof(SphereCollider))]
     public class Weapon : MonoBehaviour, IInteractable
     {
+        [SerializeField]
+        public string baseName = "New Weapon";
 
+        [Header("Numbers")]
         [SerializeField]
         public int damage = 10;
         public int maxAmmo = 500;
         public int maxClip = 30;
         public float range = 10f;
         public float shootRate = .2f;
+        public float bulletSpeed = 1f;
         public float lineDelay = .1f;
+
+        [Header("References")]
         public Transform shotOrigin;
+        public GameObject bulletPrefab;
 
         // ------------------------------------------------- //
 
@@ -25,8 +33,8 @@ namespace SuperShooter
         private int ammo = 0;
         private int clip = 0;
 
-        private float shootTimer = 0f;
         private bool canShoot = false;
+        private float shootTimer = 0f;
 
         // Components
         private Rigidbody rigid;
@@ -34,7 +42,7 @@ namespace SuperShooter
         private LineRenderer lineRenderer;
         private SphereCollider sphereCollider;
 
-        // ----------------------------------------------------- //
+        // ------------------------------------------------- //
 
         private void Awake()
         {
@@ -63,7 +71,7 @@ namespace SuperShooter
 
             // Configure sphere collider as trigger
             sphereCollider.center = boxCollider.center;
-            sphereCollider.radius = boxCollider.size.magnitude * .5f;
+            sphereCollider.radius = boxCollider.size.magnitude * 2f;
             sphereCollider.isTrigger = true;
         }
 
@@ -78,7 +86,7 @@ namespace SuperShooter
         private void Start()
         {
             if (shotOrigin == null)
-                Debug.LogWarning("[WARN] Weapon '" + GetTitle() + "' does not have a shot origin!");
+                Debug.LogWarning("[WARN] '" + GetDisplayName() + "' does not have a shot origin!");
         }
 
         // ------------------------------------------------- //
@@ -129,8 +137,20 @@ namespace SuperShooter
 
         public virtual void Shoot()
         {
-            if (canShoot)
+            if (!canShoot)
+                return;
+
+
+            if (bulletPrefab != null)
             {
+                // Instantiate a bullet. Its script will do the rest.
+                Bullet.SpawnNew(bulletPrefab, shotOrigin, damage, range, bulletSpeed);
+
+            }
+            else
+            {
+                // Backup method. Shoot a ray to simulate a bullet.
+
                 // Create a bullet ray from shot origin to forward
                 Ray bulletRay = new Ray(shotOrigin.position, shotOrigin.forward);
                 RaycastHit hit;
@@ -150,15 +170,17 @@ namespace SuperShooter
                 // Show Line
                 StartCoroutine(ShowLine(bulletRay, lineDelay));
 
-                // Reset timer
-                shootTimer = 0;
-
-                // Can't shoot anymore
-                canShoot = false;
             }
+
+
+            // Reset timer
+            shootTimer = 0;
+
+            // Can't shoot anymore
+            canShoot = false;
         }
 
-        // ----------------------------------------------------- //
+        // ------------------------------------------------- //
 
         IEnumerator ShowLine(Ray bulletRay, float lineDelay)
         {
@@ -176,9 +198,9 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
-        public virtual string GetTitle()
+        public virtual string GetDisplayName()
         {
-            return "Weapon";
+            return (!string.IsNullOrEmpty(baseName)) ? baseName : "Unnamed Weapon";
         }
 
         // ------------------------------------------------- //

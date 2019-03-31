@@ -14,10 +14,6 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
-        public override string GetTitle()
-        {
-            return "Pistol";
-        }
     }
 
 }

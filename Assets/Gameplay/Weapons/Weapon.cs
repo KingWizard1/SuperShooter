@@ -20,7 +20,7 @@ namespace SuperShooter
         public int maxClip = 30;
         public float range = 10f;
         public float shootRate = .2f;
-        public float bulletSpeed = 1f;
+        public float bulletForce = 1f;
         public float lineDelay = .1f;
 
         [Header("References")]
@@ -144,7 +144,7 @@ namespace SuperShooter
             if (bulletPrefab != null)
             {
                 // Instantiate a bullet. Its script will do the rest.
-                Bullet.SpawnNew(bulletPrefab, shotOrigin, damage, range, bulletSpeed);
+                Bullet.SpawnNew(bulletPrefab, shotOrigin, damage, range, bulletForce);
 
             }
             else

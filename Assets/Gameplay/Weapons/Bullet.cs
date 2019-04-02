@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SuperShooter
 {
-    [RequireComponent(typeof(BoxCollider))]
+    //[RequireComponent(typeof(BoxCollider))]
     //[RequireComponent(typeof(LineRenderer))]
     public class Bullet : MonoBehaviour //, IInteractable
     {
@@ -17,34 +17,28 @@ namespace SuperShooter
         // Values
         private int damage;
         private float range;
-        private float speed;
+        private float force;
+
+        // State
+        private bool addForce = true;
 
         // Components
-        private BoxCollider boxCollider;
+        private Rigidbody rigid;
+        //private BoxCollider boxCollider;
         //private LineRenderer lineRenderer;
 
         // ------------------------------------------------- //
 
         private void Awake()
         {
-            GetComponentReferences();
-        }
-
-        private void Reset()
-        {
-            GetComponentReferences();
-        }
-
-        private void GetComponentReferences()
-        {
-            boxCollider = GetComponent<BoxCollider>();
-            //lineRenderer = GetComponent<LineRenderer>();
+            rigid = GetComponent<Rigidbody>();
         }
 
         // ------------------------------------------------- //
 
         private void Start()
         {
+            addForce = true;
             StartCoroutine(DestroyAfter(5f));
         }
 
@@ -56,15 +50,21 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
-        private void Update()
+        private void FixedUpdate()
         {
-            transform.position += transform.forward * Time.deltaTime * (speed);
+            //transform.position += transform.forward * Time.deltaTime * (speed);
+
+            if (addForce)
+                rigid.AddForce(transform.forward * force);
         }
 
         // ------------------------------------------------- //
 
         private void OnTriggerEnter(Collider other)
         {
+
+            // Cease forward momentum
+            addForce = false;
 
             //// Bail if the object does not have a Rigidbody, or has one but isKinematic.
             //var otherRigid = other.GetComponent<Rigidbody>();
@@ -104,7 +104,7 @@ namespace SuperShooter
         {
             this.damage = damage;
             this.range = range;
-            this.speed = speed;
+            this.force = speed;
         }
 
         // ------------------------------------------------- //

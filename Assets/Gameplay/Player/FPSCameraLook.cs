@@ -51,7 +51,10 @@ namespace SuperShooter
 
         void Update()
         {
-
+            // Prevent mouse movements from affecting gameplay
+            // when the game window is not in focus (works both in-editor and out).
+            if (!Application.isFocused)
+                return;
 
             // Rotate camera based on mouse X and Y
             var mouseX = Input.GetAxis("Mouse X") * speed.x * Time.deltaTime;

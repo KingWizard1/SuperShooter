@@ -93,28 +93,35 @@ namespace SuperShooter
 
             cameraLook = GetComponentInChildren<FPSCameraLook>();
 
-            //RegisterWeapons();
+            TryRegisterWeapons();
         }
 
         // ------------------------------------------------- //
 
         private void Start()
         {
-            SelectWeapon(0);
+            // Nothing yet.
         }
 
         // ------------------------------------------------- //
 
-        //void RegisterWeapons()
-        //{
-        //    weapons = new List<Weapon>(GetComponentsInChildren<Weapon>());
+        void TryRegisterWeapons()
+        {
+            // For use when the player is starting out with a weapon already in hand.
+            weapons = new List<Weapon>(GetComponentsInChildren<Weapon>());
 
-        //    // FIX: Collection gets modified in Pickup()
-        //    foreach (var weapon in weapons)
-        //    {
-        //        Pickup(weapon);
-        //    }
-        //}
+            if (weapons.Count > 0)
+            {
+                // Configure the weapon so it knows it should be in its picked up state.
+                weapons[0].Pickup();
+
+                // 'Select' this weapon. Disables all weapons except the specified one,
+                // as well as ensures our indexes are correct and ready for weapon switching.
+                SelectWeapon(0);
+            }
+            
+
+        }
 
         #endregion
 
@@ -266,9 +273,9 @@ namespace SuperShooter
                 return;
 
             if (Input.GetButton("Fire1"))
-            {
                 currentWeapon.Shoot();
-            }
+            if (Input.GetButtonUp("Fire1"))
+                currentWeapon.StopShooting();
         }
 
         /// <summary>Handles cycling/switching through available weapons.</summary>
@@ -438,9 +445,8 @@ namespace SuperShooter
             // Tell the weapon to change its behavior, its being picked up
             weaponToPickup.Pickup();
 
-            var weaponTransform = weaponToPickup.transform;
-
             // Attach to player hand, and zero its local pos/rot.
+            var weaponTransform = weaponToPickup.transform;
             weaponTransform.SetParent(playerHand);
             weaponTransform.localPosition = Vector3.zero;
             weaponTransform.localRotation = Quaternion.identity;

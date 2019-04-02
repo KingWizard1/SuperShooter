@@ -46,7 +46,11 @@ namespace SuperShooter
 
         private void Awake()
         {
+            // Get required components.
             GetComponentReferences();
+
+            // Allow dervied weapons to be notified that we have awoken.
+            OnAwake();
         }
 
         private void Reset()
@@ -102,6 +106,8 @@ namespace SuperShooter
                 canShoot = true;
             }
 
+            // Allow derived weapons to be notified that we have updated.
+            OnUpdate();
         }
 
         // ------------------------------------------------- //
@@ -140,6 +146,10 @@ namespace SuperShooter
             if (!canShoot)
                 return;
 
+            // Allow derived weapon class to handle pre-firing logic.
+            // The derived weapon class has the ability to cancel any bullets about to fire.
+            if (!OnShoot())
+                return;
 
             if (bulletPrefab != null)
             {
@@ -178,6 +188,36 @@ namespace SuperShooter
 
             // Can't shoot anymore
             canShoot = false;
+        }
+
+        public void StopShooting()
+        {
+            OnShootStop();
+        }
+
+        // ------------------------------------------------- //
+
+        protected virtual void OnAwake()
+        {
+            // Allow derived weapons to be notified when the object awakens.
+        }
+
+        protected virtual void OnUpdate()
+        {
+            // Allow derived weapons to be notified when the object has been updated.
+        }
+
+        /// <summary>Override this method to run logic when <see cref="Shoot()"/> is called,
+        /// but before any bullets are fired. If false is returned, no bullets will be fired.</summary>
+        protected virtual bool OnShoot()
+        {
+            // Allow bullets to be fired (default).
+            return true;
+        }
+
+        protected virtual void OnShootStop()
+        {
+            // Allows derived weapons to be notified when the player stops shooting.
         }
 
         // ------------------------------------------------- //

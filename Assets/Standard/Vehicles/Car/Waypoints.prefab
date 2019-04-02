@@ -230,6 +230,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4105815695841218}
   - component: {fileID: 114964295335843486}
+  - component: {fileID: 114511341002548678}
+  - component: {fileID: 114405684410989654}
   m_Layer: 0
   m_Name: Waypoints
   m_TagString: Untagged
@@ -620,6 +622,38 @@ Transform:
   m_Father: {fileID: 4105815695841218}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114405684410989654
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1611788677875726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 171472888e37f1d499edb3369a06c78a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waypointList:
+    circuit: {fileID: 0}
+    items: []
+  smoothRoute: 1
+  editorVisualisationSubsteps: 100
+--- !u!114 &114511341002548678
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1611788677875726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 171472888e37f1d499edb3369a06c78a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waypointList:
+    circuit: {fileID: 0}
+    items: []
+  smoothRoute: 1
+  editorVisualisationSubsteps: 100
 --- !u!114 &114964295335843486
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -628,31 +662,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1611788677875726}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70852dc981465ea48bb527b9e33a87fd, type: 3}
+  m_Script: {fileID: 11500000, guid: 171472888e37f1d499edb3369a06c78a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   waypointList:
-    circuit: {fileID: 114964295335843486}
-    items:
-    - {fileID: 4114393048643182}
-    - {fileID: 4276729523675276}
-    - {fileID: 4389714239761634}
-    - {fileID: 4678382833163660}
-    - {fileID: 4450267637387994}
-    - {fileID: 4287008831693784}
-    - {fileID: 4654234606498794}
-    - {fileID: 4394120423805416}
-    - {fileID: 4264628850294166}
-    - {fileID: 4015775271277426}
-    - {fileID: 4912368428101482}
-    - {fileID: 4865306579409572}
-    - {fileID: 4397220771674522}
-    - {fileID: 4473231829576102}
-    - {fileID: 4632113121267512}
-    - {fileID: 4839755799739724}
-    - {fileID: 4936476333549574}
-    - {fileID: 4881852105504238}
-    - {fileID: 4695214972985252}
-    - {fileID: 4828800148404940}
+    circuit: {fileID: 0}
+    items: []
   smoothRoute: 1
   editorVisualisationSubsteps: 100

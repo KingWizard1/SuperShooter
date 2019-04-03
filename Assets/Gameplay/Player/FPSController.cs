@@ -151,6 +151,7 @@ namespace SuperShooter
 
         #region Update Actions
 
+
         /// <summary>Handles player movement.</summary>
         void Movement()
         {
@@ -165,21 +166,55 @@ namespace SuperShooter
             }
             else
             {
-                // We're on a ladder.
-                float inputV = Input.GetAxis("Ladder");
-                if (Input.GetKey("w"))
-                {
-                    movement.y = walkSpeed;
-                    movement.x = 0;
-                    movement.z = 0;
+                onLadder = true;
+
+            }
+
+            if (onLadder)
+            {
+                
+                
+                if ((Input.GetKey("w")) || (Input.GetKey("s")) || (Input.GetButtonDown("Jump")))
+                    {
+                    onLadder = true;
+                    // We're on a ladder.
+                    float inputV = Input.GetAxis("Ladder");
+                    if (Input.GetKey("w"))
+                    {
+                        movement.y = walkSpeed;
+                        movement.x = 0;
+                        movement.z = 0;
+
+
+
+                    }
+
+
+
+                    if (Input.GetKey("s"))
+                    {
+                        movement.y = -walkSpeed;
+                        movement.x = 0;
+                        movement.z = 0;
+                    }
+
+                    if (Input.GetButtonDown("Jump"))
+                    {
+                        onLadder = false;
+                   }
+
+
+                        Move(0, 0);
                 }
                 else
                 {
                     return;
                 }
-
-                Move(0, inputV);
+                
+        
+                
             }
+
 
 
             // Is the controller grounded?
@@ -308,6 +343,8 @@ namespace SuperShooter
         {
 
         }
+
+
 
         // ------------------------------------------------- //
 

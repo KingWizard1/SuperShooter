@@ -4,6 +4,10 @@ using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
+namespace superShooter
+{
+
+
 public class PauseMenu : MonoBehaviour
 {
 
@@ -125,4 +129,4 @@ public class PauseMenu : MonoBehaviour
 
     }
 }
-
+}

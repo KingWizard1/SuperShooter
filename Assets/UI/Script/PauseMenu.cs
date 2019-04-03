@@ -38,7 +38,6 @@ namespace superShooter
             soundSlider.value = PlayerPrefs.GetFloat("Audio Source");
             lightSlider.value = PlayerPrefs.GetFloat("Directional Light");
             return;
-
         }
 
         // Update is called once per frame
@@ -52,6 +51,7 @@ namespace superShooter
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
 
+
                 systemPanel.SetActive(false);
                 systemImage1.SetActive(false);
 
@@ -62,7 +62,11 @@ namespace superShooter
                 keyImage1.SetActive(false);
                 OnClickSystemPanel();
                 OnClickSoundPanel();
+                OnclickKeyPanel();
+
             }
+            PlayerPrefs.SetFloat("Audio Source", soundAudio.volume);
+            PlayerPrefs.SetFloat("Directional Light", dirLight.intensity);
         }
  
         public void Resume()
@@ -79,8 +83,6 @@ namespace superShooter
         public void LoadMenu()
         {
             Time.timeScale = 1f;
-            PlayerPrefs.SetFloat("Audio Source", soundAudio.volume);
-            PlayerPrefs.SetFloat("Directional Light", dirLight.intensity);
             SceneManager.LoadScene(0);
         }
         public void Exitmenu()

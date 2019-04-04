@@ -479,7 +479,7 @@ namespace SuperShooter
         /// <param name="weaponToPickup"></param>
         void Pickup(Weapon weaponToPickup)
         {
-            // Tell the weapon to change its behavior, its being picked up
+            // Tell the weapon to change its behavior, its being picked up.
             weaponToPickup.Pickup();
 
             // Attach to player hand, and zero its local pos/rot.

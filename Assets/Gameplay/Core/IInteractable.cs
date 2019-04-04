@@ -12,7 +12,6 @@ namespace SuperShooter
         void Pickup();
         void Drop();
 
-
-
     }
+
 }

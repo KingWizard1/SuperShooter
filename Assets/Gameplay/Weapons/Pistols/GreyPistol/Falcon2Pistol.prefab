@@ -43,6 +43,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1238918197479558
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4555396429064510}
+  - component: {fileID: 122882024581988018}
+  m_Layer: 0
+  m_Name: PickupGlow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1680702440187496
 GameObject:
   m_ObjectHideFlags: 0
@@ -73,6 +89,7 @@ GameObject:
   - component: {fileID: 65453388317339162}
   - component: {fileID: 54792914619220782}
   - component: {fileID: 114970405271072444}
+  - component: {fileID: 114033758541475090}
   m_Layer: 0
   m_Name: Falcon2Pistol
   m_TagString: Untagged
@@ -93,6 +110,19 @@ Transform:
   m_Father: {fileID: 4742390649280992}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4555396429064510
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1238918197479558}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4742390649280992}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4622522180870426
 Transform:
   m_ObjectHideFlags: 1
@@ -100,7 +130,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1192493865426166}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.897, z: 4.184}
+  m_LocalPosition: {x: 0, y: 0.897, z: 4.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4742390649280992}
@@ -113,12 +143,13 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1867183343135134}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.956, y: 6.62, z: -6.687}
+  m_LocalPosition: {x: -11.55, y: 2.5, z: -4.187}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children:
   - {fileID: 4440498249551170}
   - {fileID: 4891532486242260}
   - {fileID: 4622522180870426}
+  - {fileID: 4555396429064510}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -229,8 +260,8 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -246,6 +277,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 2.898346, z: 5.0810013}
   m_Center: {x: 0, y: 0.050827026, z: 1.6154995}
+--- !u!114 &114033758541475090
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1867183343135134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f38b0c4a61fea043ad8c795c396d821, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 100
+  axis: {x: 0, y: 1, z: 0}
 --- !u!114 &114970405271072444
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -360,6 +404,17 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!122 &122882024581988018
+Halo:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1238918197479558}
+  m_Enabled: 1
+  m_Color:
+    serializedVersion: 2
+    rgba: 4280650198
+  m_Size: 1
 --- !u!135 &135219589629679652
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -370,5 +425,5 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2.967195
+  m_Radius: 5
   m_Center: {x: 0, y: 0.050827026, z: 1.6154995}

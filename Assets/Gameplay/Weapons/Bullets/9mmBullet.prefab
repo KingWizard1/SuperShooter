@@ -114,6 +114,8 @@ GameObject:
   - component: {fileID: 114545044285837422}
   - component: {fileID: 54932728924929004}
   - component: {fileID: 65578831563010162}
+  - component: {fileID: 114529850725093390}
+  - component: {fileID: 114790843881292626}
   m_Layer: 0
   m_Name: 9mmBullet
   m_TagString: Untagged
@@ -287,6 +289,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.09791732, y: 0.049746644, z: 0.097168475}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114529850725093390
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1819303523712954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6090da511f8374135a15dd8655adcd44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _recordingInterval: 0.5
+  _mode: 0
+  _globalClockKey: 
+  _rewindable: 1
+  _recordingDuration: 30
 --- !u!114 &114545044285837422
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -299,3 +317,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseName: 9mm Bullet
+--- !u!114 &114790843881292626
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1819303523712954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e02c4a0d9b6c47e09fc7c7924d2b953, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _localTimeScale: 1
+  _paused: 0
+  _parentKey: 
+  _parentBlend: 0

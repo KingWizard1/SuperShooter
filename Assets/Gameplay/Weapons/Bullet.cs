@@ -62,7 +62,7 @@ namespace SuperShooter
 
         private void OnTriggerEnter(Collider other)
         {
-
+            
             // Cease forward momentum
             addForce = false;
 

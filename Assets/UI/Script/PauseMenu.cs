@@ -11,7 +11,6 @@ namespace superShooter
     {
 
         public static bool paused;
-        public bool showOption;
         public GameObject pauseMenu;
         public AudioSource soundAudio;
         public Light dirLight;
@@ -45,28 +44,18 @@ namespace superShooter
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                Time.timeScale = 0;
-                pauseMenu.SetActive(true);
-                paused = true;
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
+                if (paused)
+                {
+                    Resume();
 
-
-                systemPanel.SetActive(false);
-                systemImage1.SetActive(false);
-
-                soundPanel.SetActive(true);
-                soundImage1.SetActive(true);
-
-                keyPanel.SetActive(false);
-                keyImage1.SetActive(false);
-                OnClickSystemPanel();
-                OnClickSoundPanel();
-                OnclickKeyPanel();
-
+                }
+                else
+                {
+                    Pause();
+                }
             }
-            PlayerPrefs.SetFloat("Audio Source", soundAudio.volume);
-            PlayerPrefs.SetFloat("Directional Light", dirLight.intensity);
+
+
         }
  
         public void Resume()
@@ -136,6 +125,27 @@ namespace superShooter
                 keyPanel.SetActive(true);
                 keyImage1.SetActive(true);
             
+        }
+        public void Pause()
+        {
+            Time.timeScale = 0;
+            pauseMenu.SetActive(true);
+            paused = true;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
+            systemPanel.SetActive(false);
+            systemImage1.SetActive(false);
+
+            soundPanel.SetActive(true);
+            soundImage1.SetActive(true);
+
+            keyPanel.SetActive(false);
+            keyImage1.SetActive(false);
+
+
+            PlayerPrefs.SetFloat("Audio Source", soundAudio.volume);
+            PlayerPrefs.SetFloat("Directional Light", dirLight.intensity);
         }
     }
 }

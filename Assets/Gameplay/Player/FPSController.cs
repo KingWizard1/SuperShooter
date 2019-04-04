@@ -29,10 +29,15 @@ namespace SuperShooter
         public int maxWeapons = 2;
         public GameObject startingWeapon;
 
+        [Header("Grenade")]
+        public GameObject gernade;
+        public Gernade gernad;
+        public Transform mouth;
+
         // ------------------------------------------------- //
 
         #region Privates
-        
+
         // References
         private Animator anim;
         private CharacterController controller;
@@ -133,6 +138,7 @@ namespace SuperShooter
             Interact();
             Shooting();
             Switching();
+            throwGrenade();
 
 
             // DEBUG
@@ -527,6 +533,26 @@ namespace SuperShooter
 
             // Update current index
             currentWeaponIndex = index;
+        }
+
+        /// <summary>
+        /// throw grende add force to grenade
+        /// </summary>
+        void throwGrenade()
+        {
+            if (Input.GetKey(KeyCode.Q))
+            {
+                gernad.grenadetime -= Time.deltaTime;
+
+            }
+            if (Input.GetKeyUp(KeyCode.Q))
+            {
+
+                GameObject gerenad = Instantiate(gernade, mouth.position, mouth.rotation);
+                gerenad.GetComponent<Rigidbody>().AddForce(mouth.forward * 10, ForceMode.Impulse);
+                gernad.grenadetime = 6;
+
+            }
         }
 
         #endregion

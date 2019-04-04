@@ -27,12 +27,7 @@ namespace SuperShooter
 
         [Header("Weapons/Abilities")]
         public int maxWeapons = 2;
-        public GameObject startingWeapon;
-
-        [Header("Grenade")]
-        public GameObject gernade;
-        public Gernade gernad;
-        public Transform mouth;
+        public int maxThrowables = 2;
 
         // ------------------------------------------------- //
 
@@ -55,6 +50,8 @@ namespace SuperShooter
         private Weapon currentWeapon; // Public for testing, make private later.
         private List<Weapon> weapons = new List<Weapon>();
         private int currentWeaponIndex = 0;
+
+        private Throwable throwable;
 
         #endregion
 
@@ -138,7 +135,7 @@ namespace SuperShooter
             Interact();
             Shooting();
             Switching();
-            throwGrenade();
+            ThrowThrowable();
 
 
             // DEBUG
@@ -294,14 +291,9 @@ namespace SuperShooter
                 var interactableName = interactable.GetDisplayName();
                 UIManager.Main.ShowPickupPrompt(interactableName);
 
-
-                if (interactable is Weapon)
-                {
-                    if (Input.GetKeyDown(KeyCode.E))
-                        Pickup(interactable as Weapon);
-
-                }
-
+                // Pickup the interactable if key is being pressed on this frame
+                if (Input.GetKeyDown(KeyCode.E))
+                    Pickup(interactable);
             }
 
         }
@@ -482,21 +474,31 @@ namespace SuperShooter
         }
 
         /// <summary>Add weapon to <see cref="weapons"/> list and attaches it to player's hand.</summary>
-        /// <param name="weaponToPickup"></param>
-        void Pickup(Weapon weaponToPickup)
+        /// <param name="item"></param>
+        void Pickup(IInteractable item)
         {
+
+            if (item is Throwable && throwable == null)
+            {
+                throwable = item as Throwable;
+            }
+
+            if (item is Weapon && (weapons.Count <= maxWeapons))
+            {
+                // Add to weapon list
+                weapons.Add(item as Weapon);
+                SelectWeapon(weapons.Count - 1);
+            }
+
             // Tell the weapon to change its behavior, its being picked up.
-            weaponToPickup.Pickup();
+            item.Pickup();
 
             // Attach to player hand, and zero its local pos/rot.
-            var weaponTransform = weaponToPickup.transform;
-            weaponTransform.SetParent(playerHand);
-            weaponTransform.localPosition = Vector3.zero;
-            weaponTransform.localRotation = Quaternion.identity;
+            var itemTransform = ((MonoBehaviour)item).transform;
+            itemTransform.SetParent(playerHand);
+            itemTransform.localPosition = Vector3.zero;
+            itemTransform.localRotation = Quaternion.identity;
 
-            // Add to weapon list
-            weapons.Add(weaponToPickup);
-            SelectWeapon(weapons.Count - 1);
         }
 
         /// <summary>Removes weapon from <see cref="weapons"/> list and drops it from the player's hand.
@@ -538,21 +540,18 @@ namespace SuperShooter
         /// <summary>
         /// throw grende add force to grenade
         /// </summary>
-        void throwGrenade()
+        void ThrowThrowable()
         {
+            if (throwable == null)
+                return;
+
+            // Hold Q to Throw/Cook the item.
             if (Input.GetKey(KeyCode.Q))
-            {
-                gernad.grenadetime -= Time.deltaTime;
+                throwable.StartThrow();
 
-            }
+            // Release Q to let it go/throw it/release.
             if (Input.GetKeyUp(KeyCode.Q))
-            {
-
-                GameObject gerenad = Instantiate(gernade, mouth.position, mouth.rotation);
-                gerenad.GetComponent<Rigidbody>().AddForce(mouth.forward * 10, ForceMode.Impulse);
-                gernad.grenadetime = 6;
-
-            }
+                throwable.StopThrowing();
         }
 
         #endregion

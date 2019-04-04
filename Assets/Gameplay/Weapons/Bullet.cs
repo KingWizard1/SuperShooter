@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Chronos;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,10 +7,11 @@ namespace SuperShooter
 {
     //[RequireComponent(typeof(BoxCollider))]
     //[RequireComponent(typeof(LineRenderer))]
+    [RequireComponent(typeof(Timeline))]
     public class Bullet : MonoBehaviour //, IInteractable
     {
         [SerializeField]
-        public string baseName = "9mm Bullet";
+        public string baseName = "Basic Bullet";
 
 
         // ------------------------------------------------- //
@@ -27,11 +29,15 @@ namespace SuperShooter
         //private BoxCollider boxCollider;
         //private LineRenderer lineRenderer;
 
+        private Timeline timeline;
+
+
         // ------------------------------------------------- //
 
         private void Awake()
         {
             rigid = GetComponent<Rigidbody>();
+            //timeline.GetComponent<Timeline>();
         }
 
         // ------------------------------------------------- //

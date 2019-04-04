@@ -7,6 +7,7 @@ namespace SuperShooter
 
     public class FPSCameraLook : MonoBehaviour
     {
+        public Camera attachedCamera;
 
         [Tooltip("Tick to hide the cursor in the game view.")]
         public bool showCursor = false;
@@ -19,6 +20,8 @@ namespace SuperShooter
         // Camera tilt up/down limit
         public float yMinLimit = -80f;
         public float yMaxLimit = 80f;
+
+        public Transform aimTarget;
 
         // ------------------------------------------------- //
 
@@ -75,6 +78,14 @@ namespace SuperShooter
             //if (parentController != null)
             //parentController.SetCameraLook(Quaternion.Euler(0, x, 0));
             //else
+
+
+            Ray camRay = attachedCamera.ViewportPointToRay(new Vector3(.5f, .5f));
+            RaycastHit hit;
+            if(Physics.Raycast(camRay, out hit))
+            {
+                aimTarget.position = hit.point;
+            }
 
             _applyRotation();
 

@@ -18,7 +18,7 @@ namespace superShooter
         public Slider lightSlider;
 
         public GameObject soundButton, systemButton, keyButton;
-        public GameObject soundPanel, systemPanel, keyPanel;
+        public GameObject soundPanel, systemPanel, keyPanel, ingamePanel;
         public GameObject soundImage1, systemImage1, keyImage1;
         //public GameObject soundText1, soundText2, systemText1, systemText2, keyText1, keyText2;
 
@@ -30,7 +30,7 @@ namespace superShooter
             Time.timeScale = 1f;
             paused = false;
             pauseMenu.SetActive(false);
-
+            ingamePanel.SetActive(true);
 
             soundAudio = GameObject.Find("Audio Source").GetComponent<AudioSource>();
             dirLight = GameObject.Find("Directional Light").GetComponent<Light>();
@@ -143,6 +143,7 @@ namespace superShooter
             keyPanel.SetActive(false);
             keyImage1.SetActive(false);
 
+            ingamePanel.SetActive(false);
 
             PlayerPrefs.SetFloat("Audio Source", soundAudio.volume);
             PlayerPrefs.SetFloat("Directional Light", dirLight.intensity);

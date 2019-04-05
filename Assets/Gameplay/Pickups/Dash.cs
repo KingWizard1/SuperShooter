@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SuperShooter
 {
-    public class Dash : IInteractable
+    public class Dash : MonoBehaviour
     {
         public int speedMultiplier = 2;
 
@@ -17,6 +17,7 @@ namespace SuperShooter
                 other.gameObject.GetComponent<FPSController>();
                 var PC = other.gameObject.GetComponent<FPSController>();
                 PC.isDoubleSpeed = true;
+                this.gameObject.SetActive(false);
             }
         }
 

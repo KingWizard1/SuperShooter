@@ -395,7 +395,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1623317580830126}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.006, z: 1.261}
+  m_LocalPosition: {x: 0, y: 0.091, z: 1.261}
   m_LocalScale: {x: 0.099999994, y: 0.099999994, z: 0.099999994}
   m_Children: []
   m_Father: {fileID: 4683622049259014}
@@ -614,6 +614,11 @@ MonoBehaviour:
   bulletPrefab: {fileID: 1819303523712954, guid: ed232d9770afdbb48b28fde730a21bc8,
     type: 2}
   minigunModel: {fileID: 1912018515976864}
+  minShootRate: 0.03
+  maxShootRate: 1
+  maxCharge: 5
+  chargeSpeed: 0.5
+  percentToFire: 0.25
 --- !u!120 &120413737163772670
 LineRenderer:
   m_ObjectHideFlags: 1

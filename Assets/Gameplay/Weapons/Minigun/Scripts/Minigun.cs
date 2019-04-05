@@ -13,15 +13,21 @@ namespace SuperShooter
         // ------------------------------------------------- //
 
         private Animator anim;
-        
-        // True if the gun is ready to be fired/is firing.
-        private bool isSpunUp = false;
 
-        private bool isSpinningDown = false;
 
         // Num frames required to wait until bullets can be fired.
         // Can we get this value automatically from the animations? animation.Length?
-        private int framesUntilSpunUp = 60;
+        //private int framesUntilSpunUp = 60;
+
+        public float minShootRate = .03f, maxShootRate = .1f;
+        public float maxCharge = 2f;
+        public float chargeSpeed = 0.5f;
+        [Range(0f, 1f)]
+        public float percentToFire = .95f;
+
+        // Animation
+        private float charge = 0f;
+        private float targetCharge = 0f;
 
 
         // ------------------------------------------------- //
@@ -29,7 +35,8 @@ namespace SuperShooter
         protected override void OnAwake()
         {
             //
-            if (minigunModel != null) {
+            if (minigunModel != null)
+            {
                 anim = minigunModel.GetComponent<Animator>();
                 if (anim == null)
                     Debug.LogWarning("Minigun '" + name + "' does not have an animator attached to its model.");
@@ -49,76 +56,55 @@ namespace SuperShooter
 
         protected override void OnUpdate()
         {
-            if (isSpinningDown)
-            {
-                if (frames > 0)
-                    frames--;
-            }
+            charge = Mathf.MoveTowards(charge, targetCharge, chargeSpeed * Time.deltaTime);
+            anim.SetFloat("Blend", charge);
         }
 
         // ------------------------------------------------- //
 
-        private int frames;
+        //private int frames;
 
         protected override bool OnShoot()
         {
+            targetCharge = maxCharge; // Ramp tis up!
 
-            if (!isSpunUp)
+            float chargePercentage = charge / maxCharge;
+            if (chargePercentage >= percentToFire)
             {
-                // Ensure startup animation is playing
-                anim.SetBool("spinUp", true);
-
-                // No longer in spin down mode
-                isSpinningDown = false;
-
-
-                // Count up till the animation is finished
-                frames++;
-
-                if (frames >= framesUntilSpunUp) {
-
-                    // Gun is ready.
-                    isSpunUp = true;
-                    //frames = 0;
-
-                    // Start the sustained fire animation (loops)
-                    // TODO
-
-                }
-
-                // Disallow bullets to fire.
-                return false;
-            }
-            else
-            {
-
-                // Ensure firing animation is playing
-                // TODO
-                //Debug.Log("FIRING");
-
-
-                // Allow bullets to fire.
+                float rate = Mathf.Lerp(maxShootRate, minShootRate, chargePercentage);
+                shootRate = rate;
+                print(rate);
                 return true;
             }
+            return false;
+
+            //else if (charge >= 0.7)
+            //{
+            //    shootRate = 0.07f;
+            //    return true;
+            //}
+            //else if (charge >= 0.4)
+            //{
+            //    shootRate = 0.15f;
+            //    return true;
+            //}
+            //else
+            //{
+            //    return false;
+            //}
+
+
+            //if (charge >= percentToFire) // Percentage of starting fire
+            //    return true;
+            //else
+            //    return false;
+
 
         }
 
         protected override void OnShootStop()
         {
-            // Player has released the shoot button.
-
-
-            if (isSpunUp) {
-
-                // Start the slow down animation (one shot)
-                anim.SetBool("spinUp", false);
-
-                //Debug.Log("STOPPING");
-
-                isSpunUp = false;
-                isSpinningDown = true;
-
-            }
+            targetCharge = 0f;
 
         }
 

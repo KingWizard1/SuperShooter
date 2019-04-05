@@ -5,7 +5,7 @@ using UnityEngine;
 namespace SuperShooter
 {
 
-    public class Invisibility : MonoBehaviour
+    public class Invisibility : IInteractable
     {
         public float invisTime = 5.0f;
 
@@ -18,7 +18,6 @@ namespace SuperShooter
             if (other.gameObject.tag == ("Player"))
             {
                 playerRend = other.gameObject.GetComponent<MeshRenderer>();
-                this.gameObject.SetActive(false);
             }
         }
 

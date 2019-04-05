@@ -10,7 +10,8 @@ namespace SuperShooter
     {
 
         [Header("Mechanics")]
-        public int health = 100;
+        public static int startHealth = 100;
+        public static int health;
         public float runSpeed = 10f;
         public float walkSpeed = 6f;
         public float gravity = 10f;
@@ -35,7 +36,7 @@ namespace SuperShooter
 
         // References
         private Animator anim;
-        private CharacterController controller;
+        public static CharacterController controller;
         private FPSCameraLook cameraLook;
         private Timeline timeline;
 
@@ -102,6 +103,7 @@ namespace SuperShooter
 
         private void Start()
         {
+            startHealth = health;
             // Nothing yet.
         }
 

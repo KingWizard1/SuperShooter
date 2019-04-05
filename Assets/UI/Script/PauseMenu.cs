@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace superShooter
+namespace SuperShooter
 {
 
     public class PauseMenu : MonoBehaviour
@@ -30,7 +30,7 @@ namespace superShooter
             Time.timeScale = 1f;
             paused = false;
             pauseMenu.SetActive(false);
-
+            FPSController.controller.enabled = true;
 
             soundAudio = GameObject.Find("Audio Source").GetComponent<AudioSource>();
             dirLight = GameObject.Find("Directional Light").GetComponent<Light>();
@@ -66,6 +66,7 @@ namespace superShooter
 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+            FPSController.controller.enabled = true;
 
 
         }
@@ -133,6 +134,7 @@ namespace superShooter
             paused = true;
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+            FPSController.controller.enabled = false;
 
             systemPanel.SetActive(false);
             systemImage1.SetActive(false);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
+namespace SuperShooter {
 public class MenuHandler : MonoBehaviour
 {
     public GameObject mainMenu, optionMenu;
@@ -103,4 +103,5 @@ public class MenuHandler : MonoBehaviour
         optionMenu.SetActive(false);
         return;
     }
+}
 }

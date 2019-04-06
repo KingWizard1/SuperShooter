@@ -12,6 +12,7 @@ TagManager:
   - Vehicle
   - DebugPlayer
   - LocalPlayer
+  - OOB
   layers:
   - Default
   - TransparentFX

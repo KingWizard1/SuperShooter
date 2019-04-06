@@ -291,7 +291,8 @@ namespace SuperShooter
 
                 // Enable the UI and show the interactable name
                 var interactableName = interactable.GetDisplayName();
-                UIManager.Main.ShowPickupPrompt(interactableName);
+                var interactablePosition = ((MonoBehaviour)interactable).transform.position;
+                UIManager.Main.ShowPickupPrompt3D(interactableName, interactablePosition);
 
                 // Pickup the interactable if key is being pressed on this frame
                 if (Input.GetKeyDown(KeyCode.E))

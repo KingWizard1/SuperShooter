@@ -11,10 +11,9 @@ namespace SuperShooter
 
         [Header("UI Elements")]
         public GameObject pickupPrompt;
-
+        public GameObject pickupPrompt3D;
 
         // ------------------------------------------------- //
-
 
         // ------------------------------------------------- //
 
@@ -50,7 +49,7 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
-        public void ShowPickupPrompt(string text)
+        public void ShowPickupPrompt2D(string text)
         {
             if (pickupPrompt)
                 pickupPrompt.GetComponent<PickupPrompt>().ShowPrompt(text);
@@ -59,10 +58,20 @@ namespace SuperShooter
 
         }
 
+        public void ShowPickupPrompt3D(string text, Vector3 objectPosition)
+        {
+            if (pickupPrompt3D)
+                pickupPrompt3D.GetComponent<PickupPrompt3D>().ShowPrompt(text, objectPosition);
+            else
+                Debug.LogError("[UI] No PickupPrompt assigned to UIManager.");
+        }
+
         public void HideAllPrompts()
         {
-            if (pickupPrompt)
-                pickupPrompt.GetComponent<PickupPrompt>().HidePrompt();
+            //if (pickupPrompt)
+            //    pickupPrompt.GetComponent<PickupPrompt>().HidePrompt();
+            if (pickupPrompt3D)
+                pickupPrompt3D.GetComponent<PickupPrompt3D>().HidePrompt();
         }
 
         // ------------------------------------------------- //

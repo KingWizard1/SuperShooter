@@ -42,6 +42,9 @@ namespace SuperShooter
         private LineRenderer lineRenderer;
         private SphereCollider sphereCollider;
 
+        private Spin pickupSpin;
+        private GameObject pickupGlow;
+
         // ------------------------------------------------- //
 
         private void Awake()
@@ -51,6 +54,7 @@ namespace SuperShooter
 
             // Allow dervied weapons to be notified that we have awoken.
             OnAwake();
+
         }
 
         private void Reset()
@@ -67,7 +71,7 @@ namespace SuperShooter
             lineRenderer.enabled = false;
 
             // Turn off rigidbody
-            rigid.isKinematic = false;
+            rigid.isKinematic = true;
 
             // Apply bounds to box collider
             boxCollider.center = bounds.center - transform.position;
@@ -77,6 +81,12 @@ namespace SuperShooter
             sphereCollider.center = boxCollider.center;
             sphereCollider.radius = boxCollider.size.magnitude * 2f;
             sphereCollider.isTrigger = true;
+
+            // Pickup glow and spin
+            pickupSpin.speed = 100f;
+            pickupSpin.axis = Vector3.up;
+            pickupGlow.SetActive(true);
+
         }
 
         private void GetComponentReferences()
@@ -85,6 +95,9 @@ namespace SuperShooter
             boxCollider = GetComponent<BoxCollider>();
             lineRenderer = GetComponent<LineRenderer>();
             sphereCollider = GetComponent<SphereCollider>();
+
+            pickupSpin = GetComponent<Spin>();
+            pickupGlow = transform.Find("PickupGlow").gameObject;
         }
 
         private void Start()
@@ -119,6 +132,10 @@ namespace SuperShooter
 
             // Disable trigger collider so we don't trigger the UI when we look at the weapon in our hand
             sphereCollider.enabled = false;
+
+            // Disable glow and spin
+            pickupSpin.enabled = false;
+            pickupGlow.SetActive(false);
         }
 
         public void Drop()

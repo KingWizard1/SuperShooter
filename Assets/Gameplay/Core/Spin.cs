@@ -1,17 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace KingWizard
+namespace SuperShooter
 {
-
+    
     public class Spin : MonoBehaviour
     {
+
         public float speed = 10f;
 
+        public Vector3 axis;        
 
         void Update()
         {
-            transform.Rotate(-Vector3.forward, speed * Time.deltaTime);
+
+            transform.Rotate(axis, speed * Time.deltaTime);
         }
     } 
 }

@@ -10,7 +10,8 @@ namespace SuperShooter
     {
 
         [Header("Mechanics")]
-        public int health = 100;
+        public static int startHealth = 100;
+        public static int health;
         public float runSpeed = 10f;
         public float walkSpeed = 6f;
         public float gravity = 10f;
@@ -27,15 +28,15 @@ namespace SuperShooter
 
         [Header("Weapons/Abilities")]
         public int maxWeapons = 2;
-        public GameObject startingWeapon;
+        public int maxThrowables = 2;
 
         // ------------------------------------------------- //
 
         #region Privates
-        
+
         // References
         private Animator anim;
-        private CharacterController controller;
+        public static CharacterController controller;
         private FPSCameraLook cameraLook;
         private Timeline timeline;
 
@@ -50,6 +51,8 @@ namespace SuperShooter
         private Weapon currentWeapon; // Public for testing, make private later.
         private List<Weapon> weapons = new List<Weapon>();
         private int currentWeaponIndex = 0;
+
+        private Throwable throwable;
 
         #endregion
 
@@ -100,6 +103,7 @@ namespace SuperShooter
 
         private void Start()
         {
+            startHealth = health;
             // Nothing yet.
         }
 
@@ -133,6 +137,7 @@ namespace SuperShooter
             Interact();
             Shooting();
             Switching();
+            ThrowThrowable();
 
 
             // DEBUG
@@ -151,6 +156,7 @@ namespace SuperShooter
 
         #region Update Actions
 
+
         /// <summary>Handles player movement.</summary>
         void Movement()
         {
@@ -165,21 +171,55 @@ namespace SuperShooter
             }
             else
             {
-                // We're on a ladder.
-                float inputV = Input.GetAxis("Ladder");
-                if (Input.GetKey("w"))
-                {
-                    movement.y = walkSpeed;
-                    movement.x = 0;
-                    movement.z = 0;
+                onLadder = true;
+
+            }
+
+            if (onLadder)
+            {
+                
+                
+                if ((Input.GetKey("w")) || (Input.GetKey("s")) || (Input.GetButtonDown("Jump")))
+                    {
+                    onLadder = true;
+                    // We're on a ladder.
+                    float inputV = Input.GetAxis("Ladder");
+                    if (Input.GetKey("w"))
+                    {
+                        movement.y = walkSpeed;
+                        movement.x = 0;
+                        movement.z = 0;
+
+
+
+                    }
+
+
+
+                    if (Input.GetKey("s"))
+                    {
+                        movement.y = -walkSpeed;
+                        movement.x = 0;
+                        movement.z = 0;
+                    }
+
+                    if (Input.GetButtonDown("Jump"))
+                    {
+                        onLadder = false;
+                   }
+
+
+                        Move(0, 0);
                 }
                 else
                 {
                     return;
                 }
-
-                Move(0, inputV);
+                
+        
+                
             }
+
 
 
             // Is the controller grounded?
@@ -253,14 +293,9 @@ namespace SuperShooter
                 var interactableName = interactable.GetDisplayName();
                 UIManager.Main.ShowPickupPrompt(interactableName);
 
-
-                if (interactable is Weapon)
-                {
-                    if (Input.GetKeyDown(KeyCode.E))
-                        Pickup(interactable as Weapon);
-
-                }
-
+                // Pickup the interactable if key is being pressed on this frame
+                if (Input.GetKeyDown(KeyCode.E))
+                    Pickup(interactable);
             }
 
         }
@@ -308,6 +343,8 @@ namespace SuperShooter
         {
 
         }
+
+
 
         // ------------------------------------------------- //
 
@@ -439,21 +476,31 @@ namespace SuperShooter
         }
 
         /// <summary>Add weapon to <see cref="weapons"/> list and attaches it to player's hand.</summary>
-        /// <param name="weaponToPickup"></param>
-        void Pickup(Weapon weaponToPickup)
+        /// <param name="item"></param>
+        void Pickup(IInteractable item)
         {
-            // Tell the weapon to change its behavior, its being picked up
-            weaponToPickup.Pickup();
+
+            if (item is Throwable && throwable == null)
+            {
+                throwable = item as Throwable;
+            }
+
+            if (item is Weapon && (weapons.Count <= maxWeapons))
+            {
+                // Add to weapon list
+                weapons.Add(item as Weapon);
+                SelectWeapon(weapons.Count - 1);
+            }
+
+            // Tell the weapon to change its behavior, its being picked up.
+            item.Pickup();
 
             // Attach to player hand, and zero its local pos/rot.
-            var weaponTransform = weaponToPickup.transform;
-            weaponTransform.SetParent(playerHand);
-            weaponTransform.localPosition = Vector3.zero;
-            weaponTransform.localRotation = Quaternion.identity;
+            var itemTransform = ((MonoBehaviour)item).transform;
+            itemTransform.SetParent(playerHand);
+            itemTransform.localPosition = Vector3.zero;
+            itemTransform.localRotation = Quaternion.identity;
 
-            // Add to weapon list
-            weapons.Add(weaponToPickup);
-            SelectWeapon(weapons.Count - 1);
         }
 
         /// <summary>Removes weapon from <see cref="weapons"/> list and drops it from the player's hand.
@@ -490,6 +537,23 @@ namespace SuperShooter
 
             // Update current index
             currentWeaponIndex = index;
+        }
+
+        /// <summary>
+        /// throw grende add force to grenade
+        /// </summary>
+        void ThrowThrowable()
+        {
+            if (throwable == null)
+                return;
+
+            // Hold Q to Throw/Cook the item.
+            if (Input.GetKey(KeyCode.Q))
+                throwable.StartThrow();
+
+            // Release Q to let it go/throw it/release.
+            if (Input.GetKeyUp(KeyCode.Q))
+                throwable.StopThrowing();
         }
 
         #endregion

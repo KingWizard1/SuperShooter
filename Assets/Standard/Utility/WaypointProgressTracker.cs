@@ -67,7 +67,7 @@ namespace UnityStandardAssets.Utility
         }
 
 
-        // reset the object to sensible values
+        /// <summary>Resets the tracker and way point target to the first point in the circuit.</summary>
         public void Reset()
         {
             progressDistance = 0;

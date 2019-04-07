@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 namespace SuperShooter
 {
 
     public class PauseMenu : MonoBehaviour
     {
-        public AudioClip hover;
-        public AudioClip click;
-        private AudioSource source;
 
         public static bool paused;
         public GameObject pauseMenu;
@@ -34,13 +32,14 @@ namespace SuperShooter
             paused = false;
             pauseMenu.SetActive(false);
             FPSController.controller.enabled = true;
-
+            
             soundAudio = GameObject.Find("Audio Source").GetComponent<AudioSource>();
             dirLight = GameObject.Find("Directional Light").GetComponent<Light>();
             soundSlider.value = PlayerPrefs.GetFloat("Audio Source");
             lightSlider.value = PlayerPrefs.GetFloat("Directional Light");
             return;
 
+          
         }
 
 
@@ -59,7 +58,6 @@ namespace SuperShooter
                     Pause();
                 }
             }
-
 
         }
  
@@ -151,13 +149,6 @@ namespace SuperShooter
             PlayerPrefs.SetFloat("Audio Source", soundAudio.volume);
             PlayerPrefs.SetFloat("Directional Light", dirLight.intensity);
         }
-        public void Onhover()
-        {
-            source.PlayOneShot(hover);
-        }
-        public void Onclick()
-        {
-            source.PlayOneShot(click);
-        }
+
     }
 }

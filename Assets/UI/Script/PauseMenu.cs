@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 namespace SuperShooter
 {
@@ -19,7 +20,7 @@ namespace SuperShooter
 
         public GameObject soundButton, systemButton, keyButton;
         public GameObject soundPanel, systemPanel, keyPanel;
-        public GameObject soundImage1, systemImage1, keyImage1;
+        //public GameObject soundImage1, systemImage1, keyImage1;
         //public GameObject soundText1, soundText2, systemText1, systemText2, keyText1, keyText2;
 
 
@@ -31,13 +32,16 @@ namespace SuperShooter
             paused = false;
             pauseMenu.SetActive(false);
             FPSController.controller.enabled = true;
-
+            
             soundAudio = GameObject.Find("Audio Source").GetComponent<AudioSource>();
             dirLight = GameObject.Find("Directional Light").GetComponent<Light>();
             soundSlider.value = PlayerPrefs.GetFloat("Audio Source");
             lightSlider.value = PlayerPrefs.GetFloat("Directional Light");
             return;
+
+          
         }
+
 
         // Update is called once per frame
         void Update()
@@ -54,7 +58,6 @@ namespace SuperShooter
                     Pause();
                 }
             }
-
 
         }
  
@@ -95,36 +98,33 @@ namespace SuperShooter
         public void OnClickSystemPanel()
         {
             systemPanel.SetActive(true);
-            systemImage1.SetActive(true);
 
             soundPanel.SetActive(false);
-            soundImage1.SetActive(false);
 
             keyPanel.SetActive(false);
-            keyImage1.SetActive(false);
+
         }
         public void OnClickSoundPanel()
         {
             systemPanel.SetActive(false);
-            systemImage1.SetActive(false);
+
 
             soundPanel.SetActive(true);
-            soundImage1.SetActive(true);
+
 
             keyPanel.SetActive(false);
-            keyImage1.SetActive(false);
+
         }
         public void OnclickKeyPanel()
         {
 
                 systemPanel.SetActive(false);
-                systemImage1.SetActive(false);
+
 
                 soundPanel.SetActive(false);
-                soundImage1.SetActive(false);
+
 
                 keyPanel.SetActive(true);
-                keyImage1.SetActive(true);
             
         }
         public void Pause()
@@ -137,17 +137,18 @@ namespace SuperShooter
             FPSController.controller.enabled = false;
 
             systemPanel.SetActive(false);
-            systemImage1.SetActive(false);
+
 
             soundPanel.SetActive(true);
-            soundImage1.SetActive(true);
+
 
             keyPanel.SetActive(false);
-            keyImage1.SetActive(false);
+
 
 
             PlayerPrefs.SetFloat("Audio Source", soundAudio.volume);
             PlayerPrefs.SetFloat("Directional Light", dirLight.intensity);
         }
+
     }
 }

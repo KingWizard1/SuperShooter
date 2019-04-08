@@ -12,6 +12,7 @@ namespace SuperShooter
         [Header("UI Elements")]
         public GameObject pickupPrompt;
         public GameObject pickupPrompt3D;
+        public GameObject deathScreen;
 
         // ------------------------------------------------- //
 
@@ -76,6 +77,15 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
+        public void ShowDeathScreen(bool makeActive)
+        {
+            if (deathScreen)
+                deathScreen.SetActive(makeActive);
+            else
+                Debug.LogError("[UI] No PickupPrompt assigned to UIManager.");
+            
+
+        }
 
         // ------------------------------------------------- //
 

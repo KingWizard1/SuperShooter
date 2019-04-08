@@ -81,7 +81,7 @@ namespace SuperShooter
                 // Decrement timer
                 respawnTimer -= Time.deltaTime;
 
-                Debug.Log("Respawning " + name + " in " + respawnTimer + " sec");
+                //Debug.Log("Respawning " + name + " in " + respawnTimer + " sec");
 
                 if (respawnTimer <= 0)
                 {

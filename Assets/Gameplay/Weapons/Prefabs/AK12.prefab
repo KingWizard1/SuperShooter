@@ -745,7 +745,7 @@ MonoBehaviour:
   bulletForce: 1
   lineDelay: 0.1
   shotOrigin: {fileID: 4765130856755074}
-  bulletPrefab: {fileID: 1336915021384072, guid: 9952321b1f0334b4b813262bd19c61d3,
+  bulletPrefab: {fileID: 1336915021384072, guid: 59279ebc2832fd7438298fced3fe365d,
     type: 2}
 --- !u!120 &120042135833345816
 LineRenderer:

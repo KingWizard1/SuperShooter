@@ -20,6 +20,7 @@ namespace SuperShooter
         public float interactRange = 10f;
         public float groundRayDistance = 1.1f;
 
+        [Header("Powerups")]
         public bool isDoubleSpeed;
         
         [Header("References")]
@@ -38,6 +39,7 @@ namespace SuperShooter
         private Animator anim;
         public static CharacterController controller;
         private FPSCameraLook cameraLook;
+        private FPSPhysics physics;
         private Timeline timeline;
 
         // Movement
@@ -45,7 +47,13 @@ namespace SuperShooter
         private float moveSpeed;    // Current movemend speed
         private int jumps = 0;      // Current number of jumps executed (resets when grounded)
         private int maxJumps = 2;   // Max number of times player can jump
-        private bool onLadder = false;
+
+        // Physics
+        private Vector3 impact = Vector3.zero;
+
+        // Status
+        private bool isDead = false;
+        private bool isOnLadder = false;
 
         // Inventory
         private Weapon currentWeapon; // Public for testing, make private later.
@@ -53,6 +61,15 @@ namespace SuperShooter
         private int currentWeaponIndex = 0;
 
         private Throwable throwable;
+
+        #endregion
+
+        // ------------------------------------------------- //
+
+        #region Accessors
+
+        /// <summary>The characters current movement speed.</summary>
+        public float MoveSpeed { get { return moveSpeed; } }
 
         #endregion
 
@@ -92,9 +109,10 @@ namespace SuperShooter
         {
             anim = GetComponent<Animator>();
             controller = GetComponent<CharacterController>();
+            cameraLook = GetComponentInChildren<FPSCameraLook>();
+            physics = GetComponent<FPSPhysics>();
             timeline = GetComponent<Timeline>();
 
-            cameraLook = GetComponentInChildren<FPSCameraLook>();
 
             TryRegisterWeapons();
         }
@@ -133,12 +151,21 @@ namespace SuperShooter
 
         private void Update()
         {
-            Movement();
-            Interact();
-            Shooting();
-            Switching();
-            ThrowThrowable();
+            // Do nothing if dead.
+            if (isDead)
+            {
 
+                if (Input.GetKeyDown(KeyCode.R))
+                    Respawn();
+
+                return;
+            }
+
+            UpdateMovement();
+            UpdateInteract();
+            UpdateWeaponShooting();
+            UpdateWeaponSwitching();
+            UpdateThrowables();
 
             // DEBUG
             if (Input.GetKeyDown(KeyCode.BackQuote))
@@ -158,11 +185,11 @@ namespace SuperShooter
 
 
         /// <summary>Handles player movement.</summary>
-        void Movement()
+        void UpdateMovement()
         {
 
             // Get input from user and set the movement vector
-            if (!onLadder)
+            if (!isOnLadder)
             {
                 // Not on ladder.
                 float inputH = Input.GetAxis("Horizontal");
@@ -171,17 +198,17 @@ namespace SuperShooter
             }
             else
             {
-                onLadder = true;
+                isOnLadder = true;
 
             }
 
-            if (onLadder)
+            if (isOnLadder)
             {
                 
                 
                 if ((Input.GetKey("w")) || (Input.GetKey("s")) || (Input.GetButtonDown("Jump")))
                     {
-                    onLadder = true;
+                    isOnLadder = true;
                     // We're on a ladder.
                     float inputV = Input.GetAxis("Ladder");
                     if (Input.GetKey("w"))
@@ -205,7 +232,7 @@ namespace SuperShooter
 
                     if (Input.GetButtonDown("Jump"))
                     {
-                        onLadder = false;
+                        isOnLadder = false;
                    }
 
 
@@ -268,7 +295,7 @@ namespace SuperShooter
         }
 
         /// <summary>Handles interaction with items in the world.</summary>
-        void Interact()
+        void UpdateInteract()
         {
             // Disable interact UI
             UIManager.Main.HideAllPrompts();
@@ -302,7 +329,7 @@ namespace SuperShooter
         }
 
         /// <summary>Handles current weapon fire mechanics.</summary>
-        void Shooting()
+        void UpdateWeaponShooting()
         {
             // Is a current weapon selected?
             if (!currentWeapon)
@@ -315,7 +342,7 @@ namespace SuperShooter
         }
 
         /// <summary>Handles cycling/switching through available weapons.</summary>
-        void Switching()
+        void UpdateWeaponSwitching()
         {
             // If there is more than one weapon
             if (weapons.Count > 1)
@@ -355,61 +382,16 @@ namespace SuperShooter
         {
             if (collider.name == "LDRBottom")
             {
-                onLadder = true;
+                isOnLadder = true;
             }
             else
             {
-                onLadder = false;
+                isOnLadder = false;
             }
 
         }
 
         // ------------------------------------------------- //
-
-        /// <summary>Called when the controller hits a collider while performing a move.</summary>
-        private void OnControllerColliderHit(ControllerColliderHit hit)
-        {
-            // This method allows a CharacterController to push Rigidbodies!!
-
-            // Get the Rigidbody of the object we collided with.
-            var other = hit.gameObject.GetComponent<Rigidbody>();
-
-            // Bail if the object does not have a Rigidbody, or has one but isKinematic.
-            if (other == null || other.isKinematic)
-                return;
-
-            // Handle non-physical collisions.
-            // Returns false if there weren't any.
-
-
-            // We don't want to push objects below us
-            if (hit.moveDirection.y < -0.3)
-                return;
-
-            // Calculate push direction from move direction.
-            // We only push objects to the sides, never up and down (???)
-            var pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
-
-            // Apply!
-            other.velocity = pushDir * moveSpeed;
-            
-
-        }
-
-        // ------------------------------------------------- //
-
-        private bool HandleControllerCollision(ControllerColliderHit hit)
-        {
-
-            if (hit.gameObject.tag == "Vehicle")
-            {
-                Kill();
-            }
-
-
-            // There was no condition for us to handle. Let the default action occur.
-            return false;
-        }
 
         #endregion
 
@@ -543,7 +525,7 @@ namespace SuperShooter
         /// <summary>
         /// throw grende add force to grenade
         /// </summary>
-        void ThrowThrowable()
+        void UpdateThrowables()
         {
             if (throwable == null)
                 return;
@@ -573,13 +555,26 @@ namespace SuperShooter
 
         public void Kill()
         {
-            Debug.LogWarning("PLAYER DIED!");
+
+            isDead = true;
+
+            controller.enabled = false;
+
+            UIManager.Main.ShowDeathScreen(true);
+
         }
 
         #endregion
 
         // ------------------------------------------------- //
 
+        private void Respawn()
+        {
+            isDead = false;
+            health = 100;
+            controller.enabled = true;
+            UIManager.Main.ShowDeathScreen(false);
+        }
 
         // ------------------------------------------------- //
 

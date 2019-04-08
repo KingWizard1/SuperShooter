@@ -148,21 +148,21 @@ namespace UnityStandardAssets.Vehicles.Car
 
                     // Phil's additions
                     // Dip the volume if there is something between the source and the listener.
-                    RaycastHit hit;
-                    var direction = transform.position + Camera.main.transform.position;
+                    //RaycastHit hit;
+                    //var direction = transform.position + Camera.main.transform.position;
 
-                    Ray rayToCameraPos = new Ray(transform.position + Vector3.up, Camera.main.transform.position - transform.position);
-                    if (Physics.Raycast(rayToCameraPos, out hit, 20f)) {
-                        Debug.Log(hit.collider.name);
-                        m_LowAccel.volume  = 0f;
-                        m_LowDecel.volume  = 0f;
-                        m_HighAccel.volume = 0f;
-                        m_HighDecel.volume = 0f;
-                    }
-                    else
-                    {
-                        Debug.Log("CLEAR!");
-                    }
+                    //Ray rayToCameraPos = new Ray(transform.position + Vector3.up, Camera.main.transform.position - transform.position);
+                    //if (Physics.Raycast(rayToCameraPos, out hit, 20f)) {
+                    //    Debug.Log(hit.collider.name);
+                    //    m_LowAccel.volume  = 0f;
+                    //    m_LowDecel.volume  = 0f;
+                    //    m_HighAccel.volume = 0f;
+                    //    m_HighDecel.volume = 0f;
+                    //}
+                    //else
+                    //{
+                    //    Debug.Log("CLEAR!");
+                    //}
                         
 
 

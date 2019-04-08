@@ -54,18 +54,18 @@ namespace SuperShooter
 
         private void Update()
         {
-            lifetime -= Time.deltaTime;
+            //lifetime -= Time.deltaTime;
 
-            if (lifetime <= 0)
-                Destroy(gameObject);
+            //if (lifetime <= 0)
+            //    Destroy(gameObject);
         }
 
         private void FixedUpdate()
         {
             //transform.position += transform.forward * Time.deltaTime * (speed);
 
-            if (addForce)
-                rigid.AddForce(transform.forward * force);
+            //if (addForce)
+            //    rigid.AddForce(transform.forward * force);
         }
 
         // ------------------------------------------------- //

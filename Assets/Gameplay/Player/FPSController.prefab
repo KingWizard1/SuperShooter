@@ -22,25 +22,10 @@ GameObject:
   - component: {fileID: 20107630638721488}
   - component: {fileID: 81981901787067058}
   - component: {fileID: 114342676579227726}
+  - component: {fileID: 114626133326315404}
   m_Layer: 0
   m_Name: CameraSystem
   m_TagString: MainCamera
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1421907162690176
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4122692569577582}
-  - component: {fileID: 114203335346834892}
-  m_Layer: 0
-  m_Name: GrnadThrow
-  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -136,6 +121,7 @@ GameObject:
   - component: {fileID: 114081817054332320}
   - component: {fileID: 114800247274189554}
   - component: {fileID: 114797532116343418}
+  - component: {fileID: 114833496619670816}
   m_Layer: 0
   m_Name: FPSController
   m_TagString: Player
@@ -143,19 +129,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4122692569577582
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1421907162690176}
-  m_LocalRotation: {x: -0.38268322, y: -0, z: -0, w: 0.9238797}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0.667}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4402551686088608}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: -45.000004, y: 0, z: 0}
 --- !u!4 &4143313847015986
 Transform:
   m_ObjectHideFlags: 1
@@ -203,16 +176,15 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1891511372562458}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.43805736, z: 0, w: 0.89894706}
   m_LocalPosition: {x: -24.47, y: 16.297, z: -20.63}
   m_LocalScale: {x: 1.5, y: 2, z: 1.5}
   m_Children:
   - {fileID: 4143313847015986}
   - {fileID: 4597451510964996}
-  - {fileID: 4122692569577582}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 51.96, z: 0}
 --- !u!4 &4597451510964996
 Transform:
   m_ObjectHideFlags: 1
@@ -276,7 +248,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 70
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -290,7 +262,7 @@ Camera:
   m_HDR: 1
   m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
-  m_ForceIntoRT: 0
+  m_ForceIntoRT: 1
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
@@ -383,20 +355,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 4891087971588074}
---- !u!114 &114203335346834892
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1421907162690176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39e9bf3d82a8865458e7ae922ee6d497, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gernade: {fileID: 1287805501377916, guid: 702dd61796ec4cb46a2322fc729c9049, type: 2}
-  gernad: {fileID: 114884343509599372, guid: 702dd61796ec4cb46a2322fc729c9049, type: 2}
-  mouth: {fileID: 4122692569577582}
 --- !u!114 &114342676579227726
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -408,11 +366,70 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80aa9fd9ccd9c4b4380b159308b92ce9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attachedCamera: {fileID: 20107630638721488}
   showCursor: 0
   isInverted: 0
   speed: {x: 120, y: 120}
   yMinLimit: -80
   yMaxLimit: 80
+  aimTarget: {fileID: 4891087971588074}
+--- !u!114 &114626133326315404
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1041676389413348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 948f4100a11a5c24981795d21301da5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volumeTrigger: {fileID: 4597451510964996}
+  volumeLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  stopNaNPropagation: 1
+  antialiasingMode: 0
+  temporalAntialiasing:
+    jitterSpread: 0.75
+    sharpness: 0.25
+    stationaryBlending: 0.95
+    motionBlending: 0.85
+  subpixelMorphologicalAntialiasing:
+    quality: 2
+  fastApproximateAntialiasing:
+    fastMode: 0
+    keepAlpha: 0
+  fog:
+    enabled: 1
+    excludeSkybox: 1
+  debugLayer:
+    lightMeter:
+      width: 512
+      height: 256
+      showCurves: 1
+    histogram:
+      width: 512
+      height: 256
+      channel: 3
+    waveform:
+      exposure: 0.12
+      height: 256
+    vectorscope:
+      size: 256
+      exposure: 0.12
+    overlaySettings:
+      motionColorIntensity: 4
+      motionGridSize: 64
+      colorBlindnessType: 0
+      colorBlindnessStrength: 1
+  m_Resources: {fileID: 11400000, guid: d82512f9c8e5d4a4d938b575d47f88d4, type: 2}
+  m_ShowToolkit: 0
+  m_ShowCustomSorter: 0
+  breakBeforeColorGrading: 0
+  m_BeforeTransparentBundles: []
+  m_BeforeStackBundles: []
+  m_AfterStackBundles: []
 --- !u!114 &114797532116343418
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -444,6 +461,28 @@ MonoBehaviour:
   _globalClockKey: Root
   _rewindable: 1
   _recordingDuration: 30
+--- !u!114 &114833496619670816
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1891511372562458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a22e24e9a1cf004bb58c91fded12a33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthSlider: {fileID: 0}
+  damageImage: {fileID: 114215324520456022, guid: fd030c448309f0e4f80576410f510a12,
+    type: 2}
+  deathClip: {fileID: 0}
+  flashSpeed: 5
+  flashColour: {r: 1, g: 0, b: 0, a: 0.1}
+  playerAudio: {fileID: 0}
+  timeText: {fileID: 0}
+  gameOver: {fileID: 0}
+  anim: {fileID: 0}
+  lerpSpeed: 20
 --- !u!114 &114973145238870596
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -455,7 +494,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7980de37b66a474cb60a2f5e59f0f8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
   runSpeed: 15
   walkSpeed: 10
   gravity: 25
@@ -467,7 +505,7 @@ MonoBehaviour:
   attachedCamera: {fileID: 20107630638721488}
   playerHand: {fileID: 4324149899550320}
   maxWeapons: 2
-  startingWeapon: {fileID: 0}
+  maxThrowables: 2
 --- !u!143 &143862794934404832
 CharacterController:
   m_ObjectHideFlags: 1

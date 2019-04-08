@@ -271,7 +271,7 @@ BoxCollider:
   m_GameObject: {fileID: 1336915021384072}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.067126945, y: 0.029850006, z: 0.06755817}
   m_Center: {x: 0.0018476173, y: 0.00023078918, z: -1.4993476e-18}
@@ -401,7 +401,7 @@ MonoBehaviour:
   force: {x: 0, y: 0, z: 10}
   gravity: {x: 0, y: 0, z: 0}
   radius: 0.1
-  drawGizmos: 0
+  drawGizmos: 1
   speed: 5
 --- !u!114 &114471181927137120
 MonoBehaviour:

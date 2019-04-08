@@ -12,9 +12,12 @@ namespace SuperShooter
         [Header("UI Elements")]
         public GameObject pickupPrompt;
         public GameObject pickupPrompt3D;
+        public GameObject crossHairSystem;
         public GameObject deathScreen;
 
         // ------------------------------------------------- //
+
+        public CrossHairSystem CrossHairSystem { get { return crossHairSystem.GetComponent<CrossHairSystem>(); } }
 
         // ------------------------------------------------- //
 

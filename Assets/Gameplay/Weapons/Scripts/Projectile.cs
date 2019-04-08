@@ -12,24 +12,20 @@ namespace SuperShooter
         public int amount = 10;
         public Vector3 force = new Vector3(0, 0, 10);
         public Vector3 gravity = new Vector3(0f, -9.7f, 0f);
-        
-        [Header("Debug")]
-        public float radius = .1f;
-        public bool drawGizmos = false;
 
         [Header("Bullet")]
         //public Transform bullet;
         public float speed = 10f;
 
         private int targetwaypoint = 0;
-        private Vector3 startPoint, endPoint;
+        private Vector3 startPoint, endPoint, hitPoint;
         private Quaternion startRotation, endRotation;
         private float startTime = 0f;
         private float percentage = 0f;
 
         private List<Vector3> trajectory = new List<Vector3>();
 
-        void CalculateTrajectory(Vector3 force)
+        void Calculate(Vector3 force)
         {
             // Reset list (for testing)
             trajectory = new List<Vector3>();
@@ -56,10 +52,6 @@ namespace SuperShooter
                         continue;
 
                     trajectory.Add(hit.point);
-
-                    Debug.Log("Target is " + hit.transform.name + " at " + endPoint);
-
-                    // Exit function. We've found our target.
                     return;
                 }
 
@@ -73,9 +65,9 @@ namespace SuperShooter
             Gizmos.color = Color.blue;
             foreach (var point in points)
             {
-                Gizmos.DrawSphere(point, radius);
+                Gizmos.DrawSphere(point, .1f);
             }
-            Gizmos.color = Color.red;
+            Gizmos.color = Color.white;
             for (int i = 0; i < points.Count - 1; i++)
             {
                 Vector3 pointA = points[i];
@@ -86,23 +78,23 @@ namespace SuperShooter
 
         void OnDrawGizmos()
         {
-            if (!drawGizmos)
-                return;
-
-            CalculateTrajectory(transform.forward);
+            Calculate(transform.forward);
             DrawPoints(trajectory);
 
             Gizmos.color = Color.magenta;
-            Gizmos.DrawSphere(trajectory.Last(), .15f);
+            Gizmos.DrawSphere(trajectory.Last(), .2f);
 
             Gizmos.color = Color.yellow;
             Gizmos.DrawLine(startPoint, endPoint);
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(hitPoint, .2f);
 
         }
 
         void Start()
         {
-            CalculateTrajectory(transform.forward);
+            Calculate(transform.forward);
 
             startRotation = transform.rotation;
             endRotation = transform.rotation;
@@ -112,8 +104,8 @@ namespace SuperShooter
 
             startTime = Time.time;
         }
-
-        void FixedUpdate()
+        
+        void Update()
         {
             float distance = Vector3.Distance(startPoint, endPoint);
             float duration = speed / distance;
@@ -123,50 +115,60 @@ namespace SuperShooter
             transform.position = Vector3.Lerp(startPoint, endPoint, percentage);
             transform.rotation = Quaternion.Lerp(startRotation, endRotation, percentage);
 
-            //Debug.Log(percentage);
-
             if (percentage >= 1f)
             {
                 percentage = 0f;
                 startTime = Time.time;
-                                
-                //// increment and wrap the target waypoint index
-                // increment to next waypoint.
+                // increment and wrap the target waypoint index
                 targetwaypoint++;
-
-                // If we're not at the final point yet
                 if (targetwaypoint < trajectory.Count)
                 {
-                    // assign the new lerp waypoints to head toward
+                    // assign the new lerp waypoints
                     startPoint = endPoint;
                     endPoint = trajectory[targetwaypoint];
-                    
+
                     // Perform Raycast here
                     Ray bulletRay = new Ray(startPoint, endPoint - startPoint);
                     float rayDistance = Vector3.Distance(startPoint, endPoint);
                     RaycastHit hit;
-                    Debug.DrawRay(startPoint, endPoint - startPoint, Color.red);
                     if (Physics.Raycast(bulletRay, out hit, rayDistance))
                     {
                         // Ignore other bullets
                         if (!hit.transform.GetComponent<Projectile>())
                         {
-
                             endPoint = hit.point;
-
-                            Debug.Log("Hit " + hit.transform.name + " at " + endPoint);
+                            hitPoint = hit.point;
                         }
 
-                        
                     }
-
 
                     startRotation = transform.rotation;
                     endRotation = Quaternion.LookRotation(bulletRay.direction);
                 }
                 else
                 {
-                    // We've reached the last waypoint. Destroy self.
+
+                    RaycastHit hit;
+                    var origin = transform.position;
+                    var radius = .2f;
+                    if (Physics.SphereCast(origin, radius, transform.forward, out hit, 10))
+                    {
+
+                        UIManager.Main.CrossHairSystem.ShowHitMarker(Color.white);
+
+                        if (hit.rigidbody)
+                        {
+                            // Calculate push direction from move direction.
+                            var pushDir = hit.transform.position - transform.position;
+
+                            // Apply!
+                            hit.rigidbody.velocity = pushDir * (speed / 8);
+
+                        }
+
+                    }
+
+
                     Destroy(gameObject);
                 }
             }

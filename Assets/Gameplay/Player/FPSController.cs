@@ -26,6 +26,7 @@ namespace SuperShooter
 
         [Header("References")]
         public Camera attachedCamera;
+        public Transform aimTarget;
         public Transform playerHand;
 
         [Header("Weapons/Abilities")]
@@ -39,13 +40,12 @@ namespace SuperShooter
         // References
         private Animator anim;
         public static CharacterController controller;
-        private FPSCameraLook cameraLook;
+        public FPSCameraLook cameraLook { get; private set; }
         private FPSPhysics physics;
         private Timeline timeline;
 
         // Movement
         private Vector3 movement;   // Current movement vector
-        private float moveSpeed;    // Current movemend speed
         private int jumps = 0;      // Current number of jumps executed (resets when grounded)
         private int maxJumps = 2;   // Max number of times player can jump
 
@@ -64,6 +64,8 @@ namespace SuperShooter
         private List<Weapon> weapons = new List<Weapon>();  // Weapons on hand.
         private int currentWeaponIndex = 0; // Current weapon index.
 
+        // Camera
+        private Vector3 defaultPlayerHandPosition = Vector3.zero;
 
         #endregion
 
@@ -72,7 +74,7 @@ namespace SuperShooter
         #region Accessors
 
         /// <summary>The characters current movement speed.</summary>
-        public float MoveSpeed { get { return moveSpeed; } }
+        public float MoveSpeed { get; private set; }
 
         #endregion
 
@@ -124,8 +126,11 @@ namespace SuperShooter
 
         private void Start()
         {
+            // Max health
             startHealth = health;
-            // Nothing yet.
+
+
+            defaultPlayerHandPosition = playerHand.localPosition;
         }
 
         // ------------------------------------------------- //
@@ -169,6 +174,7 @@ namespace SuperShooter
             UpdateMovement();
             UpdateInteract();
 
+            UpdateAim();
             UpdateAbilities();
             UpdateThrowables();
             UpdateWeaponShooting();
@@ -187,6 +193,12 @@ namespace SuperShooter
             if (Input.GetKeyDown(KeyCode.H))
             {
                 TakeDamage(10);
+            }
+
+            // Testing, rough specific weapon placement system.
+            if (currentWeapon)
+            {
+                currentWeapon.gameObject.transform.localPosition = currentWeapon.playerHandOffset;
             }
 
         }
@@ -366,8 +378,8 @@ namespace SuperShooter
             var totalAmmoLeft = (currentWeapon.maxAmmoPerClip * currentWeapon.clips);
             var weaponName = currentWeapon.GetDisplayName();
 
-            Debug.Log(string.Format("{0} {1}/{2} ({3})",
-                weaponName, ammoInClip, maxAmmoPerClip, totalAmmoLeft));
+            //Debug.Log(string.Format("{0} {1}/{2} ({3})",
+            //    weaponName, ammoInClip, maxAmmoPerClip, totalAmmoLeft));
         }
 
         /// <summary>Handles cycling/switching through available weapons.</summary>
@@ -441,16 +453,16 @@ namespace SuperShooter
             input = transform.TransformDirection(input);
 
             // Set move speed
-            moveSpeed = walkSpeed;
-            if (Input.GetKey(KeyCode.LeftShift)) moveSpeed = runSpeed;
-            if (Input.GetKey(KeyCode.LeftControl)) moveSpeed = crouchSpeed;
+            MoveSpeed = walkSpeed;
+            if (Input.GetKey(KeyCode.LeftShift)) MoveSpeed = runSpeed;
+            if (Input.GetKey(KeyCode.LeftControl)) MoveSpeed = crouchSpeed;
 
             if (isDoubleSpeed)
-                moveSpeed *= 2;
+                MoveSpeed *= 2;
 
             // Apply movement to X and Z.
-            movement.x = input.x * moveSpeed;
-            movement.z = input.z * moveSpeed;
+            movement.x = input.x * MoveSpeed;
+            movement.z = input.z * MoveSpeed;
         }
 
         #endregion
@@ -458,6 +470,38 @@ namespace SuperShooter
         // ------------------------------------------------- //
 
         #region Combat
+
+
+        private void UpdateAim()
+        {
+            // Do we have a weapon?
+            if (currentWeapon == null)
+                return;
+
+            // On MouseRightDown else Up
+            if (Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                // Player hand is now up to the their "eye"
+                playerHand.localPosition = 
+                    new Vector3(0, playerHand.localPosition.y + .05f, playerHand.localPosition.z);
+
+                // Camera FOV
+                cameraLook.ZoomTo(currentWeapon.zoomLevels[0], currentWeapon.timeToADS);
+            }
+            else if (Input.GetKeyUp(KeyCode.Mouse1))
+            {
+                // Return to hip fire position
+                playerHand.localPosition =
+                    //new Vector3(0.5f, playerHand.localPosition.y - .05f, playerHand.localPosition.z);
+                    defaultPlayerHandPosition;
+
+                // Reset camera FOV
+                cameraLook.ZoomToDefault(currentWeapon.timeToUnADS);
+            }
+
+
+        }
+
 
         /// <summary>Switch between weapons with given direction.</summary>
         /// <param name="direction">Pass -1 to switch to previous, and +1 to switch to next.</param>
@@ -510,7 +554,7 @@ namespace SuperShooter
                 SelectWeapon(weapons.Count - 1);
 
                 DetachAllWeapons();
-                AttachInteractableToPlayerHand(item);
+                AttachItemToPlayerHand(item);
 
             }
 
@@ -524,13 +568,24 @@ namespace SuperShooter
             // TODO
         }
 
-        private void AttachInteractableToPlayerHand(IInteractable item)
+        private void AttachItemToPlayerHand(IInteractable item)
         {
             // Attach to player hand, and zero its local pos/rot.
             var itemTransform = ((MonoBehaviour)item).transform;
             itemTransform.SetParent(playerHand);
             itemTransform.localPosition = Vector3.zero;
             itemTransform.localRotation = Quaternion.identity;
+
+            // Each weapon is held differently
+            if (item is Weapon) {
+                var w = item as Weapon;
+                //itemTransform.localPosition = w.playerHandOffset;
+                //w.aimTarget = aimTarget;
+
+                var lat = w.gameObject.AddComponent<FPSLookAtTarget>();
+                lat.target = aimTarget;
+            }
+            
         }
 
         /// <summary>Removes weapon from <see cref="weapons"/> list and drops it from the player's hand.

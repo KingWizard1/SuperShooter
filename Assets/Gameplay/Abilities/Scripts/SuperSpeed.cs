@@ -9,6 +9,9 @@ namespace SuperShooter
 
         public int speedMultiplier = 2;
 
+        public float cameraFOV = 80;
+        public float cameraFOVZoomTime = 0.15f;
+
         public GameObject pickupModel;
 
         // ------------------------------------------------- //
@@ -30,6 +33,7 @@ namespace SuperShooter
             var player = GameObject.FindGameObjectWithTag("Player");
 
             player.GetComponent<FPSController>().isDoubleSpeed = true;
+            player.GetComponent<FPSController>().cameraLook.ZoomTo(cameraFOV, cameraFOVZoomTime);
 
         }
 
@@ -38,6 +42,7 @@ namespace SuperShooter
             var player = GameObject.FindGameObjectWithTag("Player");
 
             player.GetComponent<FPSController>().isDoubleSpeed = false;
+            player.GetComponent<FPSController>().cameraLook.ZoomToDefault(cameraFOVZoomTime);
 
         }
 

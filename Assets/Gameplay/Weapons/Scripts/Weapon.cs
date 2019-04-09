@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SuperShooter
 {
-    [RequireComponent(typeof(Rigidbody))]
+    //[RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(BoxCollider))]
     [RequireComponent(typeof(LineRenderer))]
     [RequireComponent(typeof(SphereCollider))]
@@ -22,6 +22,12 @@ namespace SuperShooter
         public float shootRate = .2f;
         public float bulletForce = 1f;
         public float lineDelay = .1f;
+        public Vector3 playerHandOffset = Vector3.zero;
+
+        [Header("Scope / ADS")]
+        public float timeToADS = 0.15f;
+        public float timeToUnADS = 0.05f;
+        public float[] zoomLevels = new float[1] { 50f };
 
         [Header("References")]
         public Transform shotOrigin;
@@ -39,9 +45,12 @@ namespace SuperShooter
         private bool canShoot = false;
         private float shootTimer = 0f;
 
+        // The destination for the bullet.
+        internal Transform aimTarget;
+
         // Components
-        private Rigidbody rigid;
-        private BoxCollider boxCollider;
+        //private Rigidbody rigid;
+        //private BoxCollider boxCollider;
         private LineRenderer lineRenderer;
         private SphereCollider sphereCollider;
 
@@ -73,17 +82,17 @@ namespace SuperShooter
             // Turn off line renderer
             lineRenderer.enabled = false;
 
-            // Turn off rigidbody
-            rigid.isKinematic = true;
+            //// Turn off rigidbody
+            //rigid.isKinematic = true;
 
-            // Apply bounds to box collider
-            boxCollider.center = bounds.center - transform.position;
-            boxCollider.size = bounds.size;
+            //// Apply bounds to box collider
+            //boxCollider.center = bounds.center - transform.position;
+            //boxCollider.size = bounds.size;
 
-            // Configure sphere collider as trigger
-            sphereCollider.center = boxCollider.center;
-            sphereCollider.radius = boxCollider.size.magnitude * 2f;
-            sphereCollider.isTrigger = true;
+            //// Configure sphere collider as trigger
+            //sphereCollider.center = boxCollider.center;
+            //sphereCollider.radius = boxCollider.size.magnitude * 2f;
+            //sphereCollider.isTrigger = true;
 
             // Pickup glow and spin
             pickupSpin.speed = 100f;
@@ -94,8 +103,8 @@ namespace SuperShooter
 
         private void GetComponentReferences()
         {
-            rigid = GetComponent<Rigidbody>();
-            boxCollider = GetComponent<BoxCollider>();
+            //rigid = GetComponent<Rigidbody>();
+            //boxCollider = GetComponent<BoxCollider>();
             lineRenderer = GetComponent<LineRenderer>();
             sphereCollider = GetComponent<SphereCollider>();
 
@@ -139,8 +148,8 @@ namespace SuperShooter
 
         public void Pickup()
         {
-            // Disable physics (set to true)
-            rigid.isKinematic = true;
+            //// Disable physics (set to true)
+            //rigid.isKinematic = true;
 
             // Disable trigger collider so we don't trigger the UI when we look at the weapon in our hand
             sphereCollider.enabled = false;
@@ -152,8 +161,8 @@ namespace SuperShooter
 
         public void Drop()
         {
-            // Enable physics (set to false)
-            rigid.isKinematic = false;
+            //// Enable physics (set to false)
+            //rigid.isKinematic = false;
 
             // Allow trigger collider for pickup
             sphereCollider.enabled = true;
@@ -197,7 +206,8 @@ namespace SuperShooter
 
             // Instantiate a bullet. Its script will do the rest.
             if (bulletPrefab != null) {
-                Bullet.SpawnNew(bulletPrefab, shotOrigin, damage, range, bulletForce);
+                //var direction = shotOrigin.position - aimTarget.position;
+                Bullet.SpawnNew(bulletPrefab, shotOrigin, /*direction,*/ damage, range, bulletForce);
             }
             else {
                 // Backup method. Shoot a ray to simulate a bullet.

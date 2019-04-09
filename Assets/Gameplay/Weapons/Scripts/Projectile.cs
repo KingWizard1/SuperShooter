@@ -51,6 +51,7 @@ namespace SuperShooter
                     if (hit.transform.GetComponent<Projectile>())
                         continue;
 
+                    // We've got our target landing zone
                     trajectory.Add(hit.point);
                     return;
                 }
@@ -154,7 +155,9 @@ namespace SuperShooter
                     if (Physics.SphereCast(origin, radius, transform.forward, out hit, 10))
                     {
 
+                        // Show UI hit marker
                         UIManager.Main.CrossHair.ShowHitMarker(Color.white);
+
 
                         if (hit.rigidbody)
                         {

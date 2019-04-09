@@ -171,6 +171,11 @@ namespace UnityStandardAssets.Vehicles.Car
             TractionControl();
         }
 
+        public void Stop()
+        {
+            // Apply zero motion, release the brake, apply the handbrake.
+            Move(0, 0, -1f, 1f);
+        }
 
         private void CapSpeed()
         {

@@ -37,7 +37,7 @@ GameObject:
   - component: {fileID: 4981424229467198}
   - component: {fileID: 135043561624172370}
   - component: {fileID: 114039727780716498}
-  - component: {fileID: 114529152298800038}
+  - component: {fileID: 114979367170496294}
   m_Layer: 0
   m_Name: CloakingDevice
   m_TagString: Untagged
@@ -94,7 +94,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1169437419135414}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.42, y: 2.11, z: -17.07}
+  m_LocalPosition: {x: 3.47, y: 2.11, z: -18.49}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4027804265057908}
@@ -115,7 +115,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 100
   axis: {x: 0, y: 1, z: 0}
---- !u!114 &114529152298800038
+--- !u!114 &114979367170496294
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}

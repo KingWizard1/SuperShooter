@@ -14,12 +14,11 @@ namespace SuperShooter
 
         private bool isCooking = false;
 
-        public float radius = 5f; // radius of explosine for force
-        public float force = 700; // add force to physic base object that have rigidBody
-        public int damage = 45; // amount damage inflicted to killables
+        public float explosionRadius = 5f; // radius of explosine for force
+        public float explosionForce = 700; // add force to physic base object that have rigidBody
 
-        public GameObject explosionPatical;
         public GameObject damageSphere;
+        public GameObject explosionParticle;
 
         // ------------------------------------------------- //
 
@@ -52,7 +51,7 @@ namespace SuperShooter
         protected override void OnThrowRelease()
         {
             rigid.isKinematic = false;
-            rigid.AddForce(transform.forward * 10, ForceMode.Impulse);
+            rigid.AddForce(transform.forward * 15, ForceMode.Impulse);
         }
 
         // ------------------------------------------------- //
@@ -73,9 +72,14 @@ namespace SuperShooter
 
             if (timer <= 0)
             {
-                Instantiate(explosionPatical, transform.position, transform.rotation);
-                Instantiate(damageSphere, transform.position, transform.rotation);
-                Collider[] collider = Physics.OverlapSphere(transform.position, radius);
+
+                if (explosionParticle != null)
+                    Instantiate(explosionParticle, transform.position, transform.rotation);
+
+                //if (damageSphere != null)
+                //    Instantiate(damageSphere, transform.position, transform.rotation);
+
+                Collider[] collider = Physics.OverlapSphere(transform.position, explosionRadius);
                 
                 foreach(Collider nerbyObject in collider)
                 {
@@ -83,7 +87,7 @@ namespace SuperShooter
                     var killable = nerbyObject.GetComponent<IKillable>();
                     if(rb != null)
                     {
-                        rb.AddExplosionForce(force, transform.position, radius);
+                        rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
                     }
                     else if (killable != null)
                     {

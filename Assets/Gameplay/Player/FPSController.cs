@@ -648,8 +648,7 @@ namespace SuperShooter
                 currentThrowable.StartThrow();
 
             // Release Q to let it go/throw it/release.
-            if (Input.GetKeyUp(KeyCode.Q))
-            {
+            if (Input.GetKeyUp(KeyCode.Q)) {
                 currentThrowable.StopThrowing();
                 currentThrowable = null;
             }
@@ -667,10 +666,12 @@ namespace SuperShooter
 
             // Consume the ability while Q is being held down.
             // And stop consuming it on the frame Q is released.
-            if (Input.GetKey(KeyCode.Q))
+            if (Input.GetKey(KeyCode.LeftShift))
                 currentAbility.Use();
-            if (Input.GetKeyUp(KeyCode.Q))
+            if (Input.GetKeyUp(KeyCode.LeftShift))
                 currentAbility.StopUse();
+
+            //Debug.Log(currentAbility.GetDisplayName() + " " + currentAbility.TimeRemaining + " ( " + currentAbility.IsActive + ", " + currentAbility.IsDepleted + ")");
 
             // Has the ability been used up? Destroy it.
             if (currentAbility.IsDepleted)
@@ -679,7 +680,7 @@ namespace SuperShooter
             // Update UI
             UIManager.Main.SetAbility(currentAbility);
 
-            //Debug.Log(ability.GetDisplayName() + " " + ability.TimeRemaining + " ( " + ability.IsActive + ", " + ability.IsDepleted + ")");
+            
 
         }
 

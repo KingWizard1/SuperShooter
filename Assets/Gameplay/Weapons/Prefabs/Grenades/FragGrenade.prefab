@@ -719,15 +719,14 @@ MonoBehaviour:
   baseName: Grenade
   damage: 40
   maxAmmo: 5
-  maxClip: 5
   range: 10
   throwForce: 1
   timer: 6
-  radius: 10
-  force: 1000
-  explosionPatical: {fileID: 1000013462590818, guid: ecdd96beb7f93494880c052dfccf9dc1,
-    type: 2}
+  explosionRadius: 5
+  explosionForce: 700
   damageSphere: {fileID: 1986646943643332, guid: b48650189a3e16040935fcc7d8a649a2,
+    type: 2}
+  explosionParticle: {fileID: 1000013462590818, guid: ecdd96beb7f93494880c052dfccf9dc1,
     type: 2}
 --- !u!120 &120719073521941538
 LineRenderer:

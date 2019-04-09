@@ -130,17 +130,47 @@ namespace SuperShooter
         private void BulletHitCallback(RaycastHit hit)
         {
 
-            // Show UI hit marker
-            UIManager.Main.CrossHair.ShowHitMarker(Color.white);
+            // Becomes true if we hit something we actually want to
+            // register as a 'hit'.
+            bool hitSomething = false;
 
-            if (hit.rigidbody)
-            {
+            // Check if rigid
+            if (hit.rigidbody) {
+
+                // We hit something
+                hitSomething = true;
 
                 // Calculate push direction from move direction.
                 var pushDir = hit.transform.position - transform.position;
 
                 // Apply!
                 hit.rigidbody.velocity = pushDir * force;
+
+            }
+
+
+            // Check if killable
+            var killable = hit.transform.GetComponent<IKillable>();
+            if (killable != null) {
+
+                // We hit something
+                hitSomething = true;
+
+                // Take damage
+                killable.TakeDamage(damage);
+
+            }
+
+
+            // Show UI hit marker
+            if (hitSomething)
+            {
+
+                // Show HUD hit marker
+                UIManager.Main.CrossHair.ShowHitMarker(Color.white);
+
+                // TODO
+                // Award points
 
             }
 

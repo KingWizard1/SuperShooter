@@ -57,7 +57,6 @@ namespace UnityStandardAssets.Vehicles.Car
             m_Rigidbody = GetComponent<Rigidbody>();
         }
 
-
         private void FixedUpdate()
         {
             if (m_Target == null || !m_Driving)

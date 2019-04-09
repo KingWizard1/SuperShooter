@@ -51,9 +51,9 @@ namespace SuperShooter
 
         private void Update()
         {
-
-            if (Input.GetKeyDown(KeyCode.Q))
-                show = !show;
+            // Debug
+            //if (Input.GetKeyDown(KeyCode.Q))
+            //    show = !show;
 
             if (show)
                 FadeIn();

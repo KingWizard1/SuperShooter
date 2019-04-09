@@ -171,8 +171,11 @@ namespace SuperShooter
             OnUse();
 
             // If we've used it all, set flag.
-            if (TimeRemaining <= 0)
+            if (TimeRemaining <= 0) {
                 IsDepleted = true;
+                StopUse();
+            }
+
         }
 
         public void StopUse()

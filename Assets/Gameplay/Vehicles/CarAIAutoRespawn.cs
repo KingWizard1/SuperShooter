@@ -17,6 +17,7 @@ namespace SuperShooter
         // ------------------------------------------------- //
 
         // References
+        private CarAIControl carAI;
         private CarController carController;
         private WaypointProgressTracker waypointTracker;
 
@@ -33,6 +34,7 @@ namespace SuperShooter
 
         private void Awake()
         {
+            carAI = GetComponent<CarAIControl>();
             carController = GetComponent<CarController>();
             waypointTracker = GetComponent<WaypointProgressTracker>();
         }
@@ -85,16 +87,26 @@ namespace SuperShooter
 
                 if (respawnTimer <= 0)
                 {
-                    // Move the vehicle back to its start position. 
-                    transform.SetPositionAndRotation(worldStartPosition, Quaternion.identity);
-
-                    // Reset the waypoint tracker so that the first point in the circuit is the next waypoint.
-                    waypointTracker.Reset();
+                    // Do the magic
+                    Respawn();
 
                     // Stop timing.
                     timing = false;
                 }
             }
+        }
+
+        private void Respawn()
+        {
+            // Move the vehicle back to its start position. 
+            transform.SetPositionAndRotation(worldStartPosition, Quaternion.identity);
+
+            // Reset the waypoint tracker so that the first point in the circuit is the next waypoint.
+            waypointTracker.Reset();
+
+            // In case its been turned off (like if the car exploded or something Michael Bay-ish)
+            if (carAI != null) carAI.enabled = true;
+
         }
     }
 

@@ -17,7 +17,6 @@ namespace SuperShooter
         [SerializeField]
         public int damage = 10;
         public int maxAmmo = 5;
-        public int maxClip = 5;
         public float range = 10f;
         public float throwForce = 1f;
         //public float lineDelay = .1f;
@@ -26,7 +25,6 @@ namespace SuperShooter
 
         // Mechanics
         private int ammo = 0;
-        private int clip = 0;
 
         //private bool canThrow = false;
         //private float shootTimer = 0f;
@@ -150,9 +148,7 @@ namespace SuperShooter
 
         public virtual void Reload()
         {
-            // THIS IS CRAP, DON'T USE IT.
-            clip += ammo;
-            ammo -= maxClip;
+            
         }
 
         // ------------------------------------------------- //

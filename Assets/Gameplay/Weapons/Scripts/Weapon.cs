@@ -33,6 +33,9 @@ namespace SuperShooter
         public int ammo { get; private set; }
         public int clips { get; private set; }
 
+        public bool isClipEmpty { get; private set; }
+        public bool isOutOfAmmo { get; private set; }
+
         private bool canShoot = false;
         private float shootTimer = 0f;
 
@@ -102,8 +105,13 @@ namespace SuperShooter
 
         private void Start()
         {
+            // Check we can shoot from somewhere
             if (shotOrigin == null)
                 Debug.LogWarning("[WARN] '" + GetDisplayName() + "' does not have a shot origin!");
+
+            // Set ammo
+            ammo = maxAmmoPerClip;
+            clips = maxClips;
         }
 
         // ------------------------------------------------- //
@@ -118,6 +126,10 @@ namespace SuperShooter
             {
                 canShoot = true;
             }
+
+            // Check ammo status
+            isClipEmpty = ammo == 0;
+            isOutOfAmmo = clips == 0;
 
             // Allow derived weapons to be notified that we have updated.
             OnUpdate();
@@ -151,9 +163,20 @@ namespace SuperShooter
 
         public virtual void Reload()
         {
-            // THIS IS CRAP, DON'T USE IT.
-            clips += ammo;
-            ammo -= maxAmmoPerClip;
+
+            if (clips > 0)
+            {
+                // Use clip
+                clips--;
+                ammo = maxAmmoPerClip;
+                isClipEmpty = false;
+            }
+            else
+            {
+                isOutOfAmmo = true;
+            }
+
+            
         }
 
         // ------------------------------------------------- //
@@ -168,37 +191,26 @@ namespace SuperShooter
             if (!OnShoot())
                 return;
 
-            if (bulletPrefab != null)
-            {
-                // Instantiate a bullet. Its script will do the rest.
+            // No bullets to fire!
+            if (isClipEmpty)
+                return;
+
+            // Instantiate a bullet. Its script will do the rest.
+            if (bulletPrefab != null) {
                 Bullet.SpawnNew(bulletPrefab, shotOrigin, damage, range, bulletForce);
-
             }
-            else
-            {
+            else {
                 // Backup method. Shoot a ray to simulate a bullet.
-
-                // Create a bullet ray from shot origin to forward
-                Ray bulletRay = new Ray(shotOrigin.position, shotOrigin.forward);
-                RaycastHit hit;
-
-                // Perform Raycast (Hit Scan)
-                if (Physics.Raycast(bulletRay, out hit, range))
-                {
-                    var killable = hit.collider.GetComponent<IKillable>();
-
-                    if (killable != null)
-                    {
-                        // Deal damage to enemy
-                        killable.TakeDamage(damage);
-                    }
-                }
-
-                // Show Line
-                StartCoroutine(ShowLine(bulletRay, lineDelay));
-
+                SimulateBullet();
             }
 
+            // Deplete ammunition
+            ammo--;
+
+            if (ammo == 0) {
+                // Clip is empty!
+                isClipEmpty = true;
+            }
 
             // Reset timer
             shootTimer = 0;
@@ -210,6 +222,32 @@ namespace SuperShooter
         public void StopShooting()
         {
             OnShootStop();
+        }
+
+        // ------------------------------------------------- //
+
+        private void SimulateBullet()
+        {
+
+            // Create a bullet ray from shot origin to forward
+            Ray bulletRay = new Ray(shotOrigin.position, shotOrigin.forward);
+            RaycastHit hit;
+
+            // Perform Raycast (Hit Scan)
+            if (Physics.Raycast(bulletRay, out hit, range))
+            {
+                var killable = hit.collider.GetComponent<IKillable>();
+
+                if (killable != null)
+                {
+                    // Deal damage to enemy
+                    killable.TakeDamage(damage);
+                }
+            }
+
+            // Show Line
+            StartCoroutine(ShowLine(bulletRay, lineDelay));
+
         }
 
         // ------------------------------------------------- //

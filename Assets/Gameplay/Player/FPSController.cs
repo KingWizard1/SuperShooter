@@ -158,8 +158,8 @@ namespace SuperShooter
             if (isDead)
             {
 
-#if DEBUG == true
-                if (Input.GetKeyDown(KeyCode.R))
+#if DEBUG
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.R))
                     Respawn();
 #endif
 
@@ -347,13 +347,27 @@ namespace SuperShooter
             if (!currentWeapon)
                 return;
 
-            if (Input.GetButton("Fire1"))
+            // Inputs
+            if (Input.GetMouseButton(0))
                 currentWeapon.Shoot();
-            if (Input.GetButtonUp("Fire1"))
+
+            if (Input.GetMouseButtonUp(0))
                 currentWeapon.StopShooting();
+
+            if (Input.GetKeyDown(KeyCode.R))
+                currentWeapon.Reload();
 
             // Update UI
             UIManager.Main.SetWeaponStatus(currentWeapon);
+
+
+            var ammoInClip = currentWeapon.ammo;
+            var maxAmmoPerClip = currentWeapon.maxAmmoPerClip;
+            var totalAmmoLeft = (currentWeapon.maxAmmoPerClip * currentWeapon.clips);
+            var weaponName = currentWeapon.GetDisplayName();
+
+            Debug.Log(string.Format("{0} {1}/{2} ({3})",
+                weaponName, ammoInClip, maxAmmoPerClip, totalAmmoLeft));
         }
 
         /// <summary>Handles cycling/switching through available weapons.</summary>
@@ -599,7 +613,7 @@ namespace SuperShooter
             // Update UI
             UIManager.Main.SetAbility(ability);
 
-            Debug.Log(ability.GetDisplayName() + " " + ability.TimeRemaining + " ( " + ability.IsActive + ", " + ability.IsDepleted + ")");
+            //Debug.Log(ability.GetDisplayName() + " " + ability.TimeRemaining + " ( " + ability.IsActive + ", " + ability.IsDepleted + ")");
 
         }
 

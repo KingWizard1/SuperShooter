@@ -7,7 +7,7 @@ namespace SuperShooter
 
     public class CarAIAutoRespawn : MonoBehaviour
     {
-        [ReadOnly]
+        //[ReadOnly]
         public float currentSpeed;
 
         public float respawnWhenBelow = 10;

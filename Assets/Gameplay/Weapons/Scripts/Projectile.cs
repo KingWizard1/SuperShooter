@@ -154,7 +154,7 @@ namespace SuperShooter
                     if (Physics.SphereCast(origin, radius, transform.forward, out hit, 10))
                     {
 
-                        UIManager.Main.CrossHairSystem.ShowHitMarker(Color.white);
+                        UIManager.Main.CrossHair.ShowHitMarker(Color.white);
 
                         if (hit.rigidbody)
                         {

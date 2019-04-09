@@ -56,11 +56,13 @@ namespace SuperShooter
         private bool isOnLadder = false;
 
         // Inventory
-        private Weapon currentWeapon; // Public for testing, make private later.
-        private List<Weapon> weapons = new List<Weapon>();
-        private int currentWeaponIndex = 0;
+        private Ability ability;            // Current ability.
+        private Throwable throwable;        // Current throwable.
 
-        private Throwable throwable;
+        private Weapon currentWeapon;       // Current weapon. Public for testing, make private later.
+        private List<Weapon> weapons = new List<Weapon>();  // Weapons on hand.
+        private int currentWeaponIndex = 0; // Current weapon index.
+
 
         #endregion
 
@@ -155,17 +157,21 @@ namespace SuperShooter
             if (isDead)
             {
 
+#if DEBUG == true
                 if (Input.GetKeyDown(KeyCode.R))
                     Respawn();
+#endif
 
                 return;
             }
 
             UpdateMovement();
             UpdateInteract();
+
+            UpdateAbilities();
+            UpdateThrowables();
             UpdateWeaponShooting();
             UpdateWeaponSwitching();
-            UpdateThrowables();
 
             // DEBUG
             if (Input.GetKeyDown(KeyCode.BackQuote))
@@ -175,6 +181,11 @@ namespace SuperShooter
                 transform.position = nextSpawn.position;
                 //transform.Rotate(nextSpawn.eulerAngles);
                 cameraLook.SetRotation(nextSpawn.eulerAngles.y, 0f);   // 0 on the Y, to force looking straight ahead
+            }
+
+            if (Input.GetKeyDown(KeyCode.H))
+            {
+                TakeDamage(10);
             }
 
         }
@@ -463,6 +474,11 @@ namespace SuperShooter
         void Pickup(IInteractable item)
         {
 
+            if (item is Ability && ability == null)
+            {
+                ability = item as Ability;
+            }
+
             if (item is Throwable && throwable == null)
             {
                 throwable = item as Throwable;
@@ -472,18 +488,31 @@ namespace SuperShooter
             {
                 // Add to weapon list
                 weapons.Add(item as Weapon);
+
                 SelectWeapon(weapons.Count - 1);
+
+                DetachAllWeapons();
+                AttachInteractableToPlayerHand(item);
+
             }
 
             // Tell the weapon to change its behavior, its being picked up.
             item.Pickup();
 
+        }
+
+        private void DetachAllWeapons()
+        {
+            // TODO
+        }
+
+        private void AttachInteractableToPlayerHand(IInteractable item)
+        {
             // Attach to player hand, and zero its local pos/rot.
             var itemTransform = ((MonoBehaviour)item).transform;
             itemTransform.SetParent(playerHand);
             itemTransform.localPosition = Vector3.zero;
             itemTransform.localRotation = Quaternion.identity;
-
         }
 
         /// <summary>Removes weapon from <see cref="weapons"/> list and drops it from the player's hand.
@@ -522,21 +551,41 @@ namespace SuperShooter
             currentWeaponIndex = index;
         }
 
+        // ------------------------------------------------- //
+
         /// <summary>
         /// throw grende add force to grenade
         /// </summary>
         void UpdateThrowables()
         {
-            if (throwable == null)
+
+            // TODO
+
+            //if (throwable == null)
+            //    return;
+
+            //// Hold Q to Throw/Cook the item.
+            //if (Input.GetKey(KeyCode.Q))
+            //    throwable.StartThrow();
+
+            //// Release Q to let it go/throw it/release.
+            //if (Input.GetKeyUp(KeyCode.Q))
+            //    throwable.StopThrowing();
+        }
+
+        // ------------------------------------------------- //
+
+        void UpdateAbilities()
+        {
+
+            if (ability == null)
                 return;
 
-            // Hold Q to Throw/Cook the item.
+            // Consume the ability while Q is being held down
             if (Input.GetKey(KeyCode.Q))
-                throwable.StartThrow();
+                ability.Use();
 
-            // Release Q to let it go/throw it/release.
-            if (Input.GetKeyUp(KeyCode.Q))
-                throwable.StopThrowing();
+
         }
 
         #endregion
@@ -549,8 +598,12 @@ namespace SuperShooter
         {
             health -= damage;
 
+            UIManager.Main.SetHealth(health, false);
+
+
             if (health <= 0)
                 Kill();
+
         }
 
         public void Kill()
@@ -560,6 +613,7 @@ namespace SuperShooter
 
             controller.enabled = false;
 
+            UIManager.Main.SetHealth(health, true);
             UIManager.Main.ShowDeathScreen(true);
 
         }

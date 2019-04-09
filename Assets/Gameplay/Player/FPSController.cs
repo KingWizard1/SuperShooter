@@ -350,6 +350,9 @@ namespace SuperShooter
                 currentWeapon.Shoot();
             if (Input.GetButtonUp("Fire1"))
                 currentWeapon.StopShooting();
+
+            // Update UI
+            UIManager.Main.SetWeaponStatus(currentWeapon);
         }
 
         /// <summary>Handles cycling/switching through available weapons.</summary>
@@ -549,6 +552,10 @@ namespace SuperShooter
 
             // Update current index
             currentWeaponIndex = index;
+
+            // Update UI
+            if (UIManager.Main != null)
+                UIManager.Main.SetWeaponStatus(currentWeapon);
         }
 
         // ------------------------------------------------- //
@@ -581,10 +588,15 @@ namespace SuperShooter
             if (ability == null)
                 return;
 
-            // Consume the ability while Q is being held down
+            // Consume the ability while Q is being held down.
+            // And stop consuming it on the frame Q is released.
             if (Input.GetKey(KeyCode.Q))
                 ability.Use();
+            if (Input.GetKeyUp(KeyCode.Q))
+                ability.StopUse();
 
+            // Update UI
+            UIManager.Main.SetAbility(ability);
 
         }
 

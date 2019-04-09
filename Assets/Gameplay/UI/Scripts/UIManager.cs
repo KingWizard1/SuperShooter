@@ -90,6 +90,28 @@ namespace SuperShooter
             // ...
         }
 
+        public void SetWeaponStatus(Weapon weapon)
+        {
+
+            if (weapon == null)
+            {
+                // There is no weapon currently equipped by the player.
+                // ..
+            }
+            else
+            {
+
+                var currentAmmoInClip = weapon.ammo;
+                var maxAmmoPerClip = weapon.maxAmmoPerClip;
+                var totalAmmoLeft = (weapon.maxAmmoPerClip * weapon.clips);
+
+                var weaponName = weapon.GetDisplayName();
+
+
+            }
+
+        }
+
 
         #endregion
 

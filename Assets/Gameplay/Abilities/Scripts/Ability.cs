@@ -94,6 +94,9 @@ namespace SuperShooter
             // Disable physics (set to true)
             //rigid.isKinematic = true;
 
+            // Disable renderer
+
+
             // Disable trigger collider so we don't trigger the UI when we look at the weapon in our hand
             pickupCollider.enabled = false;
 

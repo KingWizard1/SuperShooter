@@ -16,8 +16,8 @@ namespace SuperShooter
         [Header("Numbers")]
         [SerializeField]
         public int damage = 10;
-        public int maxAmmo = 500;
-        public int maxClip = 30;
+        public int maxClips = 8;
+        public int maxAmmoPerClip = 30;
         public float range = 10f;
         public float shootRate = .2f;
         public float bulletForce = 1f;
@@ -30,8 +30,8 @@ namespace SuperShooter
         // ------------------------------------------------- //
 
         // Mechanics
-        private int ammo = 0;
-        private int clip = 0;
+        public int ammo { get; private set; }
+        public int clips { get; private set; }
 
         private bool canShoot = false;
         private float shootTimer = 0f;
@@ -152,8 +152,8 @@ namespace SuperShooter
         public virtual void Reload()
         {
             // THIS IS CRAP, DON'T USE IT.
-            clip += ammo;
-            ammo -= maxClip;
+            clips += ammo;
+            ammo -= maxAmmoPerClip;
         }
 
         // ------------------------------------------------- //

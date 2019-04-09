@@ -6,7 +6,7 @@ using UnityEngine;
 namespace SuperShooter
 {
     [RequireComponent(typeof(CharacterController))]
-    public class FPSController : NetworkPlayerBehaviour, IKillable
+    public class FPSController : NetworkPlayerBehaviour, IPlayer, IKillable
     {
 
         [Header("Mechanics")]
@@ -21,8 +21,9 @@ namespace SuperShooter
         public float groundRayDistance = 1.1f;
 
         [Header("Powerups")]
+        public bool isInvincible;
         public bool isDoubleSpeed;
-        
+
         [Header("References")]
         public Camera attachedCamera;
         public Transform playerHand;
@@ -598,6 +599,8 @@ namespace SuperShooter
             // Update UI
             UIManager.Main.SetAbility(ability);
 
+            Debug.Log(ability.GetDisplayName() + " " + ability.TimeRemaining + " ( " + ability.IsActive + ", " + ability.IsDepleted + ")");
+
         }
 
         #endregion
@@ -608,6 +611,10 @@ namespace SuperShooter
 
         public void TakeDamage(int damage)
         {
+
+            if (isInvincible)
+                return;
+
             health -= damage;
 
             UIManager.Main.SetHealth(health, false);

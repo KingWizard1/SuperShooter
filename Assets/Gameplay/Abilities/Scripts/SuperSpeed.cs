@@ -9,8 +9,18 @@ namespace SuperShooter
 
         public int speedMultiplier = 2;
 
+        public GameObject pickupModel;
+
         // ------------------------------------------------- //
 
+        protected override void OnPickup()
+        {
+
+            // Hide the pickup model
+            if (pickupModel != null)
+                pickupModel.SetActive(false);
+
+        }
 
         // ------------------------------------------------- //
 
@@ -23,11 +33,12 @@ namespace SuperShooter
 
         }
 
-        // ------------------------------------------------- //
-
-        public override string GetDisplayName()
+        protected override void OnStop()
         {
-            return "Super Speed";
+            var player = GameObject.FindGameObjectWithTag("Player");
+
+            player.GetComponent<FPSController>().isDoubleSpeed = false;
+
         }
 
         // ------------------------------------------------- //

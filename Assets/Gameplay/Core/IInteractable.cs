@@ -11,6 +11,7 @@ namespace SuperShooter
         string GetDisplayName();
 
         void Pickup();
+
         void Drop();
 
     }

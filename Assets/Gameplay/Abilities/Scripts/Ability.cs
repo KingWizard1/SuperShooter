@@ -11,9 +11,8 @@ namespace SuperShooter
     public class Ability : MonoBehaviour, IInteractable
     {
         [SerializeField]
-        public string baseName = "New Ability";
+        public string name = "New Ability";
 
-        [Header("Numbers")]
         public float MaxDuration = 5;
 
         // ------------------------------------------------- //
@@ -29,6 +28,7 @@ namespace SuperShooter
 
 
         // Components
+        private FPSController owner;
         //protected Rigidbody rigid;
         //private BoxCollider boxCollider;
         //private LineRenderer lineRenderer;
@@ -62,9 +62,7 @@ namespace SuperShooter
 
         private void GetComponentReferences()
         {
-            //rigid = GetComponent<Rigidbody>();
-            //boxCollider = GetComponent<BoxCollider>();
-            //lineRenderer = GetComponent<LineRenderer>();
+            
             pickupCollider = GetComponent<SphereCollider>();
 
             pickupSpin = GetComponent<Spin>();
@@ -93,8 +91,6 @@ namespace SuperShooter
         {
             // Disable physics (set to true)
             //rigid.isKinematic = true;
-
-            // Disable renderer
 
 
             // Disable trigger collider so we don't trigger the UI when we look at the weapon in our hand
@@ -171,16 +167,18 @@ namespace SuperShooter
 
             // Use the ability over time
             TimeRemaining -= Time.deltaTime;
+            IsActive = true;
             OnUse();
 
             // If we've used it all, set flag.
-            if (TimeRemaining <= MaxDuration)
+            if (TimeRemaining <= 0)
                 IsDepleted = true;
         }
 
         public void StopUse()
         {
 
+            IsActive = false;
             OnStop();
 
         }
@@ -189,7 +187,7 @@ namespace SuperShooter
 
         public virtual string GetDisplayName()
         {
-            return (!string.IsNullOrEmpty(baseName)) ? baseName : "Unnamed Ability";
+            return (!string.IsNullOrEmpty(name)) ? name : "Unnamed Ability";
         }
 
         // ------------------------------------------------- //

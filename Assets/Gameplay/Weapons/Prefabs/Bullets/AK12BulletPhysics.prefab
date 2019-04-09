@@ -385,9 +385,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scale: 1
   amount: 50
-  force: {x: 0, y: 0, z: 10}
   gravity: {x: 0, y: 0, z: 0}
-  speed: 100
+  speed: 500
 --- !u!114 &114471181927137120
 MonoBehaviour:
   m_ObjectHideFlags: 1

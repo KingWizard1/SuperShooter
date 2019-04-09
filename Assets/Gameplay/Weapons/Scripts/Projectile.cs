@@ -10,8 +10,9 @@ namespace SuperShooter
     {
         public float scale = 1f;
         public int amount = 10;
-        public Vector3 force = new Vector3(0, 0, 10);
+        //public Vector3 force = new Vector3(0, 0, 10);
         public Vector3 gravity = new Vector3(0f, -9.7f, 0f);
+
 
         [Header("Bullet")]
         //public Transform bullet;
@@ -155,19 +156,9 @@ namespace SuperShooter
                     if (Physics.SphereCast(origin, radius, transform.forward, out hit, 10))
                     {
 
-                        // Show UI hit marker
-                        UIManager.Main.CrossHair.ShowHitMarker(Color.white);
-
-
-                        if (hit.rigidbody)
-                        {
-                            // Calculate push direction from move direction.
-                            var pushDir = hit.transform.position - transform.position;
-
-                            // Apply!
-                            hit.rigidbody.velocity = pushDir * (speed / 8);
-
-                        }
+                        // Inform of hit
+                        if (hitCallback != null)
+                            hitCallback.Invoke(hit);
 
                     }
 
@@ -176,6 +167,14 @@ namespace SuperShooter
                 }
             }
         }
+
+        private System.Action<RaycastHit> hitCallback;
+
+        public void SetProjectileHitCallback(System.Action<RaycastHit> callbackOnHit)
+        {
+            hitCallback = callbackOnHit;
+        }
+
     }
 
 }

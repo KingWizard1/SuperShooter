@@ -7,7 +7,8 @@ namespace SuperShooter
 {
     //[RequireComponent(typeof(BoxCollider))]
     //[RequireComponent(typeof(LineRenderer))]
-    [RequireComponent(typeof(Timeline))]
+    //[RequireComponent(typeof(Timeline))]
+    [RequireComponent(typeof(Projectile))]
     public class Bullet : MonoBehaviour //, IInteractable
     {
         [SerializeField]
@@ -19,7 +20,7 @@ namespace SuperShooter
 
         // Values
         private int damage;
-        private float range;
+        private int range;
         private float force;
         private Vector3 direction;
 
@@ -30,6 +31,7 @@ namespace SuperShooter
         private Rigidbody rigid;
         //private BoxCollider boxCollider;
         //private LineRenderer lineRenderer;
+        private Projectile projectile;
 
         // Timing
 
@@ -42,6 +44,7 @@ namespace SuperShooter
         {
             rigid = GetComponent<Rigidbody>();
             //timeline.GetComponent<Timeline>();
+            projectile = GetComponent<Projectile>();
         }
 
         // ------------------------------------------------- //
@@ -100,7 +103,7 @@ namespace SuperShooter
         // ------------------------------------------------- //
 
         public static GameObject SpawnNew(GameObject prefab, Transform origin, /*Vector3 direction,*/
-                                            int damage, float range, float force)
+                                            int damage, int range, float force)
         {
             var bullet = Instantiate(prefab);
             bullet.transform.SetPositionAndRotation(origin.position, origin.rotation);
@@ -113,12 +116,34 @@ namespace SuperShooter
             return bullet;
         }
 
-        public void Configure(/*Vector3 direction,*/ int damage, float range, float force)
+        public void Configure(/*Vector3 direction,*/ int damage, int range, float force)
         {
             //this.direction = direction;
             this.damage = damage;
             this.range = range;
             this.force = force;
+
+            projectile.amount = range;
+            projectile.SetProjectileHitCallback(BulletHitCallback);
+        }
+
+        private void BulletHitCallback(RaycastHit hit)
+        {
+
+            // Show UI hit marker
+            UIManager.Main.CrossHair.ShowHitMarker(Color.white);
+
+            if (hit.rigidbody)
+            {
+
+                // Calculate push direction from move direction.
+                var pushDir = hit.transform.position - transform.position;
+
+                // Apply!
+                hit.rigidbody.velocity = pushDir * force;
+
+            }
+
         }
 
         // ------------------------------------------------- //

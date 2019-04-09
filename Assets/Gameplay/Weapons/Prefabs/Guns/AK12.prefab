@@ -724,9 +724,9 @@ MonoBehaviour:
   damage: 2
   maxClips: 8
   maxAmmoPerClip: 30
-  range: 10
   shootRate: 0.1
-  bulletForce: 1
+  bulletForce: 3
+  bulletRange: 50
   lineDelay: 0.1
   playerHandOffset: {x: 0, y: 0, z: 0}
   timeToADS: 0.15

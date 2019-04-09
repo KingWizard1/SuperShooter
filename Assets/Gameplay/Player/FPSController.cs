@@ -31,7 +31,7 @@ namespace SuperShooter
 
         [Header("Weapons/Abilities")]
         public int maxWeapons = 2;
-        public int maxThrowables = 2;
+        //public int maxThrowables = 2;
 
         // ------------------------------------------------- //
 
@@ -57,8 +57,8 @@ namespace SuperShooter
         private bool isOnLadder = false;
 
         // Inventory
-        private Ability ability;            // Current ability.
-        private Throwable throwable;        // Current throwable.
+        private Ability currentAbility;            // Current ability.
+        private Throwable currentThrowable;        // Current throwable.
 
         private Weapon currentWeapon;       // Current weapon. Public for testing, make private later.
         private List<Weapon> weapons = new List<Weapon>();  // Weapons on hand.
@@ -536,16 +536,20 @@ namespace SuperShooter
         void Pickup(IInteractable item)
         {
 
-            if (item is Ability && ability == null)
+            // Is the item an activatable Ability?
+            if (item is Ability && currentAbility == null)
             {
-                ability = item as Ability;
+                currentAbility = item as Ability;
             }
 
-            if (item is Throwable && throwable == null)
+            // Is the item a Throwable?
+            if (item is Throwable && currentThrowable == null)
             {
-                throwable = item as Throwable;
+                currentThrowable = item as Throwable;
+                AttachItemToPlayerHand(item);
             }
 
+            // Is the item a Weapon?
             if (item is Weapon && (weapons.Count <= maxWeapons))
             {
                 // Add to weapon list
@@ -553,7 +557,7 @@ namespace SuperShooter
 
                 SelectWeapon(weapons.Count - 1);
 
-                DetachAllWeapons();
+                //DetachAllWeapons();
                 AttachItemToPlayerHand(item);
 
             }
@@ -635,38 +639,45 @@ namespace SuperShooter
         /// </summary>
         void UpdateThrowables()
         {
+            // Bail if no throwable can be thrown
+            if (currentThrowable == null)
+                return;
 
-            // TODO
+            // Hold Q to Throw/Cook the item.
+            if (Input.GetKey(KeyCode.Q))
+                currentThrowable.StartThrow();
 
-            //if (throwable == null)
-            //    return;
+            // Release Q to let it go/throw it/release.
+            if (Input.GetKeyUp(KeyCode.Q))
+            {
+                currentThrowable.StopThrowing();
+                currentThrowable = null;
+            }
 
-            //// Hold Q to Throw/Cook the item.
-            //if (Input.GetKey(KeyCode.Q))
-            //    throwable.StartThrow();
-
-            //// Release Q to let it go/throw it/release.
-            //if (Input.GetKeyUp(KeyCode.Q))
-            //    throwable.StopThrowing();
+            
         }
 
         // ------------------------------------------------- //
 
         void UpdateAbilities()
         {
-
-            if (ability == null)
+            // Bail if no ability can be used
+            if (currentAbility == null)
                 return;
 
             // Consume the ability while Q is being held down.
             // And stop consuming it on the frame Q is released.
             if (Input.GetKey(KeyCode.Q))
-                ability.Use();
+                currentAbility.Use();
             if (Input.GetKeyUp(KeyCode.Q))
-                ability.StopUse();
+                currentAbility.StopUse();
+
+            // Has the ability been used up? Destroy it.
+            if (currentAbility.IsDepleted)
+                Destroy(currentAbility.gameObject);
 
             // Update UI
-            UIManager.Main.SetAbility(ability);
+            UIManager.Main.SetAbility(currentAbility);
 
             //Debug.Log(ability.GetDisplayName() + " " + ability.TimeRemaining + " ( " + ability.IsActive + ", " + ability.IsDepleted + ")");
 
@@ -680,15 +691,17 @@ namespace SuperShooter
 
         public void TakeDamage(int damage)
         {
-
+            // Do nothing if we're amazing right now
             if (isInvincible)
                 return;
 
+            // Deplete heatlh by amount
             health -= damage;
 
+            // Update UI
             UIManager.Main.SetHealth(health, false);
 
-
+            // Did we die?
             if (health <= 0)
                 Kill();
 
@@ -697,10 +710,14 @@ namespace SuperShooter
         public void Kill()
         {
 
+            // Die
             isDead = true;
 
+            // Disable the character controller.
+            // Turns off all character events, including collisions.
             controller.enabled = false;
 
+            // Update UI
             UIManager.Main.SetHealth(health, true);
             UIManager.Main.ShowDeathScreen(true);
 

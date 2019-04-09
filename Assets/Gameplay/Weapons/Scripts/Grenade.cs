@@ -13,8 +13,10 @@ namespace SuperShooter
         public float timer = 6;
 
         private bool isCooking = false;
+
         public float radius = 5f; // radius of explosine for force
         public float force = 700; // add force to physic base object that have rigidBody
+        public int damage = 45; // amount damage inflicted to killables
 
         public GameObject explosionPatical;
         public GameObject damageSphere;
@@ -31,13 +33,17 @@ namespace SuperShooter
 
         protected override void OnPickup()
         {
-            
+
+            GetComponent<Renderer>().enabled = false;
+
         }
 
         protected override bool OnThrowBegin()
         {
 
             isCooking = true;
+
+            GetComponent<Renderer>().enabled = true;
 
             return true;
 
@@ -73,11 +79,18 @@ namespace SuperShooter
                 
                 foreach(Collider nerbyObject in collider)
                 {
-                    Rigidbody rb = nerbyObject.GetComponent<Rigidbody>();
+                    var rb = nerbyObject.GetComponent<Rigidbody>();
+                    var killable = nerbyObject.GetComponent<IKillable>();
                     if(rb != null)
                     {
                         rb.AddExplosionForce(force, transform.position, radius);
                     }
+                    else if (killable != null)
+                    {
+                        // is it the player
+                        killable.TakeDamage(damage);
+                    }
+
                 }
                
                 Destroy(gameObject);

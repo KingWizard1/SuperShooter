@@ -18,9 +18,9 @@ namespace SuperShooter
         public int damage = 10;
         public int maxClips = 8;
         public int maxAmmoPerClip = 30;
-        public float range = 10f;
         public float shootRate = .2f;
         public float bulletForce = 1f;
+        public int bulletRange = 10;
         public float lineDelay = .1f;
         public Vector3 playerHandOffset = Vector3.zero;
 
@@ -207,7 +207,7 @@ namespace SuperShooter
             // Instantiate a bullet. Its script will do the rest.
             if (bulletPrefab != null) {
                 //var direction = shotOrigin.position - aimTarget.position;
-                Bullet.SpawnNew(bulletPrefab, shotOrigin, /*direction,*/ damage, range, bulletForce);
+                Bullet.SpawnNew(bulletPrefab, shotOrigin, /*direction,*/ damage, bulletRange, bulletForce);
             }
             else {
                 // Backup method. Shoot a ray to simulate a bullet.
@@ -244,7 +244,7 @@ namespace SuperShooter
             RaycastHit hit;
 
             // Perform Raycast (Hit Scan)
-            if (Physics.Raycast(bulletRay, out hit, range))
+            if (Physics.Raycast(bulletRay, out hit, bulletRange))
             {
                 var killable = hit.collider.GetComponent<IKillable>();
 
@@ -292,7 +292,7 @@ namespace SuperShooter
             // Enable and Set Line
             lineRenderer.enabled = true;
             lineRenderer.SetPosition(0, bulletRay.origin);
-            lineRenderer.SetPosition(1, bulletRay.origin + bulletRay.direction * range);
+            lineRenderer.SetPosition(1, bulletRay.origin + bulletRay.direction * bulletRange);
 
             // Wait
             yield return new WaitForSeconds(lineDelay);

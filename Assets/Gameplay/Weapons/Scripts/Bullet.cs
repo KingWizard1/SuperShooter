@@ -11,7 +11,7 @@ namespace SuperShooter
     public class Bullet : MonoBehaviour //, IInteractable
     {
         [SerializeField]
-        public string baseName = "Basic Bullet";
+        public string baseName = "Bullet";
 
         public float lifetime = 5;
 
@@ -21,6 +21,7 @@ namespace SuperShooter
         private int damage;
         private float range;
         private float force;
+        private Vector3 direction;
 
         // State
         private bool addForce = true;
@@ -54,10 +55,10 @@ namespace SuperShooter
 
         private void Update()
         {
-            //lifetime -= Time.deltaTime;
+            lifetime -= Time.deltaTime;
 
-            //if (lifetime <= 0)
-            //    Destroy(gameObject);
+            if (lifetime <= 0)
+                Destroy(gameObject);
         }
 
         private void FixedUpdate()
@@ -98,23 +99,26 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
-        public static GameObject SpawnNew(GameObject prefab, Transform origin, int damage, float range, float speed)
+        public static GameObject SpawnNew(GameObject prefab, Transform origin, /*Vector3 direction,*/
+                                            int damage, float range, float force)
         {
             var bullet = Instantiate(prefab);
             bullet.transform.SetPositionAndRotation(origin.position, origin.rotation);
+
             var script = bullet.GetComponent<Bullet>();
             if (script != null)
-                script.Configure(damage, range, speed);
+                script.Configure(/*direction,*/ damage, range, force);
             else
                 Debug.LogError("Cannot properly instantiate bullet: prefab has no bullet script attached to it.");
             return bullet;
         }
 
-        public void Configure(int damage, float range, float speed)
+        public void Configure(/*Vector3 direction,*/ int damage, float range, float force)
         {
+            //this.direction = direction;
             this.damage = damage;
             this.range = range;
-            this.force = speed;
+            this.force = force;
         }
 
         // ------------------------------------------------- //

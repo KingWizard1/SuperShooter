@@ -37,7 +37,7 @@ GameObject:
   - component: {fileID: 4624100879878580}
   - component: {fileID: 135196686592077520}
   - component: {fileID: 114897653172445970}
-  - component: {fileID: 114248797513590126}
+  - component: {fileID: 114569903609407598}
   m_Layer: 0
   m_Name: Shield
   m_TagString: Untagged
@@ -102,7 +102,7 @@ Transform:
   m_Father: {fileID: 4624100879878580}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -91.116005, z: 0}
---- !u!114 &114248797513590126
+--- !u!114 &114569903609407598
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -110,7 +110,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1839608705365040}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 062d2719f0ec6054b99a016b40958c9e, type: 3}
+  m_Script: {fileID: 11500000, guid: 4a925176e6aba7844a1b86cb1e283ef0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   name: Bullet Shield

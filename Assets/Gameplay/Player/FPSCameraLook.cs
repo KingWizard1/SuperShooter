@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SuperShooter
 {
-
+    [RequireComponent(typeof(Camera))]
     public class FPSCameraLook : MonoBehaviour
     {
         public Camera attachedCamera;
@@ -21,12 +21,19 @@ namespace SuperShooter
         public float yMinLimit = -80f;
         public float yMaxLimit = 80f;
 
+        // Aim target
         public Transform aimTarget;
 
         // ------------------------------------------------- //
 
         // Current X and Y rotation
         private float x, y;
+
+        private float defaultFOV = 60;
+        private float targetFOV = 0;
+        private float lastTargetFOV = 0;
+        private float zoomTime = 0;
+        const float defaultZoomTime = 0.25f;
 
         private FPSController parentController;
 
@@ -43,6 +50,14 @@ namespace SuperShooter
             Vector3 angles = transform.eulerAngles;
             x = angles.y; // Pitch (X) Yaw (Y) Roll (Z)
             y = angles.x;
+
+
+            // Remember current camera FOV
+            attachedCamera = GetComponent<Camera>();
+            targetFOV = attachedCamera.fieldOfView;
+            defaultFOV = attachedCamera.fieldOfView;
+            lastTargetFOV = attachedCamera.fieldOfView;
+
 
             // Check that our direct parent has the required component for us to rotate with.
             parentController = transform.parent.gameObject.GetComponent<FPSController>();
@@ -79,7 +94,8 @@ namespace SuperShooter
             //parentController.SetCameraLook(Quaternion.Euler(0, x, 0));
             //else
 
-
+            // Move the aim target to the world point
+            // that is in the absolute center of the viewport.
             Ray camRay = attachedCamera.ViewportPointToRay(new Vector3(.5f, .5f));
             RaycastHit hit;
             if(Physics.Raycast(camRay, out hit))
@@ -89,12 +105,47 @@ namespace SuperShooter
 
             _applyRotation();
 
+            _applyZoom();
+
         }
 
         private void _applyRotation()
         {
             transform.parent.rotation = Quaternion.Euler(0, x, 0);
             transform.localRotation = Quaternion.Euler(y, 0, 0);
+        }
+
+        // ------------------------------------------------- //
+
+        private float zoomTimer;
+        
+        private void _applyZoom()
+        {
+
+            zoomTimer += Time.deltaTime;
+
+            if (zoomTimer >= zoomTime) {
+                attachedCamera.fieldOfView = targetFOV;
+                return;
+            }
+
+            // Apply interpolated fov
+            var fov = Mathf.Lerp(lastTargetFOV, targetFOV, (zoomTimer / zoomTime));
+            attachedCamera.fieldOfView = fov;
+
+        }
+
+        public void ZoomTo(float fov, float time = defaultZoomTime)
+        {
+            lastTargetFOV = targetFOV;
+            targetFOV = fov;
+            zoomTime = time;
+            zoomTimer = 0;
+        }
+
+        public void ZoomToDefault(float time = defaultZoomTime)
+        {
+            ZoomTo(defaultFOV, time);
         }
 
         // ------------------------------------------------- //

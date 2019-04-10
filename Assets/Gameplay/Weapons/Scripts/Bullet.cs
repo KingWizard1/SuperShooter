@@ -144,7 +144,7 @@ namespace SuperShooter
                 var pushDir = hit.transform.position - transform.position;
 
                 // Apply!
-                hit.rigidbody.velocity = pushDir * force;
+                hit.rigidbody.velocity = pushDir.normalized * force;
 
             }
 

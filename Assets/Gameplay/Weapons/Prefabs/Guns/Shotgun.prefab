@@ -1559,7 +1559,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseName: The Dictator
   damage: 35
-  maxClips: 4
+  maxClips: 128
   maxAmmoPerClip: 6
   shootRate: 1
   bulletForce: 25

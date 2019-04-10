@@ -316,7 +316,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseName: Pistole
   damage: 10
-  maxClips: 8
+  maxClips: 128
   maxAmmoPerClip: 8
   shootRate: 0.2
   bulletForce: 7.5

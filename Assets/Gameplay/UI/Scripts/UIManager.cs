@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace SuperShooter
 {
@@ -15,6 +16,9 @@ namespace SuperShooter
         public GameObject pickupPrompt3D;
         public GameObject crossHairSystem;
         public GameObject deathScreen;
+
+        public TextMeshProUGUI ammoText;
+        public TextMeshProUGUI weaponText;
 
         // ------------------------------------------------- //
 
@@ -37,6 +41,10 @@ namespace SuperShooter
 
         void Start()
         {
+
+            // Reset text
+            ammoText.text = string.Empty;
+            weaponText.text = string.Empty;
 
         }
 
@@ -101,7 +109,11 @@ namespace SuperShooter
                 var weaponName = weapon.GetDisplayName();
 
                 // Update UI
-                // ..
+
+                ammoText.text = string.Format("{0}/{1} + {2}", 
+                    currentAmmoInClip, maxAmmoPerClip, totalAmmoLeft);
+
+                weaponText.text = weaponName;
 
             }
 

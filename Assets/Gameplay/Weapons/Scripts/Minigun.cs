@@ -73,7 +73,7 @@ namespace SuperShooter
             {
                 float rate = Mathf.Lerp(maxShootRate, minShootRate, chargePercentage);
                 shootRate = rate;
-                print(rate);
+                //print(rate);
                 return true;
             }
             return false;

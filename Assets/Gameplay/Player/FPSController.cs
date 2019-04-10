@@ -160,22 +160,13 @@ namespace SuperShooter
         private void Update()
         {
             // Do nothing if dead.
-            if (isDead)
-            {
-
+            if (isDead) {
 #if DEBUG
                 if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.R))
                     Respawn();
-
-
+#endif
                 return;
             }
-            
-            if (Input.GetKeyDown(KeyCode.H))
-            {
-                TakeDamage(10);
-            }
-#endif
 
             UpdateMovement();
             UpdateInteract();
@@ -198,6 +189,13 @@ namespace SuperShooter
                 cameraLook.SetRotation(nextSpawn.eulerAngles.y, 0f);   // 0 on the Y, to force looking straight ahead
             }
 
+            
+//#if DEBUG
+            if (Input.GetKeyDown(KeyCode.H))
+            {
+                TakeDamage(10);
+            }
+//#endif
 
 
             // Testing, rough specific weapon placement system.
@@ -205,15 +203,12 @@ namespace SuperShooter
             {
                 currentWeapon.gameObject.transform.localPosition = currentWeapon.playerHandOffset;
             }
-
         }
 
         // ------------------------------------------------- //
 
         #region Update Actions
 
-
-        /// <summary>Handles player movement.</summary>
         void UpdateMovement()
         {
 

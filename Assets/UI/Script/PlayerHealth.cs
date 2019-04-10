@@ -76,9 +76,9 @@ namespace SuperShooter
 
         private void Update()
         {
-            //if (healthSlider.value != currentHealth)
-            //healthSlider.value = Mathf.Lerp(healthSlider.value, currentHealth, Time.deltaTime * lerpSpeed);
-            healthSlider.value = currentHealth;
+            if (healthSlider.value != currentHealth)
+                healthSlider.value = Mathf.Lerp(healthSlider.value, currentHealth, Time.deltaTime * lerpSpeed);
+         
 
             // ... transition the colour back to clear.
             damageImage.color = Color.Lerp(damageImage.color, Color.clear, flashSpeed * Time.deltaTime);

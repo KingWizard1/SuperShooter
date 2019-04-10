@@ -339,7 +339,7 @@ MonoBehaviour:
   m_Script: {fileID: -36112512, guid: 5b00bf8b25851d440940a40ec23344f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sceneGuid: aaa65622-eef2-443b-9e44-2298ea7196f3
+  _sceneGuid: 
   _serializerGuid: c5fd5d82-ebb4-412a-844c-bb9c31fe4ffe
   _prefabId: 2
   _updateRate: 1
@@ -519,7 +519,6 @@ MonoBehaviour:
   aimTarget: {fileID: 4891087971588074}
   playerHand: {fileID: 4324149899550320}
   maxWeapons: 4
-  maxThrowables: 2
 --- !u!143 &143862794934404832
 CharacterController:
   m_ObjectHideFlags: 1

@@ -1,13 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace SuperShooter
 {
 
     public class UIManager : MonoBehaviour
     {
-
+        [Header("UI health")]
+        public Slider healthSlider;                                 // Reference to the UI's health bar.
+        public Image damageImage;                                   // Reference to an image to flash on the screen on being hurt.
+        public AudioClip deathClip;                                 // The audio clip to play when the player dies.
+        public float flashSpeed = 5f;                               // The speed the damageImage will fade at.
+        public Color flashColour = new Color(1f, 0f, 0f, 0.1f);     // The colour the damageImage is set to, to flash.
+        public float lerpSpeed;
+        bool damaged;
 
         [Header("UI Elements")]
         public GameObject pickupPrompt;
@@ -36,7 +44,7 @@ namespace SuperShooter
 
         void Start()
         {
-
+            healthSlider.value = FPSController.health;
         }
 
         #endregion
@@ -45,7 +53,7 @@ namespace SuperShooter
 
         void Update()
         {
-
+            SetHealth();
         }
 
         // ------------------------------------------------- //
@@ -64,12 +72,42 @@ namespace SuperShooter
         // UI and all the death screens.
 
         /// <summary>Updates the player health bar on the UI.</summary>
-        public void SetHealth(int health, bool playerIsDead)
+        public void SetHealth()
         {
 
             // James
             // Work your magic here!
+            if (FPSController.health >= 10)
+            {
+                if (FPSController.health != healthSlider.value)
+                {
+                    // Set the health bar's value to the current health.
+                    healthSlider.value = Mathf.Lerp(healthSlider.value, FPSController.health, Time.deltaTime * lerpSpeed);
+                }
+            }
+            else
+            {
 
+                healthSlider.value = FPSController.health;
+
+
+            }
+
+            // If the player has just been damaged...
+            if (damaged)
+            {
+                // ... set the colour of the damageImage to the flash colour.
+                damageImage.color = flashColour;
+            }
+            // Otherwise...
+            else
+            {
+                // ... transition the colour back to clear.
+                damageImage.color = Color.Lerp(damageImage.color, Color.clear, flashSpeed * Time.deltaTime);
+            }
+
+            // Reset the damaged flag.
+            damaged = false;
 
             // Update InGame UI
             // ...

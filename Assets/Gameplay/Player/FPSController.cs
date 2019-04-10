@@ -180,6 +180,8 @@ namespace SuperShooter
             UpdateWeaponShooting();
             UpdateWeaponSwitching();
 
+            
+
             // DEBUG
             if (Input.GetKeyDown(KeyCode.BackQuote))
             {
@@ -699,8 +701,7 @@ namespace SuperShooter
             // Deplete heatlh by amount
             health -= damage;
 
-            // Update UI
-            UIManager.Main.SetHealth(health, false);
+            UIManager.Main.SetHealth();
 
             // Did we die?
             if (health <= 0)
@@ -718,8 +719,7 @@ namespace SuperShooter
             // Turns off all character events, including collisions.
             controller.enabled = false;
 
-            // Update UI
-            UIManager.Main.SetHealth(health, true);
+
             UIManager.Main.ShowDeathScreen(true);
 
         }

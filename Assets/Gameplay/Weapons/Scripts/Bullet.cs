@@ -94,7 +94,7 @@ namespace SuperShooter
 
 
             // Apply damage
-            var player = other.GetComponent<FPSController>();
+            var player = other.GetComponent<PlayerHealth>();
             if (player != null)
                 player.TakeDamage(damage);
 

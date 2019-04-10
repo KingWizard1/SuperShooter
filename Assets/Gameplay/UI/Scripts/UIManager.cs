@@ -10,6 +10,7 @@ namespace SuperShooter
     {
 
         [Header("UI Elements")]
+        public GameObject healthUI;
         public GameObject pickupPrompt;
         public GameObject pickupPrompt3D;
         public GameObject crossHairSystem;
@@ -64,14 +65,23 @@ namespace SuperShooter
         // UI and all the death screens.
 
         /// <summary>Updates the player health bar on the UI.</summary>
-        public void SetHealth()
+        public void SetHealth(int health, int maxHealth, bool isDead)
         {
 
+            var playerHealth = healthUI.GetComponent<PlayerHealth>();
+
+            playerHealth.SetHealth(health, maxHealth, isDead);
 
 
             // Update InGame UI
             // ...
 
+        }
+
+        public void ShowDamage()
+        {
+            var playerHealth = healthUI.GetComponent<PlayerHealth>();
+            playerHealth.ShowDamage();
         }
 
         /// <summary>Updates the ability bar on the UI.</summary>

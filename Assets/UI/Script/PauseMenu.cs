@@ -31,7 +31,9 @@ namespace SuperShooter
             Time.timeScale = 1f;
             paused = false;
             pauseMenu.SetActive(false);
-            FPSController.controller.enabled = true;
+
+            var player = GameObject.FindGameObjectWithTag("Player");
+            player.GetComponent<FPSController>().enabled = true;
             
             soundAudio = GameObject.Find("Audio Source").GetComponent<AudioSource>();
             dirLight = GameObject.Find("Directional Light").GetComponent<Light>();
@@ -46,6 +48,8 @@ namespace SuperShooter
         // Update is called once per frame
         void Update()
         {
+            PlayerPrefs.SetFloat("Audio Source", soundAudio.volume);
+            PlayerPrefs.SetFloat("Directional Light", dirLight.intensity);
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 if (paused)
@@ -69,7 +73,10 @@ namespace SuperShooter
 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-            FPSController.controller.enabled = true;
+
+
+            var player = GameObject.FindGameObjectWithTag("Player");
+            player.GetComponent<FPSController>().enabled = false;
 
 
         }
@@ -134,7 +141,10 @@ namespace SuperShooter
             paused = true;
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            FPSController.controller.enabled = false;
+
+
+            var player = GameObject.FindGameObjectWithTag("Player");
+            player.GetComponent<FPSController>().enabled = false;
 
             systemPanel.SetActive(false);
 
@@ -146,8 +156,7 @@ namespace SuperShooter
 
 
 
-            PlayerPrefs.SetFloat("Audio Source", soundAudio.volume);
-            PlayerPrefs.SetFloat("Directional Light", dirLight.intensity);
+
         }
 
     }

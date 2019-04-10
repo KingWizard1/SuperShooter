@@ -45,7 +45,6 @@ namespace SuperShooter
         public FPSCameraLook cameraLook { get; private set; }
         private FPSPhysics physics;
         private Timeline timeline;
-        private PlayerHealth playerHP;
 
         // Movement
         private Vector3 movement;   // Current movement vector
@@ -750,8 +749,7 @@ namespace SuperShooter
 
         
         // ------------------------------------------------- //
-
-
+        
 
         // ------------------------------------------------- //
 

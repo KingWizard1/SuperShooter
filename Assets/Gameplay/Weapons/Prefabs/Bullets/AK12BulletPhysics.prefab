@@ -383,10 +383,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea107eb4491d6634a9a2c7f746a35fe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scale: 1
-  amount: 50
+  scale: 200
+  amount: 10
   gravity: {x: 0, y: 0, z: 0}
-  speed: 500
+  speed: 30
 --- !u!114 &114471181927137120
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -415,4 +415,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseName: AK12 5.45x39mm
-  lifetime: 7
+  lifetime: 10

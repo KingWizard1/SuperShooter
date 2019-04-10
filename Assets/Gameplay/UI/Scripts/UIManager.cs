@@ -53,28 +53,15 @@ namespace SuperShooter
 
         #region UI Elements
 
-        // James
-        // FPSController calls this whenever the player's health changes.
-        // It will give you the value for the slider and whether or not
-        // the player has been killed. Maybe you can put a skull and cross
-        // bones or something to show that they died! Haha. Up to you.
-
-        // NOTE: You can decrease player health by 10 by pressing "H".
-        // NOTE2:You can respawn the player to full health by pressing "R".
-        // Running into vehicles is an instant death. This is great for testing your
-        // UI and all the death screens.
-
         /// <summary>Updates the player health bar on the UI.</summary>
         public void SetHealth(int health, int maxHealth, bool isDead)
         {
 
-            var playerHealth = healthUI.GetComponent<PlayerHealth>();
+            // Update InGame UI
 
+            var playerHealth = healthUI.GetComponent<PlayerHealth>();
             playerHealth.SetHealth(health, maxHealth, isDead);
 
-
-            // Update InGame UI
-            // ...
 
         }
 
@@ -92,10 +79,8 @@ namespace SuperShooter
             var current = ability.TimeRemaining;
             var isActive = ability.IsActive;
 
-            // James
-            // Work your magic here!
+            // TODO
 
-            // ...
         }
 
         public void SetWeaponStatus(Weapon weapon)
@@ -108,13 +93,15 @@ namespace SuperShooter
             }
             else
             {
-
+                // Get values
                 var currentAmmoInClip = weapon.ammo;
                 var maxAmmoPerClip = weapon.maxAmmoPerClip;
                 var totalAmmoLeft = (weapon.maxAmmoPerClip * weapon.clips);
 
                 var weaponName = weapon.GetDisplayName();
 
+                // Update UI
+                // ..
 
             }
 

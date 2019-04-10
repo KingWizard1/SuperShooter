@@ -11,7 +11,7 @@ namespace SuperShooter
     public class Ability : MonoBehaviour, IInteractable
     {
         [SerializeField]
-        public string name = "New Ability";
+        public string displayName = "New Ability";
 
         public float MaxDuration = 5;
 
@@ -190,7 +190,7 @@ namespace SuperShooter
 
         public virtual string GetDisplayName()
         {
-            return (!string.IsNullOrEmpty(name)) ? name : "Unnamed Ability";
+            return (!string.IsNullOrEmpty(displayName)) ? displayName : "Unnamed Ability";
         }
 
         // ------------------------------------------------- //

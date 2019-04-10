@@ -113,7 +113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a925176e6aba7844a1b86cb1e283ef0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Bullet Shield
+  displayName: Bullet Shield
   MaxDuration: 5
   pickupModel: {fileID: 1083743096305814}
 --- !u!114 &114897653172445970

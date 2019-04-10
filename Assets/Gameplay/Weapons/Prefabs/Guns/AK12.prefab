@@ -722,10 +722,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseName: Hot Shot
   damage: 2
-  maxClips: 8
+  maxClips: 128
   maxAmmoPerClip: 30
   shootRate: 0.1
-  bulletForce: 5
+  bulletForce: 7.5
   bulletRange: 50
   lineDelay: 0.1
   playerHandOffset: {x: 0, y: 0, z: 0}

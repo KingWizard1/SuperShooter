@@ -717,11 +717,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseName: Grenade
-  damage: 40
+  damage: 80
   maxAmmo: 5
   range: 10
   throwForce: 1
-  timer: 6
+  timer: 4.5
   explosionRadius: 5
   explosionForce: 700
   damageSphere: {fileID: 1986646943643332, guid: b48650189a3e16040935fcc7d8a649a2,

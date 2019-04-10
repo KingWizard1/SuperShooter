@@ -89,7 +89,7 @@ namespace SuperShooter
             {
 
                 // We're dead.
-                controller.Kill();
+                controller.TakeDamage(80);
 
                 // Apply physics to the player, from the vehicles perspective.
                 // The GO is assumed to be one that had a collider on it.

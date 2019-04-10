@@ -76,7 +76,7 @@ namespace SuperShooter
 
 
             var player = GameObject.FindGameObjectWithTag("Player");
-            player.GetComponent<FPSController>().enabled = false;
+            player.GetComponent<FPSController>().enabled = true;
 
 
         }

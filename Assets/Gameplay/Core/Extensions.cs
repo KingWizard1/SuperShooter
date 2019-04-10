@@ -6,6 +6,28 @@ using UnityEngine;
 
 namespace SuperShooter
 {
+
+    public static class TransformExt
+    {
+        /// <summary>Traverse up the heirarchy for the first parent object
+        /// that has the specified component attached to it, and returns it.</summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="transform"></param>
+        /// <returns></returns>
+        public static T GetComponentInParent<T>(this Transform transform)
+        {
+            var current = transform;
+            while (current.parent != null) {
+                current = current.parent;
+                T component = current.GetComponent<T>();
+                if (component != null)
+                    return component;
+            }
+            return default(T);
+        }
+
+    }
+
     public static class ColorExt
     {
 

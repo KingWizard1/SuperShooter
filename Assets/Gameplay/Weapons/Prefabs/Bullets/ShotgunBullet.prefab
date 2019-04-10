@@ -396,11 +396,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea107eb4491d6634a9a2c7f746a35fe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scale: 1
+  scale: 35
   amount: 50
-  force: {x: 0, y: 0, z: 10}
   gravity: {x: 0, y: 0, z: 0}
-  speed: 100
+  speed: 15
 --- !u!114 &114848465038889846
 MonoBehaviour:
   m_ObjectHideFlags: 1

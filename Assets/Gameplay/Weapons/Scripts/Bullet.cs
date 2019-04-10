@@ -125,9 +125,10 @@ namespace SuperShooter
 
             projectile.amount = range;
             projectile.SetProjectileHitCallback(BulletHitCallback);
+            
         }
 
-        private void BulletHitCallback(RaycastHit hit)
+        private void BulletHitCallback(Collider hit)
         {
 
             // Becomes true if we hit something we actually want to
@@ -135,7 +136,8 @@ namespace SuperShooter
             bool hitSomething = false;
 
             // Check if rigid
-            if (hit.rigidbody) {
+            var rigidbody = hit.transform.GetComponent<Rigidbody>();
+            if (rigidbody != null) {
 
                 // We hit something
                 hitSomething = true;
@@ -144,13 +146,13 @@ namespace SuperShooter
                 var pushDir = hit.transform.position - transform.position;
 
                 // Apply!
-                hit.rigidbody.velocity = pushDir.normalized * force;
+                rigidbody.velocity = pushDir.normalized * force;
 
             }
 
 
             // Check if killable
-            var killable = hit.transform.GetComponent<IKillable>();
+            var killable = hit.transform.GetComponentInParent<IKillable>();
             if (killable != null) {
 
                 // We hit something
@@ -170,7 +172,7 @@ namespace SuperShooter
                 UIManager.Main.CrossHair.ShowHitMarker(Color.white);
 
                 // TODO
-                // Award points
+                // Award points or something.
 
             }
 

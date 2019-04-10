@@ -10,7 +10,6 @@ namespace SuperShooter
     {
         public float scale = 1f;
         public int amount = 10;
-        //public Vector3 force = new Vector3(0, 0, 10);
         public Vector3 gravity = new Vector3(0f, -9.7f, 0f);
 
 
@@ -62,6 +61,22 @@ namespace SuperShooter
             }
         }
 
+        void OnDrawGizmos()
+        {
+            //Calculate(transform.forward);
+            DrawPoints(trajectory);
+
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawSphere(trajectory.Last(), .2f);
+
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(startPoint, endPoint);
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(hitPoint, .2f);
+
+        }
+
         void DrawPoints(List<Vector3> points)
         {
             Gizmos.color = Color.blue;
@@ -76,22 +91,6 @@ namespace SuperShooter
                 Vector3 pointB = points[i + 1];
                 Gizmos.DrawLine(pointA, pointB);
             }
-        }
-
-        void OnDrawGizmos()
-        {
-            Calculate(transform.forward);
-            DrawPoints(trajectory);
-
-            Gizmos.color = Color.magenta;
-            Gizmos.DrawSphere(trajectory.Last(), .2f);
-
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawLine(startPoint, endPoint);
-
-            Gizmos.color = Color.red;
-            Gizmos.DrawSphere(hitPoint, .2f);
-
         }
 
         void Start()
@@ -109,6 +108,8 @@ namespace SuperShooter
         
         void Update()
         {
+            //Calculate(transform.forward);
+
             float distance = Vector3.Distance(startPoint, endPoint);
             float duration = speed / distance;
             float fraction = duration * scale;
@@ -150,15 +151,17 @@ namespace SuperShooter
                 else
                 {
 
-                    RaycastHit hit;
-                    var origin = transform.position;
                     var radius = .2f;
-                    if (Physics.SphereCast(origin, radius, transform.forward, out hit, 10))
-                    {
+                    Collider[] hits = Physics.OverlapSphere(transform.position, radius);
+
+                    foreach (var hit in hits) {
 
                         // Inform of hit
-                        if (hitCallback != null)
+                        if (hitCallback != null) {
                             hitCallback.Invoke(hit);
+
+                            break;
+                        }
 
                     }
 
@@ -168,9 +171,9 @@ namespace SuperShooter
             }
         }
 
-        private System.Action<RaycastHit> hitCallback;
+        private System.Action<Collider> hitCallback;
 
-        public void SetProjectileHitCallback(System.Action<RaycastHit> callbackOnHit)
+        public void SetProjectileHitCallback(System.Action<Collider> callbackOnHit)
         {
             hitCallback = callbackOnHit;
         }

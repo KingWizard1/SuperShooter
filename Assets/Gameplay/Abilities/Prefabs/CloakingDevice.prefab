@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 062d2719f0ec6054b99a016b40958c9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Invisibus
+  displayName: Invisibility Cloak
   MaxDuration: 5
   pickupModel: {fileID: 1606290786558088}
 --- !u!122 &122149187282476846

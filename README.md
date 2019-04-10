@@ -10,9 +10,9 @@ A 3D Multiplayer FPS for NSI TAFE Diploma of Interactive Games S1-2019. Powered 
 
 # Contributors:
 
-* Aryan (Aryan2213)
-* Henri (Diendophyx)
-* James ()
-* Patrick ()
-* Phil (perfectdark420)
-* Alex (Ori954)
+* Alex Goder -- Art & Animation
+* Aryan Pourranjbar -- Game Mechanics, Particle Effects
+* Henri Racine -- Game Mechanics
+* James Kiatkamol - Player HUD, User Interface
+* Pat Beilby - Game Mechanics
+* Phil Hertenberger - Game Systems, Level Design, Net Code

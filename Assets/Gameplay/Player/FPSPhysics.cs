@@ -12,7 +12,6 @@ namespace SuperShooter
 
     [RequireComponent(typeof(CharacterController))]
     [RequireComponent(typeof(FPSController))]
-    [RequireComponent(typeof(PlayerHealth))]
     public class FPSPhysics : MonoBehaviour, ICharacterControllerPhysics
     {
 
@@ -21,7 +20,6 @@ namespace SuperShooter
         // References
         private FPSController controller;
         private CharacterController character;
-        private PlayerHealth playerHP;
 
         // Values
         private float mass = 3.0f;
@@ -35,7 +33,6 @@ namespace SuperShooter
 
         private void Awake()
         {
-
             controller = GetComponent<FPSController>();
             character = GetComponent<CharacterController>();
         }
@@ -88,7 +85,7 @@ namespace SuperShooter
             {
 
                 // We're dead.
-                playerHP.Kill();
+                controller.Kill();
 
                 // Apply physics to the player, from the vehicles perspective.
                 // The GO is assumed to be one that had a collider on it.

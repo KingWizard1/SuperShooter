@@ -76,7 +76,7 @@ namespace SuperShooter
 
         private void OnTriggerEnter(Collider other)
         {
-            
+
             // Cease forward momentum
             addForce = false;
 
@@ -94,7 +94,7 @@ namespace SuperShooter
 
 
             // Apply damage
-            var player = other.GetComponent<PlayerHealth>();
+            var player = other.GetComponent<FPSController>();
             if (player != null)
                 player.TakeDamage(damage);
 
@@ -124,18 +124,26 @@ namespace SuperShooter
             this.force = force;
 
             projectile.amount = range;
-            projectile.SetProjectileHitCallback(BulletHitCallback);
+            projectile.hitCallback += BulletHitCallback;
         }
 
-        private void BulletHitCallback(RaycastHit hit)
+        private void OnDestroy()
+        {
+            projectile.hitCallback -= BulletHitCallback;
+        }
+
+        public void BulletHitCallback(Collider hit)
         {
 
             // Becomes true if we hit something we actually want to
             // register as a 'hit'.
             bool hitSomething = false;
 
+            // Note (Manny): Fix this shit
+            Rigidbody rigid = hit.GetComponent<Rigidbody>();
             // Check if rigid
-            if (hit.rigidbody) {
+            if (rigid)
+            {
 
                 // We hit something
                 hitSomething = true;
@@ -144,14 +152,15 @@ namespace SuperShooter
                 var pushDir = hit.transform.position - transform.position;
 
                 // Apply!
-                hit.rigidbody.velocity = pushDir * force;
+                rigid.velocity = pushDir * force;
 
             }
 
 
             // Check if killable
             var killable = hit.transform.GetComponent<IKillable>();
-            if (killable != null) {
+            if (killable != null)
+            {
 
                 // We hit something
                 hitSomething = true;

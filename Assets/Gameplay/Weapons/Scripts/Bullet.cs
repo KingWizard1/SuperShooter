@@ -93,10 +93,10 @@ namespace SuperShooter
             //otherRigid.velocity = transform.position * speed;
 
 
-            // Apply damage
-            var player = other.GetComponent<PlayerHealth>();
-            if (player != null)
-                player.TakeDamage(damage);
+            //// Apply damage
+            //var player = other.GetComponent<FPSController>();
+            //if (player != null)
+            //    player.TakeDamage(damage);
 
         }
 

@@ -13,6 +13,7 @@ TagManager:
   - DebugPlayer
   - LocalPlayer
   - OOB
+  - AudioSource
   layers:
   - Default
   - TransparentFX

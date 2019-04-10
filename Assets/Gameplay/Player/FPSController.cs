@@ -6,12 +6,12 @@ using UnityEngine;
 namespace SuperShooter
 {
     [RequireComponent(typeof(CharacterController))]
-    public class FPSController : NetworkPlayerBehaviour, IPlayer, IKillable
+    [RequireComponent(typeof(PlayerHealth))]
+    public class FPSController : NetworkPlayerBehaviour, IPlayer
     {
 
         [Header("Mechanics")]
-        public static int startHealth = 100;
-        public static int health;
+
         public float runSpeed = 10f;
         public float walkSpeed = 6f;
         public float gravity = 10f;
@@ -21,7 +21,7 @@ namespace SuperShooter
         public float groundRayDistance = 1.1f;
 
         [Header("Powerups")]
-        public bool isInvincible;
+        public bool isInvincible; //   TakeDamage() move to PlayerHeath
         public bool isDoubleSpeed;
 
         [Header("References")]
@@ -43,6 +43,7 @@ namespace SuperShooter
         public FPSCameraLook cameraLook { get; private set; }
         private FPSPhysics physics;
         private Timeline timeline;
+        private PlayerHealth playerHP;
 
         // Movement
         private Vector3 movement;   // Current movement vector
@@ -126,8 +127,6 @@ namespace SuperShooter
 
         private void Start()
         {
-            // Max health
-            startHealth = health;
 
 
             defaultPlayerHandPosition = playerHand.localPosition;
@@ -159,17 +158,7 @@ namespace SuperShooter
 
         private void Update()
         {
-            // Do nothing if dead.
-            if (isDead)
-            {
 
-#if DEBUG
-                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.R))
-                    Respawn();
-#endif
-
-                return;
-            }
 
             UpdateMovement();
             UpdateInteract();
@@ -192,10 +181,7 @@ namespace SuperShooter
                 cameraLook.SetRotation(nextSpawn.eulerAngles.y, 0f);   // 0 on the Y, to force looking straight ahead
             }
 
-            if (Input.GetKeyDown(KeyCode.H))
-            {
-                TakeDamage(10);
-            }
+
 
             // Testing, rough specific weapon placement system.
             if (currentWeapon)
@@ -692,49 +678,14 @@ namespace SuperShooter
 
         #region IKillable
 
-        public void TakeDamage(int damage)
-        {
-            // Do nothing if we're amazing right now
-            if (isInvincible)
-                return;
-
-            // Deplete heatlh by amount
-            health -= damage;
-
-            UIManager.Main.SetHealth();
-
-            // Did we die?
-            if (health <= 0)
-                Kill();
-
-        }
-
-        public void Kill()
-        {
-
-            // Die
-            isDead = true;
-
-            // Disable the character controller.
-            // Turns off all character events, including collisions.
-            controller.enabled = false;
 
 
-            UIManager.Main.ShowDeathScreen(true);
-
-        }
 
         #endregion
 
         // ------------------------------------------------- //
 
-        private void Respawn()
-        {
-            isDead = false;
-            health = 100;
-            controller.enabled = true;
-            UIManager.Main.ShowDeathScreen(false);
-        }
+
 
         // ------------------------------------------------- //
 

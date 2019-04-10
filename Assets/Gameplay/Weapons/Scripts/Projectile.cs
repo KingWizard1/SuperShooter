@@ -2,17 +2,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace SuperShooter
 {
-
     public class Projectile : MonoBehaviour
     {
         public float scale = 1f;
         public int amount = 10;
         //public Vector3 force = new Vector3(0, 0, 10);
         public Vector3 gravity = new Vector3(0f, -9.7f, 0f);
+        public delegate void HitCallback(Collider col);
+        public HitCallback hitCallback;
 
+        private Bullet bullet;
 
         [Header("Bullet")]
         //public Transform bullet;
@@ -92,10 +95,16 @@ namespace SuperShooter
             Gizmos.color = Color.red;
             Gizmos.DrawSphere(hitPoint, .2f);
 
+
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawSphere(transform.position, .2f);
+
         }
 
         void Start()
         {
+            bullet = GetComponent<Bullet>();
+
             Calculate(transform.forward);
 
             startRotation = transform.rotation;
@@ -106,7 +115,7 @@ namespace SuperShooter
 
             startTime = Time.time;
         }
-        
+
         void Update()
         {
             float distance = Vector3.Distance(startPoint, endPoint);
@@ -149,32 +158,19 @@ namespace SuperShooter
                 }
                 else
                 {
-
-                    RaycastHit hit;
                     var origin = transform.position;
                     var radius = .2f;
-                    if (Physics.SphereCast(origin, radius, transform.forward, out hit, 10))
+                    Collider[] hits = Physics.OverlapSphere(origin, radius);
+                    foreach (var hit in hits)
                     {
-
                         // Inform of hit
-                        if (hitCallback != null)
-                            hitCallback.Invoke(hit);
-
+                        bullet.BulletHitCallback(hit);
                     }
-
 
                     Destroy(gameObject);
                 }
             }
         }
-
-        private System.Action<RaycastHit> hitCallback;
-
-        public void SetProjectileHitCallback(System.Action<RaycastHit> callbackOnHit)
-        {
-            hitCallback = callbackOnHit;
-        }
-
     }
 
 }

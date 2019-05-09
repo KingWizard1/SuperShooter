@@ -178,6 +178,7 @@ namespace SuperShooter
             UpdateWeaponSwitching();
 
             UpdateHealth();
+            Teleport();
 
             // DEBUG
             if (Input.GetKeyDown(KeyCode.BackQuote))
@@ -745,11 +746,33 @@ namespace SuperShooter
         
         // ------------------------------------------------- //
         
+        public void Teleport()
+        {
+            if (Input.GetMouseButtonUp(1))
+            {
+                Debug.Log("flash key pressed" + Time.time);
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit))
+                {
+                    Vector3 mousePos = hit.point;
+                    Debug.Log("x.pos" + mousePos.x);
+                    Debug.Log("y.pos" + mousePos.y);
+                    Debug.Log("z.pos" + mousePos.z);
+                    transform.LookAt(mousePos, Vector3.forward);
+                    transform.position = new Vector3(mousePos.x, mousePos.y, mousePos.z);
+                }
+                else {
+                   
+                }
+            }
+        }
 
         // ------------------------------------------------- //
 
 
         // ------------------------------------------------- //
+
 
     }
 

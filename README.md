@@ -1,6 +1,6 @@
 # Codename: SuperShooter
 
-A 3D Multiplayer FPS for NSI TAFE Diploma of Interactive Games S1-2019. Powered by Unity.
+A 3D Multiplayer FPS for NSI TAFE Diploma of Interactive Games S2-2019. Powered by Unity.
 
 # Start Playing Around
 

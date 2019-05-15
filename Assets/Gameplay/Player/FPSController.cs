@@ -748,7 +748,7 @@ namespace SuperShooter
         
         public void Teleport()
         {
-            if (Input.GetMouseButtonUp(1))
+            if (Input.GetKeyDown(KeyCode.T))
             {
                 Debug.Log("flash key pressed" + Time.time);
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

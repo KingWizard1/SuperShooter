@@ -6,7 +6,7 @@ namespace SuperShooter
 {
     [RequireComponent(typeof(CharacterController))]
 
-    public class FPSController : NetworkPlayerBehaviour, IPlayer
+    public class FPSController : MonoBehaviour, IPlayer
     {
 
         [Header("Mechanics")]

@@ -10,9 +10,21 @@ namespace SuperShooter
 
         public int health = 100;
         public int damage = 25;
+        public int expValue;
+        public bool isDead;
 
+        private void Update()
+        {
+
+            // Am I still alive?
+            if (health <= 0)
+            {
+                isDead = true;
+                XPGive();
+            }
+
+        }
         // ------------------------------------------------- //
-
         public void DealDamage(int amount)
         {
             // Deal DMG
@@ -20,12 +32,15 @@ namespace SuperShooter
 
             // Dead
             if (health <= 0)
-                Destroy(gameObject);
+                isDead = true;
         }
-
-
+        public void XPGive()
+        {
+            if (isDead == true)
+            {
+                print("Yes");
+            }
+        }
         // ------------------------------------------------- //
-
     }
-
 }

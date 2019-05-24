@@ -20,6 +20,9 @@ namespace SuperShooter
         public float jumpHeight = 20f;
         public float interactRange = 10f;
         public float groundRayDistance = 1.1f;
+        public int level;
+        public int xp;
+        public int xpRequiredToLevel;
 
         [Header("Powerups")]
         public bool isInvincible;
@@ -739,9 +742,14 @@ namespace SuperShooter
             UIManager.Main.ShowDeathScreen(false);
         }
 
-        
         // ------------------------------------------------- //
-        
+        #region XP
+        private void GiveXp()
+        {
+            
+        }
+        #endregion
+
 
         // ------------------------------------------------- //
 

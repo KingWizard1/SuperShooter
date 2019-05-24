@@ -24,13 +24,13 @@ TagManager:
   - 
   - 
   - PostProcessing
-  - 
+  - Grenade
   - Ground
   - Environment
   - Interactables
   - Physics
-  - 
-  - 
+  - Player
+  - Weapons
   - Minimap
   - 
   - 

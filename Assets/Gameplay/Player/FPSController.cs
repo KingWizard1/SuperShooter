@@ -6,7 +6,7 @@ namespace SuperShooter
 {
     [RequireComponent(typeof(CharacterController))]
 
-    public class FPSController : NetworkPlayerBehaviour, IPlayer
+    public class FPSController : MonoBehaviour, IPlayer
     {
 
         [Header("Mechanics")]
@@ -32,6 +32,7 @@ namespace SuperShooter
         public Camera attachedCamera;
         public Transform aimTarget;
         public Transform playerHand;
+        public Transform playerArm;
 
         [Header("Weapons/Abilities")]
         public int maxWeapons = 2;
@@ -546,7 +547,7 @@ namespace SuperShooter
             if (item is Throwable && currentThrowable == null)
             {
                 currentThrowable = item as Throwable;
-                AttachItemToPlayerHand(item);
+               AttachItemToPlayerArm(item);
             }
 
             // Is the item a Weapon?
@@ -590,6 +591,18 @@ namespace SuperShooter
                 lat.target = aimTarget;
             }
             
+        }
+
+        private void AttachItemToPlayerArm(IInteractable item)
+        {
+            // Attach to player hand, and zero its local pos/rot.
+            var itemTransform = ((MonoBehaviour)item).transform;
+            itemTransform.SetParent(playerArm);
+            itemTransform.localPosition = Vector3.zero;
+            itemTransform.localRotation = Quaternion.identity;
+
+
+
         }
 
         /// <summary>Removes weapon from <see cref="weapons"/> list and drops it from the player's hand.

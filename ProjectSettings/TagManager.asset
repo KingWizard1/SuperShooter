@@ -10,8 +10,6 @@ TagManager:
   - Air
   - SpawnPoints
   - Vehicle
-  - DebugPlayer
-  - LocalPlayer
   - OOB
   - AudioSource
   layers:
@@ -24,7 +22,7 @@ TagManager:
   - 
   - 
   - PostProcessing
-  - 
+  - Player
   - Ground
   - Environment
   - Interactables

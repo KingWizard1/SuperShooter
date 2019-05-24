@@ -1,4 +1,4 @@
-﻿using Chronos;
+﻿
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,10 +32,6 @@ namespace SuperShooter
         //private BoxCollider boxCollider;
         //private LineRenderer lineRenderer;
         private Projectile projectile;
-
-        // Timing
-
-        private Timeline timeline;
 
 
         // ------------------------------------------------- //

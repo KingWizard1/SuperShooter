@@ -343,6 +343,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FPSController
       objectReference: {fileID: 0}
+    - target: {fileID: 1891511372562458, guid: 587ffb1c8f464d245a0ae7af8b761239, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 4402551686088608, guid: 587ffb1c8f464d245a0ae7af8b761239, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -385,6 +389,46 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4402551686088608, guid: 587ffb1c8f464d245a0ae7af8b761239, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1438766186792504, guid: 587ffb1c8f464d245a0ae7af8b761239, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1361540433381948, guid: 587ffb1c8f464d245a0ae7af8b761239, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1041676389413348, guid: 587ffb1c8f464d245a0ae7af8b761239, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1955956066250966, guid: 587ffb1c8f464d245a0ae7af8b761239, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1633943430885614, guid: 587ffb1c8f464d245a0ae7af8b761239, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1607824031333746, guid: 587ffb1c8f464d245a0ae7af8b761239, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1364703787926138, guid: 587ffb1c8f464d245a0ae7af8b761239, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1031216969829560, guid: 587ffb1c8f464d245a0ae7af8b761239, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1455088639056618, guid: 587ffb1c8f464d245a0ae7af8b761239, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 234176996, guid: 587ffb1c8f464d245a0ae7af8b761239, type: 3}
+      propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -494,6 +538,7 @@ GameObject:
   - component: {fileID: 2103869590}
   - component: {fileID: 2103869589}
   - component: {fileID: 2103869588}
+  - component: {fileID: 2103869593}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -596,3 +641,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2103869593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2103869587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0442c43a31ade846ae90570d29b7c97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moves: 0
+  viewRadius: 100
+  viewAngle: 150
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 76807
+  visibleTarget: {fileID: 0}
+  agent: {fileID: 0}

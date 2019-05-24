@@ -28,6 +28,8 @@ namespace SuperShooter
 
         public static UIManager Main { get; private set; }
 
+        public static bool Exists => Main != null;
+
         // ------------------------------------------------- //
 
         #region Initialisation

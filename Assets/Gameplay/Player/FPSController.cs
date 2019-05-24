@@ -320,7 +320,8 @@ namespace SuperShooter
         void UpdateInteract()
         {
             // Disable interact UI
-            UIManager.Main.HideAllPrompts();
+            if (UIManager.Exists)
+                UIManager.Main.HideAllPrompts();
 
             // Create ray from center of screen.
             // In viewport dimensions, 0 == top left corner, 1 == bottom right corner.
@@ -341,7 +342,8 @@ namespace SuperShooter
                 // Enable the UI and show the interactable name
                 var interactableName = interactable.GetDisplayName();
                 var interactablePosition = ((MonoBehaviour)interactable).transform.position;
-                UIManager.Main.ShowPickupPrompt3D(interactableName, interactablePosition);
+                if (UIManager.Exists)
+                    UIManager.Main.ShowPickupPrompt3D(interactableName, interactablePosition);
 
                 // Pickup the interactable if key is being pressed on this frame
                 if (Input.GetKeyDown(KeyCode.E))
@@ -368,7 +370,8 @@ namespace SuperShooter
                 currentWeapon.Reload();
 
             // Update UI
-            UIManager.Main.SetWeaponStatus(currentWeapon);
+            if (UIManager.Exists)
+                UIManager.Main.SetWeaponStatus(currentWeapon);
 
 
             var ammoInClip = currentWeapon.ammo;
@@ -638,7 +641,7 @@ namespace SuperShooter
             currentWeaponIndex = index;
 
             // Update UI
-            if (UIManager.Main != null)
+            if (UIManager.Exists)
                 UIManager.Main.SetWeaponStatus(currentWeapon);
         }
 
@@ -688,7 +691,8 @@ namespace SuperShooter
                 Destroy(currentAbility.gameObject);
 
             // Update UI
-            UIManager.Main.SetAbility(currentAbility);
+            if (UIManager.Exists)
+                UIManager.Main.SetAbility(currentAbility);
 
             
 
@@ -700,8 +704,8 @@ namespace SuperShooter
         
         private void UpdateHealth()
         {
-
-            UIManager.Main.SetHealth(health, startHealth, isDead);
+            if (UIManager.Exists)
+                UIManager.Main.SetHealth(health, startHealth, isDead);
 
         }
 
@@ -717,7 +721,8 @@ namespace SuperShooter
             health -= damage;
 
             // Get the UI to show damage indicator
-            UIManager.Main.ShowDamage();
+            if (UIManager.Exists)
+                UIManager.Main.ShowDamage();
 
             // Did we die?
             if (health <= 0)
@@ -734,8 +739,9 @@ namespace SuperShooter
             // Disable the character controller.
             // Turns off all character events, including collisions.
             controller.enabled = false;
-            
-            UIManager.Main.ShowDeathScreen(true);
+
+            if (UIManager.Exists)
+                UIManager.Main.ShowDeathScreen(true);
 
         }
 
@@ -748,8 +754,9 @@ namespace SuperShooter
             isDead = false;
             health = startHealth;
             controller.enabled = true;
-            
-            UIManager.Main.ShowDeathScreen(false);
+
+            if (UIManager.Exists)
+                UIManager.Main.ShowDeathScreen(false);
         }
 
         

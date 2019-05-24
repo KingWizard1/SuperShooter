@@ -164,7 +164,8 @@ namespace SuperShooter
             {
 
                 // Show HUD hit marker
-                UIManager.Main.CrossHair.ShowHitMarker(Color.white);
+                if (UIManager.Exists)
+                    UIManager.Main.CrossHair.ShowHitMarker(Color.white);
 
                 // TODO
                 // Award points or something.

@@ -1,5 +1,4 @@
-﻿using Chronos;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,7 +6,7 @@ namespace SuperShooter
 {
     [RequireComponent(typeof(CharacterController))]
 
-    public class FPSController : NetworkPlayerBehaviour, IPlayer
+    public class FPSController : MonoBehaviour, IPlayer
     {
 
         [Header("Mechanics")]
@@ -45,7 +44,6 @@ namespace SuperShooter
         public CharacterController controller;
         public FPSCameraLook cameraLook { get; private set; }
         private FPSPhysics physics;
-        private Timeline timeline;
 
         // Movement
         private Vector3 movement;   // Current movement vector
@@ -119,7 +117,6 @@ namespace SuperShooter
             controller = GetComponent<CharacterController>();
             cameraLook = GetComponentInChildren<FPSCameraLook>();
             physics = GetComponent<FPSPhysics>();
-            timeline = GetComponent<Timeline>();
 
 
             TryRegisterWeapons();
@@ -310,13 +307,13 @@ namespace SuperShooter
                 // that they'll fall almost immediately into void space... and die.
                 //movement.y -= gravity * Time.deltaTime;
                 movement.y = Mathf.Max(movement.y, -gravity);
-                movement.y -= gravity * timeline.deltaTime;
+                movement.y -= gravity * Time.deltaTime;
 
             }
 
 
             // Move the controller
-            controller.Move(movement * timeline.deltaTime);  // Returns CollisionFlags
+            controller.Move(movement * Time.deltaTime);  // Returns CollisionFlags
         }
 
         /// <summary>Handles interaction with items in the world.</summary>

@@ -35,8 +35,7 @@ namespace SuperShooter
             var player = GameObject.FindGameObjectWithTag("Player");
             player.GetComponent<FPSController>().enabled = true;
             
-            soundAudio = GameObject.Find("Audio Source").GetComponent<AudioSource>();
-            dirLight = GameObject.Find("Directional Light").GetComponent<Light>();
+            //soundAudio = GameObject.Find("Audio Source").GetComponent<AudioSource>();
             soundSlider.value = PlayerPrefs.GetFloat("Audio Source");
             lightSlider.value = PlayerPrefs.GetFloat("Directional Light");
             return;
@@ -48,8 +47,7 @@ namespace SuperShooter
         // Update is called once per frame
         void Update()
         {
-            PlayerPrefs.SetFloat("Audio Source", soundAudio.volume);
-            PlayerPrefs.SetFloat("Directional Light", dirLight.intensity);
+            //PlayerPrefs.SetFloat("Audio Source", soundAudio.volume);
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 if (paused)
@@ -97,11 +95,7 @@ namespace SuperShooter
         {
             soundAudio.volume = soundSlider.value;
         }
-        public void Brightness()
-        {
-            dirLight.intensity = lightSlider.value;
 
-        }
         public void OnClickSystemPanel()
         {
             systemPanel.SetActive(true);

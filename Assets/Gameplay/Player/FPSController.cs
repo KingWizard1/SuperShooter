@@ -5,7 +5,6 @@ using UnityEngine;
 namespace SuperShooter
 {
     [RequireComponent(typeof(CharacterController))]
-
     public class FPSController : MonoBehaviour, IPlayer
     {
 
@@ -44,7 +43,7 @@ namespace SuperShooter
 
         // References
         private Animator anim;
-        public CharacterController controller;
+        private CharacterController controller;
         public FPSCameraLook cameraLook { get; private set; }
         private FPSPhysics physics;
 
@@ -220,6 +219,7 @@ namespace SuperShooter
                 float inputH = Input.GetAxis("Horizontal");
                 float inputV = Input.GetAxis("Vertical");
                 Move(inputH, inputV);
+
             }
             else
             {
@@ -452,6 +452,8 @@ namespace SuperShooter
 
             // Create direction from input
             Vector3 input = new Vector3(inputH, 0, inputV);
+
+            Debug.Log(input);
 
             // Localise direction to player transform
             input = transform.TransformDirection(input);

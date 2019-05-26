@@ -131,6 +131,8 @@ namespace SuperShooter
             health = startHealth;
 
             defaultPlayerHandPosition = playerHand.localPosition;
+
+            Time.timeScale = 1;
         }
 
         // ------------------------------------------------- //
@@ -452,8 +454,6 @@ namespace SuperShooter
 
             // Create direction from input
             Vector3 input = new Vector3(inputH, 0, inputV);
-
-            Debug.Log(input);
 
             // Localise direction to player transform
             input = transform.TransformDirection(input);

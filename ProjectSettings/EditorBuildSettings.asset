@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Raceday.unity
+    path: Assets/SuperShooter/Scenes/Raceday.unity
     guid: ab1d4b9baf6846047a31265fd83ba8cc
   m_configObjects: {}

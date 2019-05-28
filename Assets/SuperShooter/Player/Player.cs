@@ -91,7 +91,7 @@ namespace SuperShooter
         public override void OnDeath()
         {
             // Disable the FPSController's character controller.
-            controller.isRunning = false;
+            controller.characterEnabled = false;
 
             // Show kill screen
             if (UIManager.Exists)
@@ -106,7 +106,7 @@ namespace SuperShooter
 
             // Reset health and enable controller
             ResetHealth();
-            controller.isRunning = true;
+            controller.characterEnabled = true;
 
             // Reset UI
             if (UIManager.Exists)

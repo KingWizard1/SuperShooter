@@ -696,7 +696,7 @@ MonoBehaviour:
   runSpeed: 10
   walkSpeed: 7.5
   gravity: 40
-  crouchSpeed: 8
+  crouchSpeed: 5
   jumpHeight: 12
   interactRange: 10
   groundRayDistance: 2

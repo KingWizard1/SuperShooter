@@ -7,7 +7,7 @@ namespace SuperShooter
     public interface ICharacterController
     {
 
-        bool isRunning { get; set; }
+        bool characterEnabled { get; set; }
 
     }
 

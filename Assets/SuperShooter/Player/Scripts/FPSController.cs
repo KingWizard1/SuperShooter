@@ -4,6 +4,18 @@ using UnityEngine;
 
 namespace SuperShooter
 {
+    public enum MovementState
+    {
+        Idle = 0,
+        Walking = 1,
+        Running = 2,
+        Crouching = 3,
+        CrouchWalking = 4,
+        Prone = 5,
+        Crawling = 6,
+        Transitioning = 16,
+    }
+
     [RequireComponent(typeof(CharacterController))]
     public class FPSController : MonoBehaviour, IPlayerController
     {
@@ -30,6 +42,10 @@ namespace SuperShooter
         [Header("Weapons/Abilities")]
         public int maxWeapons = 2;
         //public int maxThrowables = 2;
+
+        // ------------------------------------------------- //
+
+        public MovementState MovementState { get; private set; }
 
         // ------------------------------------------------- //
 
@@ -200,15 +216,12 @@ namespace SuperShooter
             else
             {
                 isOnLadder = true;
-
             }
 
-            if (isOnLadder)
-            {
+            if (isOnLadder) {
                 
-                
-                if ((Input.GetKey("w")) || (Input.GetKey("s")) || (Input.GetButtonDown("Jump")))
-                    {
+                if (Input.GetKey("w") || Input.GetKey("s") || Input.GetButtonDown("Jump")) {
+
                     isOnLadder = true;
                     // We're on a ladder.
                     float inputV = Input.GetAxis("Ladder");
@@ -218,11 +231,7 @@ namespace SuperShooter
                         movement.x = 0;
                         movement.z = 0;
 
-
-
                     }
-
-
 
                     if (Input.GetKey("s"))
                     {
@@ -232,19 +241,12 @@ namespace SuperShooter
                     }
 
                     if (Input.GetButtonDown("Jump"))
-                    {
                         isOnLadder = false;
-                   }
 
-
-                        Move(0, 0);
+                    Move(0, 0);
                 }
                 else
-                {
                     return;
-                }
-                
-        
                 
             }
 
@@ -258,11 +260,10 @@ namespace SuperShooter
             bool isJumpPressed = Input.GetButtonDown("Jump");
             bool canJump = jumps < maxJumps; // jumps = int, maxJumps = int
 
-            if (isGrounded)
-            {
+            if (isGrounded) {
 
-                if (isJumpPressed)
-                {
+                if (isJumpPressed) {
+
                     jumps = 1;
 
                     // Move controller up (Y)
@@ -270,11 +271,9 @@ namespace SuperShooter
                 }
 
             }
-            else
-            {
+            else {
 
-                if (isJumpPressed && canJump)
-                {
+                if (isJumpPressed && canJump) {
                     movement.y += jumpHeight;
                     jumps++;
                 }
@@ -432,11 +431,39 @@ namespace SuperShooter
             // Localise direction to player transform
             input = transform.TransformDirection(input);
 
-            // Set move speed
-            MoveSpeed = walkSpeed;
-            if (Input.GetKey(KeyCode.LeftShift)) MoveSpeed = runSpeed;
-            if (Input.GetKey(KeyCode.LeftControl)) MoveSpeed = crouchSpeed;
+            // Check movement state
+            if (input.magnitude > 0) {
+                if (Input.GetKey(KeyCode.LeftShift))
+                    MovementState = MovementState.Running;
+                else if (Input.GetKey(KeyCode.LeftControl))
+                    MovementState = MovementState.CrouchWalking;
+                else
+                    MovementState = MovementState.Walking;
+            }
+            else {
+                if (Input.GetKey(KeyCode.LeftControl))
+                    MovementState = MovementState.Crouching;
+                else
+                    MovementState = MovementState.Idle;
+            }
 
+            // Set move speed
+            switch (MovementState) {
+                default:
+                case MovementState.Walking: MoveSpeed = walkSpeed; break;
+                case MovementState.Running: MoveSpeed = runSpeed; break;
+                case MovementState.CrouchWalking: MoveSpeed = crouchSpeed; break;
+                case MovementState.Crawling: MoveSpeed = crouchSpeed; break;// Need crawlSpeed;
+            }
+            
+            // Change FOV based on movement state
+            if (MovementState == MovementState.Running && inputV > 0)   // Only if running forward.
+                cameraLook.ZoomTo(cameraLook.defaultFOV + 5, 1.5f);
+            else
+                cameraLook.ZoomToDefault(1.5f);
+
+
+            // Modifiers
             if (isDoubleSpeed)
                 MoveSpeed *= 2;
 
@@ -656,8 +683,8 @@ namespace SuperShooter
             if (currentAbility == null)
                 return;
 
-            // Consume the ability while Q is being held down.
-            // And stop consuming it on the frame Q is released.
+            // Consume the ability while button is being held down.
+            // And stop consuming it on the frame button is released.
             if (Input.GetKey(KeyCode.LeftShift))
                 currentAbility.Use();
             if (Input.GetKeyUp(KeyCode.LeftShift))
@@ -684,7 +711,7 @@ namespace SuperShooter
         /// <summary>Enable or disable the character controller.
         /// False will turn off all character events, including collisions.
         /// </summary>
-        public bool isRunning
+        public bool characterEnabled
         {
             get => character.enabled;
             set => character.enabled = value;

@@ -26,10 +26,14 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
+        public float FOV => attachedCamera?.fieldOfView ?? 0;
+
+        // ------------------------------------------------- //
+
         // Current X and Y rotation
         private float x, y;
 
-        private float defaultFOV = 60;
+        public float defaultFOV { get; private set; } = 60;
         private float targetFOV = 0;
         private float lastTargetFOV = 0;
         private float zoomTime = 0;

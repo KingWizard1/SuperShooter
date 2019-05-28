@@ -246,12 +246,12 @@ namespace SuperShooter
             // Perform Raycast (Hit Scan)
             if (Physics.Raycast(bulletRay, out hit, bulletRange))
             {
-                var killable = hit.collider.GetComponent<IKillable>();
+                var killable = hit.collider.GetComponent<ICanDie>();
 
                 if (killable != null)
                 {
                     // Deal damage to enemy
-                    killable.TakeDamage(damage);
+                    killable.TakeDamage(damage, null);
                 }
             }
 

@@ -83,7 +83,7 @@ namespace SuperShooter
                 foreach(Collider nerbyObject in collider)
                 {
                     var rb = nerbyObject.GetComponent<Rigidbody>();
-                    var killable = nerbyObject.GetComponent<IKillable>();
+                    var killable = nerbyObject.GetComponent<ICanDie>();
                     if(rb != null)
                     {
                         rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
@@ -91,7 +91,7 @@ namespace SuperShooter
                     else if (killable != null)
                     {
                         // is it the player
-                        killable.TakeDamage(damage);
+                        killable.TakeDamage(damage, null);
                     }
 
                 }

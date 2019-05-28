@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SuperShooter
 {
-    public class CarHealth : MonoBehaviour, IKillable
+    public class CarHealth : GameEntity, ICanDie
     {
 
         public int startingHealth = 50;
@@ -26,7 +26,7 @@ namespace SuperShooter
 
         }
 
-        public void TakeDamage(int damage)
+        public void TakeDamage(int damage, IGameEntity from)
         {
 
             health -= damage;
@@ -57,7 +57,7 @@ namespace SuperShooter
             foreach (Collider nerbyObject in collider)
             {
                 var rb = nerbyObject.GetComponent<Rigidbody>();
-                var killable = nerbyObject.GetComponent<IKillable>();
+                var killable = nerbyObject.GetComponent<ICanDie>();
                 if (rb != null)
                 {
                     rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
@@ -65,7 +65,7 @@ namespace SuperShooter
                 else if (killable != null)
                 {
                     // is it the player
-                    killable.TakeDamage(explosionDamage);
+                    killable.TakeDamage(explosionDamage, this);
                 }
 
             }

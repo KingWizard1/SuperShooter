@@ -621,6 +621,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4402551686088608}
   - component: {fileID: 143862794934404832}
+  - component: {fileID: 1686465407635152870}
   - component: {fileID: 114973145238870596}
   - component: {fileID: 114310768618941658}
   m_Layer: 0
@@ -664,6 +665,22 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1686465407635152870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1891511372562458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2952bbf9590e7aa40a12b1b3071a384e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startHealth: 100
+  XP: 0
+  XPRequiredToLevel: 0
+  XPLevel: 0
 --- !u!114 &114973145238870596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -676,18 +693,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7980de37b66a474cb60a2f5e59f0f8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startHealth: 100
-  health: 0
-  runSpeed: 15
-  walkSpeed: 15
-  gravity: 25
+  runSpeed: 10
+  walkSpeed: 7.5
+  gravity: 40
   crouchSpeed: 8
   jumpHeight: 12
   interactRange: 10
-  groundRayDistance: 2.5
-  level: 0
-  xp: 0
-  xpRequiredToLevel: 0
+  groundRayDistance: 2
   isInvincible: 0
   isDoubleSpeed: 0
   attachedCamera: {fileID: 20107630638721488}

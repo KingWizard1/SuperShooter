@@ -4,12 +4,12 @@ using UnityEngine;
 namespace SuperShooter
 {
 
-    public interface IKillable
+    public interface ICanDie
     {
 
         void Kill();
 
-        void TakeDamage(int damage);
+        void TakeDamage(int damage, IGameEntity from);
 
 
 

@@ -37,7 +37,7 @@ namespace SuperShooter
         public Camera attachedCamera;
         public Transform aimTarget;
         public Transform playerHand;
-        public Transform playerArm;
+        //public Transform playerArm;
 
         [Header("Weapons/Abilities")]
         public int maxWeapons = 2;
@@ -45,7 +45,24 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
+        #region Accessors
+
+        /// <summary>The characters current movement speed.</summary>
+        public float MoveSpeed { get; private set; }
+
+        /// <summary>Apply a speed modifier to the current movement vector.</summary>
+        public float MoveSpeedMod { get; set; } = 0;
+
+        /// <summary>The controller's current movement state.</summary>
         public MovementState MovementState { get; private set; }
+
+        #endregion
+
+        // ------------------------------------------------- //
+
+        #region Protected
+
+        #endregion
 
         // ------------------------------------------------- //
 
@@ -58,9 +75,9 @@ namespace SuperShooter
         private FPSPhysics physics;
 
         // Movement
-        private Vector3 movement;   // Current movement vector
-        private int jumps = 0;      // Current number of jumps executed (resets when grounded)
-        private int maxJumps = 2;   // Max number of times player can jump
+        private Vector3 movement;       // Current movement vector
+        private int jumps = 0;          // Current number of jumps executed (resets when grounded)
+        private int maxJumps = 2;       // Max number of times player can jump
 
         // Physics
         private Vector3 impact = Vector3.zero;
@@ -79,15 +96,6 @@ namespace SuperShooter
 
         // Camera
         private Vector3 defaultPlayerHandPosition = Vector3.zero;
-
-        #endregion
-
-        // ------------------------------------------------- //
-
-        #region Accessors
-
-        /// <summary>The characters current movement speed.</summary>
-        public float MoveSpeed { get; private set; }
 
         #endregion
 
@@ -169,7 +177,7 @@ namespace SuperShooter
 
         private void Update()
         {
-            
+         
             UpdateMovement();
             UpdateInteract();
 
@@ -195,6 +203,9 @@ namespace SuperShooter
             {
                 currentWeapon.gameObject.transform.localPosition = currentWeapon.playerHandOffset;
             }
+
+            //Debug.Log($"{nameof(FPSController)}.Update() end");
+
         }
 
         // ------------------------------------------------- //
@@ -210,7 +221,9 @@ namespace SuperShooter
                 // Not on ladder.
                 float inputH = Input.GetAxis("Horizontal");
                 float inputV = Input.GetAxis("Vertical");
-                Move(inputH, inputV);
+
+                // Perform movement
+                SetMovementVector(inputH, inputV);
 
             }
             else
@@ -243,7 +256,8 @@ namespace SuperShooter
                     if (Input.GetButtonDown("Jump"))
                         isOnLadder = false;
 
-                    Move(0, 0);
+                    // Perform movement
+                    SetMovementVector(0, 0);
                 }
                 else
                     return;
@@ -294,6 +308,71 @@ namespace SuperShooter
             character.Move(movement * Time.deltaTime);  // Returns CollisionFlags
         }
 
+        // ------------------------------------------------- //
+
+        /// <summary>Move the player by an amount.</summary>
+        /// <param name="inputH"></param>
+        /// <param name="inputV"></param>
+        void SetMovementVector(float inputH, float inputV)
+        {
+
+            // Create direction from input
+            Vector3 input = new Vector3(inputH, 0, inputV);
+
+            // Localise direction to player transform
+            input = transform.TransformDirection(input);
+
+            // Update current movement state
+            if (input.magnitude > 0)
+            {
+                if (Input.GetKey(KeyCode.LeftShift))
+                    MovementState = MovementState.Running;
+                else if (Input.GetKey(KeyCode.LeftControl))
+                    MovementState = MovementState.CrouchWalking;
+                else
+                    MovementState = MovementState.Walking;
+            }
+            else
+            {
+                if (Input.GetKey(KeyCode.LeftControl))
+                    MovementState = MovementState.Crouching;
+                else
+                    MovementState = MovementState.Idle;
+            }
+
+            // Set move speed
+            switch (MovementState)
+            {
+                default:
+                case MovementState.Walking: MoveSpeed = walkSpeed; break;
+                case MovementState.Running: MoveSpeed = runSpeed; break;
+                case MovementState.CrouchWalking: MoveSpeed = crouchSpeed; break;
+                case MovementState.Crawling: MoveSpeed = crouchSpeed; break;// Need crawlSpeed;
+            }
+
+            // Apply modifier
+            MoveSpeed += MoveSpeedMod;
+
+
+            // Modifiers    (this should move up the class hierarchy at some point)
+            if (isDoubleSpeed)
+                MoveSpeed *= 2;
+
+
+            // Camera - Change FOV based on movement state
+            if (MovementState == MovementState.Running && inputV > 0)   // Only if running forward.
+                cameraLook.ZoomTo(cameraLook.defaultFOV + 5, 1.5f);
+            else
+                cameraLook.ZoomToDefault(1.5f);
+
+
+            // Apply movement to X and Z.
+            movement.x = input.x * MoveSpeed;
+            movement.z = input.z * MoveSpeed;
+        }
+
+        // ------------------------------------------------- //
+
         /// <summary>Handles interaction with items in the world.</summary>
         void UpdateInteract()
         {
@@ -330,6 +409,8 @@ namespace SuperShooter
 
         }
 
+        // ------------------------------------------------- //
+
         /// <summary>Handles current weapon fire mechanics.</summary>
         void UpdateWeaponShooting()
         {
@@ -361,6 +442,8 @@ namespace SuperShooter
             //    weaponName, ammoInClip, maxAmmoPerClip, totalAmmoLeft));
         }
 
+        // ------------------------------------------------- //
+
         /// <summary>Handles cycling/switching through available weapons.</summary>
         void UpdateWeaponSwitching()
         {
@@ -389,7 +472,7 @@ namespace SuperShooter
 
         private void FixedUpdate()
         {
-
+            
         }
 
 
@@ -412,65 +495,6 @@ namespace SuperShooter
         }
 
         // ------------------------------------------------- //
-
-        #endregion
-
-        // ------------------------------------------------- //
-
-        #region Controls
-
-        /// <summary>Move the player by an amount.</summary>
-        /// <param name="inputH"></param>
-        /// <param name="inputV"></param>
-        void Move(float inputH, float inputV)
-        {
-
-            // Create direction from input
-            Vector3 input = new Vector3(inputH, 0, inputV);
-
-            // Localise direction to player transform
-            input = transform.TransformDirection(input);
-
-            // Check movement state
-            if (input.magnitude > 0) {
-                if (Input.GetKey(KeyCode.LeftShift))
-                    MovementState = MovementState.Running;
-                else if (Input.GetKey(KeyCode.LeftControl))
-                    MovementState = MovementState.CrouchWalking;
-                else
-                    MovementState = MovementState.Walking;
-            }
-            else {
-                if (Input.GetKey(KeyCode.LeftControl))
-                    MovementState = MovementState.Crouching;
-                else
-                    MovementState = MovementState.Idle;
-            }
-
-            // Set move speed
-            switch (MovementState) {
-                default:
-                case MovementState.Walking: MoveSpeed = walkSpeed; break;
-                case MovementState.Running: MoveSpeed = runSpeed; break;
-                case MovementState.CrouchWalking: MoveSpeed = crouchSpeed; break;
-                case MovementState.Crawling: MoveSpeed = crouchSpeed; break;// Need crawlSpeed;
-            }
-            
-            // Change FOV based on movement state
-            if (MovementState == MovementState.Running && inputV > 0)   // Only if running forward.
-                cameraLook.ZoomTo(cameraLook.defaultFOV + 5, 1.5f);
-            else
-                cameraLook.ZoomToDefault(1.5f);
-
-
-            // Modifiers
-            if (isDoubleSpeed)
-                MoveSpeed *= 2;
-
-            // Apply movement to X and Z.
-            movement.x = input.x * MoveSpeed;
-            movement.z = input.z * MoveSpeed;
-        }
 
         #endregion
 
@@ -553,7 +577,7 @@ namespace SuperShooter
             if (item is Throwable && currentThrowable == null)
             {
                 currentThrowable = item as Throwable;
-               AttachItemToPlayerArm(item);
+                AttachItemToPlayerHand(item);
             }
 
             // Is the item a Weapon?
@@ -593,22 +617,10 @@ namespace SuperShooter
                 //itemTransform.localPosition = w.playerHandOffset;
                 //w.aimTarget = aimTarget;
 
-                var lat = w.gameObject.AddComponent<FPSLookAtTarget>();
+                var lat = w.gameObject.AddComponent<FPSLookAtDirection>();
                 lat.target = aimTarget;
             }
             
-        }
-
-        private void AttachItemToPlayerArm(IInteractable item)
-        {
-            // Attach to player hand, and zero its local pos/rot.
-            var itemTransform = ((MonoBehaviour)item).transform;
-            itemTransform.SetParent(playerArm);
-            itemTransform.localPosition = Vector3.zero;
-            itemTransform.localRotation = Quaternion.identity;
-
-
-
         }
 
         /// <summary>Removes weapon from <see cref="weapons"/> list and drops it from the player's hand.

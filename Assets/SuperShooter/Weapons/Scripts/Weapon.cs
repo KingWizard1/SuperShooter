@@ -14,10 +14,11 @@ namespace SuperShooter
         public string baseName = "New Weapon";
 
         [Header("Numbers")]
-        [SerializeField]
         public int damage = 10;
         public int maxClips = 8;
         public int maxAmmoPerClip = 30;
+        public float spread = 2f;
+        public float recoil = 1f;
         public float shootRate = .2f;
         public float bulletForce = 1f;
         public int bulletRange = 10;
@@ -33,6 +34,10 @@ namespace SuperShooter
         public Transform shotOrigin;
         public GameObject bulletPrefab;
 
+        [Header("Cheats")]
+        public bool autoReload = false;
+        public bool infiniteAmmo = false;
+
         // ------------------------------------------------- //
 
         // Mechanics
@@ -46,7 +51,7 @@ namespace SuperShooter
         private float shootTimer = 0f;
 
         // The destination for the bullet.
-        internal Transform aimTarget;
+        //internal Transform aimTarget;
 
         // Components
         //private Rigidbody rigid;
@@ -116,7 +121,11 @@ namespace SuperShooter
         {
             // Check we can shoot from somewhere
             if (shotOrigin == null)
-                Debug.LogWarning("[WARN] '" + GetDisplayName() + "' does not have a shot origin!");
+                Debug.LogWarning(string.Format(FPSMessages.WARN_WEAPON_NO_SHOT_ORIGIN, GetDisplayName()));
+
+            // Check we have a bullet prefab to shoot
+            if (bulletPrefab == null)
+                Debug.LogWarning(string.Format(FPSMessages.WARN_WEAPON_NO_BULLET_PREFAB, GetDisplayName()));
 
             // Set ammo
             ammo = maxAmmoPerClip;
@@ -176,7 +185,9 @@ namespace SuperShooter
             if (clips > 0)
             {
                 // Use clip
-                clips--;
+                if (!infiniteAmmo)
+                    clips--;
+
                 ammo = maxAmmoPerClip;
                 isClipEmpty = false;
             }
@@ -204,22 +215,56 @@ namespace SuperShooter
             if (isClipEmpty)
                 return;
 
+            // ------ NEW ------
+
+            var cam = Camera.main;
+            var bulletOrigin = cam.transform.position;
+            var bulletRotation = cam.transform.rotation; // Rotation of the bullet
+            var lineOrigin = shotOrigin.position; // Where the bullet line starts
+            var direction = cam.transform.forward; // Forward direction of camera
+
+            // Apply weapon recoil
+            Vector3 euler = Vector3.up * 2f;
+
+            // Randomise the pitch
+            euler.x = Random.Range(-1f, 1f);
+
+            // Apply offset to camera
+            var player = GameObject.FindGameObjectWithTag("Player");
+            var playerCamera = player.GetComponentInChildren<FPSCameraLook>();
+
+            playerCamera.SetTargetOffset(euler * recoil);
+
+
+            // -----------------
+
+
             // Instantiate a bullet. Its script will do the rest.
-            if (bulletPrefab != null) {
+            if (bulletPrefab != null)
+            {
                 //var direction = shotOrigin.position - aimTarget.position;
-                Bullet.SpawnNew(bulletPrefab, shotOrigin, /*direction,*/ damage, bulletRange, bulletForce);
+                //Bullet.SpawnNew(bulletPrefab, shotOrigin, /*direction,*/ damage, bulletRange, bulletForce);
+
+                var bulletObject = Instantiate(bulletPrefab, bulletOrigin, bulletRotation);
+                var bulletScript = bulletObject.GetComponent<RigidBullet>();
+                bulletScript.Fire(lineOrigin, direction);
+
             }
-            else {
+            else
+            {
                 // Backup method. Shoot a ray to simulate a bullet.
                 SimulateBullet();
             }
 
+
             // Deplete ammunition
             ammo--;
-
             if (ammo == 0) {
-                // Clip is empty!
-                isClipEmpty = true;
+
+                if (autoReload)
+                    Reload();
+                else
+                    isClipEmpty = true;
             }
 
             // Reset timer

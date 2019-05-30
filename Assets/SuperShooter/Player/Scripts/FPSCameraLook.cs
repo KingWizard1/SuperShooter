@@ -21,8 +21,10 @@ namespace SuperShooter
         public float yMinLimit = -80f;
         public float yMaxLimit = 80f;
 
-        // Aim target
-        public Transform aimTarget;
+        // Recoil
+        public float resolveSpeed = 10f;
+        private Vector2 euler; // Current rotation of the camera
+        private Vector3 targetOffset, currentOffset;
 
         // ------------------------------------------------- //
 
@@ -39,7 +41,14 @@ namespace SuperShooter
         private float zoomTime = 0;
         const float defaultZoomTime = 0.25f;
 
-        private FPSController parentController;
+        private FPSController _parentController;
+
+        // ------------------------------------------------- //
+
+        void Awake()
+        {
+            attachedCamera = GetComponent<Camera>();
+        }
 
         // ------------------------------------------------- //
 
@@ -57,15 +66,14 @@ namespace SuperShooter
 
 
             // Remember current camera FOV
-            attachedCamera = GetComponent<Camera>();
             targetFOV = attachedCamera.fieldOfView;
             defaultFOV = attachedCamera.fieldOfView;
             lastTargetFOV = attachedCamera.fieldOfView;
 
 
             // Check that our direct parent has the required component for us to rotate with.
-            parentController = transform.parent.gameObject.GetComponent<FPSController>();
-            if (parentController == null)
+            _parentController = transform.parent.gameObject.GetComponent<FPSController>();
+            if (_parentController == null)
                 Debug.LogWarning("[FPS] The direct parent of this camera does NOT have a FPSPlayerController attached to it!");
         }
 
@@ -92,6 +100,15 @@ namespace SuperShooter
             // Clamp the angle of the pitch
             y = Mathf.Clamp(y, yMinLimit, yMaxLimit);
 
+            // ----- NEW -----
+
+            // Recoil.
+            // Lerp the offset towards Target Offset
+            targetOffset = Vector3.Lerp(targetOffset, Vector3.zero, resolveSpeed * Time.deltaTime);
+            currentOffset = Vector3.MoveTowards(currentOffset, targetOffset, resolveSpeed * Time.deltaTime);
+
+            // ---------------
+
             // Rotate local on X axis (Pitch)
             // Rotate parent on Y axis (Yaw)
             //if (parentController != null)
@@ -100,12 +117,12 @@ namespace SuperShooter
 
             // Move the aim target to the world point
             // that is in the absolute center of the viewport.
-            Ray camRay = attachedCamera.ViewportPointToRay(new Vector3(.5f, .5f));
-            RaycastHit hit;
-            if(Physics.Raycast(camRay, out hit))
-            {
-                aimTarget.position = hit.point;
-            }
+            //Ray camRay = attachedCamera.ViewportPointToRay(new Vector3(.5f, .5f));
+            //RaycastHit hit;
+            //if(Physics.Raycast(camRay, out hit))
+            //{
+            //    aimTarget.position = hit.point;
+            //}
 
             _applyRotation();
 
@@ -115,8 +132,22 @@ namespace SuperShooter
 
         private void _applyRotation()
         {
-            transform.parent.rotation = Quaternion.Euler(0, x, 0);
-            transform.localRotation = Quaternion.Euler(y, 0, 0);
+            // Origin
+            //transform.parent.rotation = Quaternion.Euler(0, x, 0);
+            //transform.localRotation = Quaternion.Euler(y, 0, 0);
+
+            // OpenWorldGame
+            // Rotate the Player and Transform seperately
+            transform.parent.localEulerAngles = new Vector3(0f, x + currentOffset.y, 0f);
+            transform.localEulerAngles = new Vector3(y - currentOffset.x, 0f, 0f);
+        }
+
+        // ------------------------------------------------- //
+
+        // Related to recoil
+        public void SetTargetOffset(Vector3 offset)
+        {
+            targetOffset = offset;
         }
 
         // ------------------------------------------------- //

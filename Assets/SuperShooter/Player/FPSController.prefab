@@ -193,7 +193,7 @@ RectTransform:
   m_Children:
   - {fileID: 78598124}
   m_Father: {fileID: 4597451510964996}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -292,7 +292,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4891087971588074}
   - {fileID: 283351908}
   m_Father: {fileID: 4402551686088608}
   m_RootOrder: 0
@@ -384,7 +383,8 @@ MonoBehaviour:
   speed: {x: 120, y: 120}
   yMinLimit: -80
   yMaxLimit: 80
-  aimTarget: {fileID: 4891087971588074}
+  resolveSpeed: 10
+  aimTarget: {fileID: 0}
 --- !u!114 &114626133326315404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -488,7 +488,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f3929740cdbb794991359d746f883e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 4891087971588074}
+  target: {fileID: 0}
 --- !u!1 &1438766186792504
 GameObject:
   m_ObjectHideFlags: 0
@@ -581,36 +581,6 @@ Transform:
   m_Father: {fileID: 4807250952554664}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1633943430885614
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4891087971588074}
-  m_Layer: 0
-  m_Name: AimTarget
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4891087971588074
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1633943430885614}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.00018175444, y: 0.019094236, z: 1.0397662}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4597451510964996}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1891511372562458
 GameObject:
   m_ObjectHideFlags: 0
@@ -681,6 +651,8 @@ MonoBehaviour:
   XP: 0
   XPRequiredToLevel: 0
   XPLevel: 0
+  dashSpeed: 25
+  dashDuration: 3
 --- !u!114 &114973145238870596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -703,7 +675,7 @@ MonoBehaviour:
   isInvincible: 0
   isDoubleSpeed: 0
   attachedCamera: {fileID: 20107630638721488}
-  aimTarget: {fileID: 4891087971588074}
+  aimTarget: {fileID: 0}
   playerHand: {fileID: 4324149899550320}
   playerArm: {fileID: 0}
   maxWeapons: 4

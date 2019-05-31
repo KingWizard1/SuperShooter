@@ -35,9 +35,14 @@ public class CharController_Motor : MonoBehaviour {
 
 
 
-	void Update(){
-		moveFB = Input.GetAxis ("Horizontal") * speed;
-		moveLR = Input.GetAxis ("Vertical") * speed;
+	void Update()
+    {
+
+
+		moveFB = Input.GetAxis("Horizontal") * speed;
+		moveLR = Input.GetAxis("Vertical") * speed;
+
+        Debug.Log(moveFB + " (" + Input.GetAxis("Horizontal") + ")");
 
 		rotX = Input.GetAxis ("Mouse X") * sensitivity;
 		rotY = Input.GetAxis ("Mouse Y") * sensitivity;

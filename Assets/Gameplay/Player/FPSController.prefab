@@ -1,5 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+<<<<<<< HEAD
 --- !u!1 &234176996
 GameObject:
   m_ObjectHideFlags: 0
@@ -150,6 +151,8 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+=======
+>>>>>>> ad69605b576c64e24960ddb83a7e68acebb5c9e9
 --- !u!1 &1041676389413348
 GameObject:
   m_ObjectHideFlags: 0
@@ -376,98 +379,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 4891087971588074}
---- !u!1 &1364703787926138
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4275326742064620}
-  - component: {fileID: 33732879476936986}
-  - component: {fileID: 23500590158182582}
-  - component: {fileID: 64577133758138472}
-  m_Layer: 0
-  m_Name: MinimapArrow
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4275326742064620
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1364703787926138}
-  m_LocalRotation: {x: -0.000000014901161, y: 0.7071068, z: -0.7071068, w: -0.000000014901161}
-  m_LocalPosition: {x: 0, y: 50, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4676842188027320}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 90, y: 180, z: 0}
---- !u!33 &33732879476936986
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1364703787926138}
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &23500590158182582
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1364703787926138}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RenderingLayerMask: 4294967295
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: e8044f04b063937428454f0216dc510b, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!64 &64577133758138472
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1364703787926138}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1438766186792504
 GameObject:
   m_ObjectHideFlags: 0
@@ -602,7 +513,10 @@ GameObject:
   - component: {fileID: 143862794934404832}
   - component: {fileID: 114973145238870596}
   - component: {fileID: 114310768618941658}
+<<<<<<< HEAD
   - component: {fileID: 3122112222280077349}
+=======
+>>>>>>> ad69605b576c64e24960ddb83a7e68acebb5c9e9
   m_Layer: 0
   m_Name: FPSController
   m_TagString: Player
@@ -623,8 +537,11 @@ Transform:
   m_Children:
   - {fileID: 4597451510964996}
   - {fileID: 4464809808412632}
+<<<<<<< HEAD
   - {fileID: 4676842188027320}
   - {fileID: 234176997}
+=======
+>>>>>>> ad69605b576c64e24960ddb83a7e68acebb5c9e9
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 36.048, z: 0}
@@ -672,6 +589,7 @@ MonoBehaviour:
   attachedCamera: {fileID: 20107630638721488}
   aimTarget: {fileID: 4891087971588074}
   playerHand: {fileID: 4324149899550320}
+  playerArm: {fileID: 0}
   maxWeapons: 4
   controller: {fileID: 0}
 --- !u!114 &114310768618941658
@@ -686,6 +604,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a4be891093fa3429cc419e9583c708, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
 --- !u!136 &3122112222280077349
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -732,3 +651,5 @@ Transform:
   m_Father: {fileID: 4402551686088608}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+=======
+>>>>>>> ad69605b576c64e24960ddb83a7e68acebb5c9e9

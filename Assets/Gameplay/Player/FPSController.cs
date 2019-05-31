@@ -20,6 +20,9 @@ namespace SuperShooter
         public float jumpHeight = 20f;
         public float interactRange = 10f;
         public float groundRayDistance = 1.1f;
+        public int level;
+        public int xp;
+        public int xpRequiredToLevel;
 
         [Header("Powerups")]
         public bool isInvincible;
@@ -29,6 +32,7 @@ namespace SuperShooter
         public Camera attachedCamera;
         public Transform aimTarget;
         public Transform playerHand;
+        public Transform playerArm;
 
         [Header("Weapons/Abilities")]
         public int maxWeapons = 2;
@@ -306,6 +310,10 @@ namespace SuperShooter
                 // that they'll fall almost immediately into void space... and die.
                 movement.y -= gravity * Time.deltaTime;
                 movement.y = Mathf.Max(movement.y, -gravity);
+<<<<<<< HEAD
+=======
+                movement.y -= gravity * Time.deltaTime;
+>>>>>>> ad69605b576c64e24960ddb83a7e68acebb5c9e9
 
             }
 
@@ -318,7 +326,8 @@ namespace SuperShooter
         void UpdateInteract()
         {
             // Disable interact UI
-            UIManager.Main.HideAllPrompts();
+            if (UIManager.Exists)
+                UIManager.Main.HideAllPrompts();
 
             // Create ray from center of screen.
             // In viewport dimensions, 0 == top left corner, 1 == bottom right corner.
@@ -339,7 +348,8 @@ namespace SuperShooter
                 // Enable the UI and show the interactable name
                 var interactableName = interactable.GetDisplayName();
                 var interactablePosition = ((MonoBehaviour)interactable).transform.position;
-                UIManager.Main.ShowPickupPrompt3D(interactableName, interactablePosition);
+                if (UIManager.Exists)
+                    UIManager.Main.ShowPickupPrompt3D(interactableName, interactablePosition);
 
                 // Pickup the interactable if key is being pressed on this frame
                 if (Input.GetKeyDown(KeyCode.E))
@@ -366,7 +376,8 @@ namespace SuperShooter
                 currentWeapon.Reload();
 
             // Update UI
-            UIManager.Main.SetWeaponStatus(currentWeapon);
+            if (UIManager.Exists)
+                UIManager.Main.SetWeaponStatus(currentWeapon);
 
 
             var ammoInClip = currentWeapon.ammo;
@@ -542,7 +553,7 @@ namespace SuperShooter
             if (item is Throwable && currentThrowable == null)
             {
                 currentThrowable = item as Throwable;
-                AttachItemToPlayerHand(item);
+               AttachItemToPlayerArm(item);
             }
 
             // Is the item a Weapon?
@@ -588,6 +599,18 @@ namespace SuperShooter
             
         }
 
+        private void AttachItemToPlayerArm(IInteractable item)
+        {
+            // Attach to player hand, and zero its local pos/rot.
+            var itemTransform = ((MonoBehaviour)item).transform;
+            itemTransform.SetParent(playerArm);
+            itemTransform.localPosition = Vector3.zero;
+            itemTransform.localRotation = Quaternion.identity;
+
+
+
+        }
+
         /// <summary>Removes weapon from <see cref="weapons"/> list and drops it from the player's hand.
         void Drop(Weapon weaponToDrop)
         {
@@ -624,7 +647,7 @@ namespace SuperShooter
             currentWeaponIndex = index;
 
             // Update UI
-            if (UIManager.Main != null)
+            if (UIManager.Exists)
                 UIManager.Main.SetWeaponStatus(currentWeapon);
         }
 
@@ -674,7 +697,8 @@ namespace SuperShooter
                 Destroy(currentAbility.gameObject);
 
             // Update UI
-            UIManager.Main.SetAbility(currentAbility);
+            if (UIManager.Exists)
+                UIManager.Main.SetAbility(currentAbility);
 
             
 
@@ -686,8 +710,8 @@ namespace SuperShooter
         
         private void UpdateHealth()
         {
-
-            UIManager.Main.SetHealth(health, startHealth, isDead);
+            if (UIManager.Exists)
+                UIManager.Main.SetHealth(health, startHealth, isDead);
 
         }
 
@@ -703,7 +727,8 @@ namespace SuperShooter
             health -= damage;
 
             // Get the UI to show damage indicator
-            UIManager.Main.ShowDamage();
+            if (UIManager.Exists)
+                UIManager.Main.ShowDamage();
 
             // Did we die?
             if (health <= 0)
@@ -720,8 +745,9 @@ namespace SuperShooter
             // Disable the character controller.
             // Turns off all character events, including collisions.
             controller.enabled = false;
-            
-            UIManager.Main.ShowDeathScreen(true);
+
+            if (UIManager.Exists)
+                UIManager.Main.ShowDeathScreen(true);
 
         }
 
@@ -734,13 +760,19 @@ namespace SuperShooter
             isDead = false;
             health = startHealth;
             controller.enabled = true;
-            
-            UIManager.Main.ShowDeathScreen(false);
+
+            if (UIManager.Exists)
+                UIManager.Main.ShowDeathScreen(false);
         }
 
-        
         // ------------------------------------------------- //
-        
+        #region XP
+        private void GiveXp()
+        {
+            
+        }
+        #endregion
+
 
         // ------------------------------------------------- //
 

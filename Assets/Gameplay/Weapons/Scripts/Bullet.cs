@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 ﻿
 using System.Collections;
+=======
+﻿using System.Collections;
+>>>>>>> ad69605b576c64e24960ddb83a7e68acebb5c9e9
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -165,7 +169,8 @@ namespace SuperShooter
             {
 
                 // Show HUD hit marker
-                UIManager.Main.CrossHair.ShowHitMarker(Color.white);
+                if (UIManager.Exists)
+                    UIManager.Main.CrossHair.ShowHitMarker(Color.white);
 
                 // TODO
                 // Award points or something.

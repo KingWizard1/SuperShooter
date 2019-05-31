@@ -65,6 +65,18 @@ namespace SuperShooter
             // Stuff that needs to happen on all clients goes here.
 
 
+<<<<<<< HEAD
+=======
+
+
+            // Bail out before we do stuff that should only be done on the server.
+            //if (!BoltNetwork.IsServer)
+            //{
+            //    Debug.LogError("[ERR!] SceneSetup attempted on localhost when localhost is a non-server peer.");
+            //    return;
+            //}
+
+>>>>>>> ad69605b576c64e24960ddb83a7e68acebb5c9e9
             Debug.Log("[GAME] Setting up for " + gameMode.ToString());
 
             //// Create empty game object to hold each player.
@@ -74,6 +86,40 @@ namespace SuperShooter
             //// Spawn local player
             //SpawnPlayer("LocalPlayer", true);
 
+<<<<<<< HEAD
+=======
+
+            //// Determine network mode
+            //var networkMode = BoltNetwork.IsSinglePlayer ?
+            //    NetworkMode.SinglePlayer : BoltNetwork.IsServer ?
+            //    NetworkMode.MultiplayerHost : NetworkMode.MultiplayerClient;
+
+            //switch (networkMode)
+            //{
+            //    case NetworkMode.SinglePlayer:
+            //        break;
+            //    case NetworkMode.MultiplayerHost:
+            //        break;
+            //    case NetworkMode.MultiplayerClient:
+            //        break;
+            //    default:
+            //        break;
+            //}
+
+            ////
+            //switch (gameMode)
+            //{
+            //    case GameMode.Slayer:
+            //        break;
+            //    case GameMode.TeamDeathmatch:
+            //        break;
+            //    case GameMode.CaptureTheFlag:
+            //        break;
+            //    default:
+            //        break;
+            //}
+
+>>>>>>> ad69605b576c64e24960ddb83a7e68acebb5c9e9
         }
 
         // ------------------------------------------------- //
@@ -86,10 +132,24 @@ namespace SuperShooter
             // Get random spawn point for local player.
             // FOR DEBUG
             Transform spawnPoint;
+<<<<<<< HEAD
+=======
+            //if (BoltNetwork.IsServer)
+            //    spawnPoint = spawnPoints.PlayerSpawns[1];
+            //else if (BoltNetwork.IsClient)
+            //    spawnPoint = spawnPoints.PlayerSpawns[0];
+            //else
+            //    spawnPoint = GetRandomSpawnPoint();
+
+>>>>>>> ad69605b576c64e24960ddb83a7e68acebb5c9e9
             // Create player. They should have control immediately.
             // The static BoltPrefabs class is compiled and updated by Bolt, and
             // contains a unique reference to each prefab with a Bolt Entity on it.
             // You can also pass in a normal GameObject reference instead.
+<<<<<<< HEAD
+=======
+            //var player = BoltNetwork.Instantiate(BoltPrefabs.FPSController, spawnPoint.position, spawnPoint.rotation);
+>>>>>>> ad69605b576c64e24960ddb83a7e68acebb5c9e9
             //player.name = name;
 
 

@@ -1,4 +1,9 @@
+<<<<<<< HEAD
+﻿
+using System.Collections;
+=======
 ﻿using System.Collections;
+>>>>>>> ad69605b576c64e24960ddb83a7e68acebb5c9e9
 using System.Collections.Generic;
 using UnityEngine;
 

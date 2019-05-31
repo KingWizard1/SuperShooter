@@ -9,14 +9,22 @@ namespace SuperShooter
     {
 
         [Header("Progression")]
-        public int XP;
-        public int XPRequiredToLevel;
-        public int XPLevel;
+        public int XP = 0;
+        public int XPRequiredToLevel = 0;
+        public int XPLevel = 1;
 
+        [Header("Dash")]
+        public float dashSpeed = 25f;
+        public float dashDuration = 3f;
 
         // ------------------------------------------------- //
 
+        // References
         private FPSController controller;
+
+        // Dashing
+        private bool isDashing;
+        private float dashTimer;
 
 
         // ------------------------------------------------- //
@@ -59,12 +67,23 @@ namespace SuperShooter
             // Usual suspects
 
             UpdateHealth();
-
+            UpdateAbilities();
 
         }
 
         // ------------------------------------------------- //
 
+        #region Update() Methods
+
+        private void UpdateAbilities()
+        {
+
+            controller.MoveSpeedMod = Input.GetKey(KeyCode.E) ? dashSpeed : 0;
+
+
+        }
+
+        #endregion
 
         // ------------------------------------------------- //
 
@@ -128,6 +147,18 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
+        #region Player Abilities
+
+        public void Dash()
+        {
+            // reset timer to full duration. it will count down in Update()
+            dashTimer = dashDuration;
+            isDashing = true;
+        }
+
+
+
+        #endregion
 
         // ------------------------------------------------- //
 

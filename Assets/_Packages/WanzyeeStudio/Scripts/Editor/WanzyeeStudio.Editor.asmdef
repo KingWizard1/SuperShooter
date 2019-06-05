@@ -1,0 +1,12 @@
+{
+    "name": "WanzyeeStudio.Editor",
+    "references": [
+        "WanzyeeStudio.Runtime"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}

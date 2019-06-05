@@ -562,7 +562,7 @@ MonoBehaviour:
   crouchSpeed: 5
   jumpHeight: 12
   interactRange: 10
-  groundRayDistance: 1.1
+  groundRayDistance: 1.6
   isInvincible: 0
   isDoubleSpeed: 0
   attachedCamera: {fileID: 20107630638721488}

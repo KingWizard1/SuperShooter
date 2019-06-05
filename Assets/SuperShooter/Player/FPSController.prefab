@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 234176997}
   - component: {fileID: 234176999}
   - component: {fileID: 234176998}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,7 +87,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4400883147678356}
   - component: {fileID: 20731726227305132}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MinimapCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ Transform:
   m_LocalScale: {x: 0.66666675, y: 0.6666673, z: 0.5000003}
   m_Children: []
   m_Father: {fileID: 4676842188027320}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90.00001, y: 0, z: 0}
 --- !u!20 &20731726227305132
 Camera:
@@ -164,7 +164,7 @@ GameObject:
   - component: {fileID: 3489475281826726826}
   - component: {fileID: 114342676579227726}
   - component: {fileID: 114626133326315404}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -181,8 +181,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 283351908}
+  m_Children: []
   m_Father: {fileID: 4402551686088608}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -274,7 +273,6 @@ MonoBehaviour:
   yMinLimit: -80
   yMaxLimit: 80
   resolveSpeed: 10
-  aimTarget: {fileID: 0}
 --- !u!114 &114626133326315404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -344,7 +342,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4464809808412632}
   - component: {fileID: 114049119670794258}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Shoulders
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -388,7 +386,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4324149899550320}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -418,7 +416,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4807250952554664}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Arm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -449,7 +447,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4216763949720276}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Elbow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -485,7 +483,7 @@ GameObject:
   - component: {fileID: 114973145238870596}
   - component: {fileID: 114310768618941658}
   - component: {fileID: 3122112222280077349}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: FPSController
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -570,7 +568,6 @@ MonoBehaviour:
   attachedCamera: {fileID: 20107630638721488}
   aimTarget: {fileID: 0}
   playerHand: {fileID: 4324149899550320}
-  playerArm: {fileID: 0}
   maxWeapons: 4
 --- !u!114 &114310768618941658
 MonoBehaviour:
@@ -607,7 +604,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4676842188027320}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Minimap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -625,7 +622,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4275326742064620}
   - {fileID: 4400883147678356}
   m_Father: {fileID: 4402551686088608}
   m_RootOrder: 2

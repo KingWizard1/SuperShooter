@@ -299,11 +299,6 @@ namespace SuperShooter
                 // that they'll fall almost immediately into void space... and die.
                 movement.y -= gravity * Time.deltaTime;
                 movement.y = Mathf.Max(movement.y, -gravity);
-<<<<<<< HEAD
-=======
-                movement.y -= gravity * Time.deltaTime;
->>>>>>> ad69605b576c64e24960ddb83a7e68acebb5c9e9
-
             }
 
 

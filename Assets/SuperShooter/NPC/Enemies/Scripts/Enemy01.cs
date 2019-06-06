@@ -7,7 +7,7 @@ using UnityEngine.AI;
 public class Enemy01 : MonoBehaviour
 {
     [Header("Movement")]
-    public Moves moves = Moves.Search;
+    public EnemyMovementState moves = EnemyMovementState.Search;
     [SerializeField]
     private Vector3 goToPos;
     [SerializeField]
@@ -74,22 +74,22 @@ public class Enemy01 : MonoBehaviour
 
         if (visibleTarget != null)
         {
-            moves = Moves.Goto;
+            moves = EnemyMovementState.Goto;
             goToPos = visibleTarget.transform.position;
         }
         else
         {
-            moves = Moves.Search;
+            moves = EnemyMovementState.Search;
 
         }
 
 
         switch (moves)
         {
-            case Moves.Goto:
+            case EnemyMovementState.Goto:
                 GoTo();
                 break;
-            case Moves.Search:
+            case EnemyMovementState.Search:
                 Search();
                 break;
         }
@@ -116,7 +116,7 @@ public class Enemy01 : MonoBehaviour
         agent.SetDestination(goToPos);
     }
 }
-public enum Moves
+public enum EnemyMovementState
 {
     Search,
     Goto,

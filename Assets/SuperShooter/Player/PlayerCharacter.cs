@@ -5,7 +5,7 @@ using UnityEngine;
 namespace SuperShooter
 {
     [RequireComponent(typeof(FPSController))]
-    public class Player : CharacterEntity
+    public class PlayerCharacter : CharacterEntity
     {
 
         [Header("Progression")]
@@ -98,8 +98,10 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
-        public override void OnDamageTaken()
+        public override void OnDamageTaken(int amount, ICharacterEntity from)
         {
+            // We have the option here to display
+            // how much damage was taken, and from whom.
 
             // Show damage indicator on the UI
             if (UIManager.Exists)

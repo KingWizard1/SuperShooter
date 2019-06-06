@@ -479,10 +479,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4402551686088608}
   - component: {fileID: 143862794934404832}
+  - component: {fileID: 3122112222280077349}
   - component: {fileID: 1686465407635152870}
   - component: {fileID: 114973145238870596}
   - component: {fileID: 114310768618941658}
-  - component: {fileID: 3122112222280077349}
   m_Layer: 8
   m_Name: FPSController
   m_TagString: Player
@@ -525,6 +525,20 @@ CharacterController:
   m_StepOffset: 0.4
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!136 &3122112222280077349
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1891511372562458}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.51
+  m_Height: 2
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1686465407635152870
 MonoBehaviour:
@@ -581,20 +595,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a4be891093fa3429cc419e9583c708, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!136 &3122112222280077349
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1891511372562458}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.51
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1955956066250966
 GameObject:
   m_ObjectHideFlags: 0

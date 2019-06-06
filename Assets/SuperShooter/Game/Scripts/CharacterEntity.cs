@@ -1,51 +1,19 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace SuperShooter
 {
-
-    /// <summary>MUST be coupled with a MonoBehaviour.</summary>
-    public interface IGameEntity
+    public interface ICharacterEntity : IGameEntity, ICanDie
     {
 
-        string name { get; set; }
+        int health { get; }
+        bool isDead { get; }
 
-        EntityModifier Modifiers { get; }
-
-        void SetVisibility(bool visible);
-
-        void MoveTo(Vector3 worldPos);
-
+        void TakeDamage(int amount, ICharacterEntity from);
     }
 
-    public abstract class GameEntity : MonoBehaviour, IGameEntity
+    public class CharacterEntity : GameEntity
     {
-
-        public EntityModifier Modifiers { get; }
-
-        public void SetVisibility(bool visible)
-        {
-            
-        }
-
-        public void MoveTo(Vector3 worldPos)
-        {
-            
-        }
-
-    }
-
-    // ----------------------------------------------------- //
-
-    public enum EntityModifier
-    {
-        None = 0,
-        Invincible = 5,
-    }
-
-    public class CharacterEntity : GameEntity, ICanDie
-    {
-
+        [Header("Health")]
         public int startHealth = 100;
 
         // ------------------------------------------------- //
@@ -64,7 +32,7 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
-        public void TakeDamage(int amount, IGameEntity from)
+        public void TakeDamage(int amount, ICharacterEntity from)
         {
             // Do nothing if we're amazing right now
             if (Modifiers.HasFlag(EntityModifier.Invincible))
@@ -77,7 +45,7 @@ namespace SuperShooter
             Debug.Log($"Entity '{name}' took {amount} damage from '{from.name}'.");
 
             //
-            OnDamageTaken();
+            OnDamageTaken(amount, from);
 
             // Did we die?
             if (health <= 0)
@@ -86,7 +54,27 @@ namespace SuperShooter
         }
 
         // Override
-        public virtual void OnDamageTaken() { }
+        public virtual void OnDamageTaken(int amount, ICharacterEntity from) { }    // Do nothing. MUST be overriden.
+
+        // ------------------------------------------------- //
+
+        public void DealDamage(int amount, ICharacterEntity target)
+        {
+            // Is target already dead?
+            if (target.isDead)
+                return;
+
+            // Deal damage
+            target.TakeDamage(amount, this);
+
+            // Run override
+            OnDamageDealt(amount, target);
+
+
+        }
+
+        // Override
+        public virtual void OnDamageDealt(int amount, ICharacterEntity target) { }  // Do nothing. MUST be overriden.
 
         // ------------------------------------------------- //
 
@@ -104,11 +92,8 @@ namespace SuperShooter
             
         }
 
-        // Overrides
-        public virtual void OnDeath()
-        {
-           // Destroy(this);
-                }
+        // Override
+        public virtual void OnDeath() { }   // Do nothing. MUST be overriden.
 
         // ------------------------------------------------- //
 

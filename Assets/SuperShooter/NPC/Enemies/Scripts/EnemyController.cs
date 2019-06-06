@@ -10,7 +10,7 @@ namespace SuperShooter
     public class EnemyController : MonoBehaviour
     {
         [Header("Movement")]
-        public EnemyMovementState moves = EnemyMovementState.Search;
+        public EnemyMovementState movementState = EnemyMovementState.Search;
         [SerializeField]
         private Vector3 goToPos;
         [SerializeField]
@@ -50,17 +50,17 @@ namespace SuperShooter
 
             if (visibleTarget != null)
             {
-                moves = EnemyMovementState.Goto;
+                movementState = EnemyMovementState.Goto;
                 goToPos = visibleTarget.transform.position;
             }
             else
             {
-                moves = EnemyMovementState.Search;
+                movementState = EnemyMovementState.Search;
 
             }
 
 
-            switch (moves)
+            switch (movementState)
             {
                 case EnemyMovementState.Goto:
                     GoTo();

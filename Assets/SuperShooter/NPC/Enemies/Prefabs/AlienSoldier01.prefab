@@ -1007,8 +1007,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2581900308347727006}
   - component: {fileID: 1845207558}
-  - component: {fileID: 6603679701488929085}
+  - component: {fileID: 8996423506982670780}
   - component: {fileID: 1845207561}
+  - component: {fileID: 6603679701488929085}
   m_Layer: 0
   m_Name: AlienSoldier01
   m_TagString: Untagged
@@ -1050,6 +1051,47 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &8996423506982670780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2581900308347727005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17e37a4ba971b3d46809675b5681f66b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startHealth: 100
+  damage: 25
+  weapon: {fileID: 0}
+  XPValue: 0
+--- !u!114 &1845207561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2581900308347727005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03d1d747388b025488375be9188ae172, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementState: 0
+  goToPos: {x: 0, y: 0, z: 0}
+  disToTarget: 0
+  searchDisToTarget: 0
+  viewRadius: 100
+  viewAngle: 180
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 1024
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
+  visibleTarget: {fileID: 0}
 --- !u!195 &6603679701488929085
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1072,32 +1114,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &1845207561
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2581900308347727005}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03d1d747388b025488375be9188ae172, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moves: 0
-  goToPos: {x: 0, y: 0, z: 0}
-  disToTarget: 0
-  searchDisToTarget: 0
-  viewRadius: 100
-  viewAngle: 180
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 1024
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 0
-  visibleTarget: {fileID: 0}
-  agent: {fileID: 0}
 --- !u!1 &2581900308359227933
 GameObject:
   m_ObjectHideFlags: 0

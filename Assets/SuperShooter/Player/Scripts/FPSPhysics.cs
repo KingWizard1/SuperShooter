@@ -18,7 +18,7 @@ namespace SuperShooter
         #region Privates
 
         // References
-        private Player player;
+        private PlayerCharacter player;
         private FPSController controller;
         private CharacterController character;
 
@@ -35,7 +35,7 @@ namespace SuperShooter
 
         private void Awake()
         {
-            player = GetComponent<Player>();
+            player = GetComponent<PlayerCharacter>();
             controller = GetComponent<FPSController>();
             character = GetComponent<CharacterController>();
           

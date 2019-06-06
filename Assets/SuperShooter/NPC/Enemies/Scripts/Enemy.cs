@@ -5,7 +5,8 @@ using UnityEngine;
 namespace SuperShooter
 {
 
-    public class Enemy : MonoBehaviour
+    [RequireComponent(typeof(EnemyController))]
+    public class Enemy : CharacterEntity
     {
 
         public int health = 100;

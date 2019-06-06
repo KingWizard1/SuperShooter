@@ -1007,6 +1007,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2581900308347727006}
   - component: {fileID: 1845207558}
+  - component: {fileID: 2353943161784093188}
   - component: {fileID: 8996423506982670780}
   - component: {fileID: 1845207561}
   - component: {fileID: 6603679701488929085}
@@ -1051,6 +1052,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2353943161784093188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2581900308347727005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b29821d85dd015847a246dad8d2a5fb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &8996423506982670780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1064,7 +1077,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startHealth: 100
-  damage: 25
+  meleeDamage: 25
   weapon: {fileID: 0}
   XPValue: 0
 --- !u!114 &1845207561
@@ -1092,6 +1105,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   visibleTarget: {fileID: 0}
+  gravity: 10
+  groundRayDistance: 1.1
+  isWithinStoppingDistance: 0
 --- !u!195 &6603679701488929085
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1106,7 +1122,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 500
-  m_StoppingDistance: 7.5
+  m_StoppingDistance: 5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1

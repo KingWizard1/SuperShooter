@@ -267,10 +267,11 @@ namespace SuperShooter
 
 
             // Is the controller grounded?
-            Ray groundRay = new Ray(transform.position, -transform.up);
-            RaycastHit hit;
-            bool isGrounded = Physics.Raycast(groundRay, out hit, groundRayDistance);
+            //Ray groundRay = new Ray(transform.position, -transform.up);
+            //RaycastHit hit;
+            //bool isGrounded = Physics.Raycast(groundRay, out hit, groundRayDistance);
 
+            bool isGrounded = transform.CheckIfGrounded(out RaycastHit hit, groundRayDistance);
             bool isJumpPressed = Input.GetButtonDown("Jump");
             bool canJump = jumps < maxJumps; // jumps = int, maxJumps = int
 

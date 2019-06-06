@@ -147,7 +147,7 @@ namespace SuperShooter
 
 
             // Check if killable
-            var killable = hit.transform.GetComponentInParent<ICanDie>();
+            var killable = hit.transform.GetComponentInParent<ICharacterEntity>();
             if (killable != null) {
 
                 // We hit something

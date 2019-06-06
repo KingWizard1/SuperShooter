@@ -70,7 +70,7 @@ namespace SuperShooter
             damaged = true;
 
             // ... set the colour of the damageImage to the flash colour.
-            damageImage.color = flashColour;
+            //damageImage.color = flashColour;
             
         }
 

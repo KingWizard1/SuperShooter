@@ -83,7 +83,7 @@ namespace SuperShooter
                 foreach(Collider nerbyObject in collider)
                 {
                     var rb = nerbyObject.GetComponent<Rigidbody>();
-                    var killable = nerbyObject.GetComponent<ICanDie>();
+                    var killable = nerbyObject.GetComponent<ICharacterEntity>();
                     if(rb != null)
                     {
                         rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);

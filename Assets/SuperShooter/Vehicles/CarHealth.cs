@@ -3,12 +3,12 @@ using UnityEngine;
 
 namespace SuperShooter
 {
-    public class CarHealth : GameEntity, ICanDie
+    public class CarHealth : GameEntity, ICharacterEntity
     {
 
         public int startingHealth = 50;
 
-        private int health = 0;
+        public int health { get; private set; }
 
         private void Start()
         {
@@ -26,7 +26,7 @@ namespace SuperShooter
 
         }
 
-        public void TakeDamage(int damage, IGameEntity from)
+        public void TakeDamage(int damage, ICharacterEntity from)
         {
 
             health -= damage;
@@ -44,6 +44,8 @@ namespace SuperShooter
         public GameObject damageSphere;
         public GameObject explosionParticle;
 
+        public bool isDead => throw new NotImplementedException();
+
         private void Explode()
         {
             if (explosionParticle != null)
@@ -57,7 +59,7 @@ namespace SuperShooter
             foreach (Collider nerbyObject in collider)
             {
                 var rb = nerbyObject.GetComponent<Rigidbody>();
-                var killable = nerbyObject.GetComponent<ICanDie>();
+                var killable = nerbyObject.GetComponent<ICharacterEntity>();
                 if (rb != null)
                 {
                     rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);

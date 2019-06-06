@@ -2,16 +2,18 @@
 
 namespace SuperShooter
 {
-    public interface ICharacterEntity : IGameEntity, ICanDie
+    public interface ICharacterEntity : IGameEntity
     {
 
         int health { get; }
         bool isDead { get; }
 
+        void Kill();
+
         void TakeDamage(int amount, ICharacterEntity from);
     }
 
-    public class CharacterEntity : GameEntity
+    public class CharacterEntity : GameEntity, ICharacterEntity
     {
         [Header("Health")]
         public int startHealth = 100;
@@ -42,7 +44,7 @@ namespace SuperShooter
             health -= amount;
 
             //
-            Debug.Log($"Entity '{name}' took {amount} damage from '{from.name}'.");
+            Debug.Log($"Character '{name}' took {amount} damage from '{from.name}'.");
 
             //
             OnDamageTaken(amount, from);
@@ -88,7 +90,7 @@ namespace SuperShooter
             OnDeath();
             
 
-            Debug.Log($"Entity '{name}' has died.");
+            Debug.Log($"Character '{name}' has died.");
             
         }
 

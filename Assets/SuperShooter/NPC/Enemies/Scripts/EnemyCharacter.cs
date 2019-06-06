@@ -10,10 +10,8 @@ namespace SuperShooter
     public class EnemyCharacter : CharacterEntity
     {
 
-        [Header("Melee")]
-        public int damage = 25;
-
-        [Header("Weapons")]
+        [Header("Attack")]
+        public int meleeDamage = 25;
         public GameObject weapon;
 
         [Header("Rewards")]
@@ -24,12 +22,14 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
+        private Animator _animator;
         private EnemyController _controller;
 
         // ------------------------------------------------- //
 
         private void Awake()
         {
+            _animator = GetComponent<Animator>();
             _controller = GetComponent<EnemyController>();
         }
 
@@ -46,10 +46,29 @@ namespace SuperShooter
         private void Update()
         {
 
+            _animator.SetBool("meleeAttack", _controller.isWithinStoppingDistance);
+
+
         }
 
         // ------------------------------------------------- //
 
+
+        // ------------------------------------------------- //
+
+
+        // ------------------------------------------------- //
+
+        public void KickTarget()
+        {
+
+            // Try and get a CharacterEntity script from the target.
+            // If it has one, tell it to take some damage.
+            var target = _controller.target;
+            if (target != null)
+                target.GetComponent<ICharacterEntity>()?.TakeDamage(meleeDamage, this);
+
+        }
 
         // ------------------------------------------------- //
 

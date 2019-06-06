@@ -10,7 +10,7 @@ namespace SuperShooter
     public class EnemyController : MonoBehaviour
     {
         [Header("Movement")]
-        public EnemyMovementState movementState = EnemyMovementState.Search;
+        public EnemyControllerState movementState = EnemyControllerState.Search;
         [SerializeField]
         private Vector3 goToPos;
         [SerializeField]
@@ -26,7 +26,15 @@ namespace SuperShooter
         public float viewAngle;
         public LayerMask targetLayer;
         public LayerMask obstacleMask;
-        public Transform visibleTarget;
+        public Transform target;
+
+        public float gravity = 10f;
+        public float groundRayDistance = 1.1f;
+
+        // ------------------------------------------------- //
+
+        // Scripting properties
+        public bool isWithinStoppingDistance = false;
 
         // ------------------------------------------------- //
 
@@ -47,28 +55,45 @@ namespace SuperShooter
 
             disToTarget = (goToPos - transform.position).magnitude;
 
-
-            if (visibleTarget != null)
+            if (target != null)
             {
-                movementState = EnemyMovementState.Goto;
-                goToPos = visibleTarget.transform.position;
+                movementState = EnemyControllerState.Goto;
+                goToPos = target.transform.position;
+
+                // Check distance to target
+                isWithinStoppingDistance = disToTarget < agent.stoppingDistance;
             }
             else
             {
-                movementState = EnemyMovementState.Search;
+                movementState = EnemyControllerState.Search;
 
+                isWithinStoppingDistance = false;
             }
 
+
+            // Are we on the ground?
+            // If not, simulate gravity and fall until we do hit ground.
+            // NavMeshAgent doesn't like it when we call SetDestination() when not on a NavMesh.
+            //bool isGrounded = transform.CheckIfGrounded(out RaycastHit hit, groundRayDistance);
+            //if (!isGrounded) {
+            //    var y = transform.position.y - (gravity * Time.deltaTime);
+            //    transform.position = new Vector3(transform.position.x, y, transform.position.z);
+            //    return;
+            //}
+            //Debug.Log("Grounded!");
 
             switch (movementState)
             {
-                case EnemyMovementState.Goto:
+                case EnemyControllerState.Goto:
                     GoTo();
                     break;
-                case EnemyMovementState.Search:
+                case EnemyControllerState.Search:
                     Search();
                     break;
             }
+
+
+
         }
 
         // ------------------------------------------------- //
@@ -77,7 +102,7 @@ namespace SuperShooter
 
         void FindVisibleTarget()
         {
-            visibleTarget = null;
+            target = null;
             Collider[] targetsInRadius = Physics.OverlapSphere(transform.position, viewRadius, targetLayer);
             for (int i = 0; i < targetsInRadius.Length; i++)
             {
@@ -89,7 +114,7 @@ namespace SuperShooter
                     if (!Physics.Raycast(transform.position, dirToTarget, distToTarget, obstacleMask))
                     {
 
-                        visibleTarget = target;
+                        this.target = target;
 
                     }
                 }
@@ -133,7 +158,7 @@ namespace SuperShooter
         }
     }
 
-    public enum EnemyMovementState
+    public enum EnemyControllerState
     {
         Search,
         Goto,

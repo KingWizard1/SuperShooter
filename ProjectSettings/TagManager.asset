@@ -7,6 +7,8 @@ TagManager:
   - Vehicle
   - Weapon
   - Bullet
+  - Enemy
+  - Blocker
   layers:
   - Default
   - TransparentFX

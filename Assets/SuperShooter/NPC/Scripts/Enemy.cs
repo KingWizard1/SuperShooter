@@ -23,6 +23,12 @@ namespace SuperShooter
                 XPGive();
             }
 
+            if (isDead == true)
+            {
+                Destroy(this.gameObject);
+
+            }
+
         }
         // ------------------------------------------------- //
         public void DealDamage(int amount)
@@ -38,6 +44,7 @@ namespace SuperShooter
         {
             if (isDead == true)
             {
+                
                 print("Yes");
             }
         }

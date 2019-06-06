@@ -105,7 +105,10 @@ namespace SuperShooter
         }
 
         // Overrides
-        public virtual void OnDeath() { }
+        public virtual void OnDeath()
+        {
+           // Destroy(this);
+                }
 
         // ------------------------------------------------- //
 

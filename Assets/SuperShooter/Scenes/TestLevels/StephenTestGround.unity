@@ -369,6 +369,11 @@ PrefabInstance:
       propertyPath: searchDisToTarget
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6603679701488929085, guid: 6ef9d1f07df02bb4ba0497153c39a73d,
+        type: 3}
+      propertyPath: m_StoppingDistance
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2581900308084759901, guid: 6ef9d1f07df02bb4ba0497153c39a73d,
         type: 3}
       propertyPath: m_Layer

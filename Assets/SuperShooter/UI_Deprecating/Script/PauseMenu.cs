@@ -93,7 +93,7 @@ namespace SuperShooter
 
         public void Volume()
         {
-            soundAudio.volume = soundSlider.value;
+            //soundAudio.volume = soundSlider.value;
         }
 
         public void OnClickSystemPanel()

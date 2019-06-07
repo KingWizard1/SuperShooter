@@ -168,7 +168,7 @@ namespace SuperShooter
         Search,
         Goto,
         Flee,
-        Shoot
+        Attack
 
     }
 }

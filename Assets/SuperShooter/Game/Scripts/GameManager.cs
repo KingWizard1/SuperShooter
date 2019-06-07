@@ -9,18 +9,18 @@ namespace SuperShooter
     public class GameManager : MonoBehaviour
     {
 
-        [Header("Time")]
-        public float globalTimeScale = 1;
+        public PlayerCharacter PlayerObject;
+
+        // ------------------------------------------------- //
+
+        // Singleton
         public static GameManager Main { get; private set; }
 
         // ------------------------------------------------- //
 
-        // Accessors
-        public PlayerCharacter Player { get; private set; }
-
-        // ------------------------------------------------- //
-
         private SpawnPoints spawnPoints;
+
+        public PlayerCharacter PlayerCharacter { get; private set; }
 
         // ------------------------------------------------- //
 
@@ -38,11 +38,15 @@ namespace SuperShooter
 
         private void Start()
         {
-            Debug.Log("Started!");
-            var playerObj = GameObject.FindGameObjectWithTag("Player");
-            Player = playerObj.GetComponent<PlayerCharacter>();
-            if (Player == null)
-                Debug.LogError($"Could not find player object in the scene with a {nameof(PlayerCharacter)} script attached!");
+            if (PlayerObject != null) {
+                PlayerCharacter = PlayerObject.GetComponent<PlayerCharacter>();
+                if (PlayerCharacter == null)
+                    Debug.LogError($"Player object '{PlayerObject.name}' does not have the " +
+                        $"{nameof(PlayerCharacter)} script attached! Are you using the right prefab??");
+            }
+            else
+                Debug.LogError($"No player has been assigned to the {nameof(GameManager)}!!");
+            
 
         }
 

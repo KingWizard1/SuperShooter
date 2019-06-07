@@ -36,6 +36,10 @@ namespace SuperShooter
 
         public void TakeDamage(int amount, ICharacterEntity from)
         {
+            // Do nothing if we're already dead.
+            if (isDead)
+                return;
+
             // Do nothing if we're amazing right now
             if (Modifiers.HasFlag(EntityModifier.Invincible))
                 return;

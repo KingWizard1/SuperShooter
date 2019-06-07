@@ -36,9 +36,14 @@ namespace SuperShooter
         // When then redirect the logic to a UnityEvent (above) which allows us to have
         // more editor-control when creating logic.
 
+        public void IdleEvent()
+        {
+            //_character.AnimationReturnedToIdle();
+        }
+
         public void KickEvent()
         {
-            _character.KickTarget();
+            _character.AnimationKickEvent();
         }
 
         #endregion

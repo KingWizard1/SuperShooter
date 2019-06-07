@@ -1078,8 +1078,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startHealth: 100
   meleeDamage: 25
+  meleeRange: 5
+  shootingRange: 10
   weapon: {fileID: 0}
   XPValue: 0
+  characterState: 0
 --- !u!114 &1845207561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1104,10 +1107,10 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 0
-  visibleTarget: {fileID: 0}
-  gravity: 10
+  target: {fileID: 0}
+  gravity: 20
   groundRayDistance: 1.1
-  isWithinStoppingDistance: 0
+  lastKnowPosition: {x: 0, y: 0, z: 0}
 --- !u!195 &6603679701488929085
 NavMeshAgent:
   m_ObjectHideFlags: 0

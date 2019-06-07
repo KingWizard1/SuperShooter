@@ -26,6 +26,8 @@ namespace SuperShooter
 
         [Header("Attack")]
         public int meleeDamage = 25;
+        public float meleeRange = 5;
+        public float shootingRange = 10;
         public GameObject weapon;
 
         [Header("Rewards")]
@@ -64,12 +66,26 @@ namespace SuperShooter
         private void Update()
         {
 
-
+            UpdateAgentProperties();
             UpdateCharacterState();
 
         }
 
         // ------------------------------------------------- //
+
+        private void UpdateAgentProperties()
+        {
+
+            // If we have a weapon equipped, we want the controller
+            // to get within shooting range of the target. If no weapon,
+            // then we want it to get within melee range instead.
+            if (weapon != null)
+                _controller.stoppingDistance = shootingRange;
+            else
+                _controller.stoppingDistance = meleeRange;
+
+
+        }
 
         private void UpdateCharacterState()
         {
@@ -81,6 +97,8 @@ namespace SuperShooter
             // Is character idle? (Agent NOT active)
             if (!_controller.isAgentActive) {
                 characterState = EnemyCharacterState.Idle;
+                // Set the animator state.
+                _setAnimationState();
                 return;
             }
 
@@ -88,16 +106,23 @@ namespace SuperShooter
             if (GameManager.Main != null && GameManager.Main.PlayerCharacter != null)
                 if (GameManager.Main.PlayerCharacter.isDead) {
                     characterState = EnemyCharacterState.Victory;
+                    // Set the animator state.
+                    _setAnimationState();
                     return;
                 }
 
             // Do we have a weapon equipped?
             if (weapon != null) {
 
-                // We will use melee attacks.
+                // We will use weapon attacks.
                 if (_controller.movementState == EnemyControllerState.Goto ||
                     _controller.movementState == EnemyControllerState.Search)
                     characterState = EnemyCharacterState.RunningWeaponAttack;
+
+                if (_controller.isWithinStoppingDistance)
+                {
+                    // TODO: Shoot.
+                }
             }
             else {
 
@@ -106,15 +131,21 @@ namespace SuperShooter
                     _controller.movementState == EnemyControllerState.Search)
                     characterState = EnemyCharacterState.Running;
 
+                // Melee attack!
+                // The animation clip is expected to have an animation event
+                // that will fire a function at the peak of the attack action.
+                if (_controller.isWithinStoppingDistance) {
+                    characterState = EnemyCharacterState.StandingMeleeAttack;
+                    _controller.movementState = EnemyControllerState.Melee;
+                }
             }
 
             // Are we running away from danger?
             if (_controller.movementState == EnemyControllerState.Flee)
                 characterState = EnemyCharacterState.Running;
 
-
-            // Set the animator state.
-            _animator.SetInteger("characterState", (int)characterState);
+            // Set the animation state.
+            _setAnimationState();
 
             // Done.
 
@@ -122,10 +153,16 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
+        private void _setAnimationState()
+        {
+            // Set the animation state.
+            _animator.SetInteger("characterState", (int)characterState);
+        }
 
         // ------------------------------------------------- //
 
-        public void KickTarget()
+        // Called by the related animation event script.
+        public void AnimationKickEvent()
         {
 
             // Try and get a CharacterEntity script from the target.

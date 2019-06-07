@@ -140,9 +140,19 @@ namespace SuperShooter
 
         #region Player Progression
 
-        private void GiveXP(int amount)
+        public sealed override void OnTargetKilled(ICharacterEntity target)
         {
 
+            if (target is EnemyCharacter enemy)
+            {
+                GiveXP(enemy.XPValue);
+            }
+
+        }
+
+        private void GiveXP(int amount)
+        {
+            
         }
 
         #endregion

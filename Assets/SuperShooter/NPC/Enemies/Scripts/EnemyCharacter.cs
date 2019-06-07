@@ -5,6 +5,20 @@ using UnityEngine.Events;
 
 namespace SuperShooter
 {
+    public enum EnemyCharacterState
+    {   
+        Idle = 0,
+        Walking = 1,
+        Running = 2,
+        StandingMeleeAttack = 3,
+        StandingWeaponAttack = 4,
+        RunningWeaponAttack = 5,
+
+        Victory = 32,
+
+        DiedBackward = 63,
+        DiedForward = 64,
+    }
 
     [RequireComponent(typeof(EnemyController))]
     public class EnemyCharacter : CharacterEntity
@@ -19,6 +33,10 @@ namespace SuperShooter
 
         //[Header("Events")]
         //public UnityEvent ev = new UnityEvent();
+
+        // ------------------------------------------------- //
+
+        public EnemyCharacterState characterState = EnemyCharacterState.Idle;
 
         // ------------------------------------------------- //
 
@@ -46,13 +64,55 @@ namespace SuperShooter
         private void Update()
         {
 
-            _animator.SetBool("meleeAttack", _controller.isWithinStoppingDistance);
 
+            UpdateCharacterState();
 
         }
 
         // ------------------------------------------------- //
 
+        private void UpdateCharacterState()
+        {
+
+            // Are we dead? Do nothing.
+            if (isDead)
+                return;
+
+            // Is character idle? (Agent NOT active)
+            if (!_controller.isAgentActive) {
+                characterState = EnemyCharacterState.Idle;
+                return;
+            }
+
+            // Is the main player dead?
+            if (GameManager.Main.Player.isDead) {
+                characterState = EnemyCharacterState.Victory;
+                return;
+            }
+
+            // Do we have a weapon equipped?
+            if (weapon != null) {
+
+                // We will use melee attacks.
+                if (_controller.movementState == EnemyControllerState.Goto ||
+                    _controller.movementState == EnemyControllerState.Search)
+                    characterState = EnemyCharacterState.RunningWeaponAttack;
+            }
+            else {
+
+                // We will use melee attacks.
+                if (_controller.movementState == EnemyControllerState.Goto ||
+                    _controller.movementState == EnemyControllerState.Search)
+                    characterState = EnemyCharacterState.Running;
+            }
+
+            // Are we running away from danger?
+            if (_controller.movementState == EnemyControllerState.Flee)
+                characterState = EnemyCharacterState.Running;
+
+            // Done.
+
+        }
 
         // ------------------------------------------------- //
 

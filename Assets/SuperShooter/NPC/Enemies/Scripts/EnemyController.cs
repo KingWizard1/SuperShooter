@@ -34,17 +34,19 @@ namespace SuperShooter
         // ------------------------------------------------- //
 
         // Scripting properties
-        public bool isWithinStoppingDistance = false;
+        public bool isAgentActive => _agent.enabled;
+        public bool isWithinStoppingDistance { get; private set; }
 
         // ------------------------------------------------- //
 
-        private NavMeshAgent agent;
+        private NavMeshAgent _agent;
 
         // ------------------------------------------------- //
 
         void Awake()
         {
-            agent = GetComponent<NavMeshAgent>();
+            _agent = GetComponent<NavMeshAgent>();
+            _agent.enabled = false;  // Disable by default.
         }
 
         // ------------------------------------------------- //
@@ -55,13 +57,27 @@ namespace SuperShooter
 
             disToTarget = (goToPos - transform.position).magnitude;
 
+            // Are we on the ground?
+            // If not, simulate gravity and fall until we do hit ground.
+            bool isGrounded = transform.CheckIfGrounded(out RaycastHit hit, groundRayDistance);
+            if (!isGrounded) {
+                var y = transform.position.y - (gravity * Time.deltaTime);
+                transform.position = new Vector3(transform.position.x, y, transform.position.z);
+                return;
+            }
+
+            // Enable or disable the agent depending on whether we are grounded.
+            // NavMeshAgent doesn't like it when we call SetDestination() when not on a NavMesh.
+            _agent.enabled = isGrounded;
+
+            // If we have a target, lets configure the agent to move toward them.
             if (target != null)
             {
                 movementState = EnemyControllerState.Goto;
                 goToPos = target.transform.position;
 
                 // Check distance to target
-                isWithinStoppingDistance = disToTarget < agent.stoppingDistance;
+                isWithinStoppingDistance = disToTarget < _agent.stoppingDistance;
             }
             else
             {
@@ -70,17 +86,6 @@ namespace SuperShooter
                 isWithinStoppingDistance = false;
             }
 
-
-            // Are we on the ground?
-            // If not, simulate gravity and fall until we do hit ground.
-            // NavMeshAgent doesn't like it when we call SetDestination() when not on a NavMesh.
-            //bool isGrounded = transform.CheckIfGrounded(out RaycastHit hit, groundRayDistance);
-            //if (!isGrounded) {
-            //    var y = transform.position.y - (gravity * Time.deltaTime);
-            //    transform.position = new Vector3(transform.position.x, y, transform.position.z);
-            //    return;
-            //}
-            //Debug.Log("Grounded!");
 
             switch (movementState)
             {
@@ -92,7 +97,7 @@ namespace SuperShooter
                     break;
             }
 
-
+            
 
         }
 
@@ -136,7 +141,7 @@ namespace SuperShooter
 
         void GoTo()
         {
-            agent.SetDestination(goToPos);
+            _agent.SetDestination(goToPos);
         }
 
         float time;
@@ -154,7 +159,7 @@ namespace SuperShooter
                 goToPos = transform.position + new Vector3(Random.Range(-5, 5), transform.position.y, Random.Range(-5, 5));
             }
             time += Time.deltaTime;
-            agent.SetDestination(goToPos);
+            _agent.SetDestination(goToPos);
         }
     }
 

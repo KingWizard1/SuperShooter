@@ -9,8 +9,8 @@ namespace SuperShooter
     {
 
         [Header("Progression")]
-        public int XP = 0;
-        public int XPRequiredToLevel = 0;
+        public int curXP = 0;
+        public int XPRequiredToLevel = 25;
         public int XPLevel = 1;
 
         [Header("Dash")]
@@ -150,9 +150,22 @@ namespace SuperShooter
 
         }
 
-        private void GiveXP(int amount)
+        private void GiveXP(int amount) // amount = the amount of XP the enemy gives to you
         {
-            
+            curXP += amount; // plussing current XP by the amount of XP the enemy gives
+
+            if (curXP >= XPRequiredToLevel) // if you have enough XP to level up
+            {
+                LevelUp(); // level up
+                curXP = 0; // sets XP back to 0
+                Debug.Log("LeveledUp");
+            }
+        }
+
+        private void LevelUp() // is called when you level up
+        {
+            XPLevel++; // incrimemts your XP level by 1
+            Debug.Log(XPLevel);
         }
 
         #endregion

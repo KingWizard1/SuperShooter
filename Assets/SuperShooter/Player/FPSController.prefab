@@ -30,7 +30,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4402551686088608}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &234176999
 MeshFilter:
@@ -181,7 +181,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4464809808412632}
   m_Father: {fileID: 4402551686088608}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -356,13 +357,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1361540433381948}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4807250952554664}
-  m_Father: {fileID: 4402551686088608}
-  m_RootOrder: 1
+  m_Father: {fileID: 4597451510964996}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114049119670794258
 MonoBehaviour:
@@ -502,7 +503,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1.5, z: 1}
   m_Children:
   - {fileID: 4597451510964996}
-  - {fileID: 4464809808412632}
   - {fileID: 4676842188027320}
   - {fileID: 234176997}
   m_Father: {fileID: 0}
@@ -583,6 +583,8 @@ MonoBehaviour:
   aimTarget: {fileID: 0}
   playerHand: {fileID: 4324149899550320}
   maxWeapons: 4
+  Cam: {fileID: 0}
+  currentWeapon: {fileID: 0}
 --- !u!114 &114310768618941658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -624,5 +626,5 @@ Transform:
   m_Children:
   - {fileID: 4400883147678356}
   m_Father: {fileID: 4402551686088608}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

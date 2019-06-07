@@ -32,6 +32,7 @@ namespace SuperShooter
         [Header("Powerups")]
         public bool isInvincible;
         public bool isDoubleSpeed;
+        public bool isZoomed;
 
         [Header("References")]
         public Camera attachedCamera;
@@ -73,6 +74,7 @@ namespace SuperShooter
         private CharacterController character;
         public FPSCameraLook cameraLook { get; private set; }
         private FPSPhysics physics;
+        public GameObject Cam;
 
         // Movement
         private Vector3 movement;       // Current movement vector
@@ -90,7 +92,7 @@ namespace SuperShooter
         private Ability currentAbility;            // Current ability.
         private Throwable currentThrowable;        // Current throwable.
 
-        private Weapon currentWeapon;       // Current weapon. Public for testing, make private later.
+        public Weapon currentWeapon;       // Current weapon. Public for testing, make private later.
         private List<Weapon> weapons = new List<Weapon>();  // Weapons on hand.
         private int currentWeaponIndex = 0; // Current weapon index.
 
@@ -149,6 +151,8 @@ namespace SuperShooter
 
             defaultPlayerHandPosition = playerHand.localPosition;
 
+            
+
         }
 
         // ------------------------------------------------- //
@@ -177,16 +181,20 @@ namespace SuperShooter
 
         private void Update()
         {
-         
+
             UpdateMovement();
             UpdateInteract();
 
-            UpdateAim();
+                UpdateAim();
+            
             UpdateAbilities();
             UpdateThrowables();
             UpdateWeaponShooting();
             UpdateWeaponSwitching();
 
+
+            
+        
             // DEBUG
             if (Input.GetKeyDown(KeyCode.BackQuote))
             {
@@ -202,6 +210,7 @@ namespace SuperShooter
             if (currentWeapon)
             {
                 currentWeapon.gameObject.transform.localPosition = currentWeapon.playerHandOffset;
+              //  currentWeapon.gameObject.transform.rotation = Cam.transform.rotation;
             }
 
             //Debug.Log($"{nameof(FPSController)}.Update() end");
@@ -508,17 +517,23 @@ namespace SuperShooter
             if (currentWeapon == null)
                 return;
 
+            if (Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                // Camera FOV
+                cameraLook.ZoomTo(currentWeapon.zoomLevels[0], currentWeapon.timeToADS);
+               
+            }
+
             // On MouseRightDown else Up
             if (Input.GetKeyDown(KeyCode.Mouse1))
             {
                 // Player hand is now up to the their "eye"
                 playerHand.localPosition = 
-                    new Vector3(0, playerHand.localPosition.y + .05f, playerHand.localPosition.z);
+                    new Vector3(-.05f, playerHand.localPosition.y + .03f, playerHand.localPosition.z + -.58f);
 
-                // Camera FOV
-                cameraLook.ZoomTo(currentWeapon.zoomLevels[0], currentWeapon.timeToADS);
+
             }
-            else if (Input.GetKeyUp(KeyCode.Mouse1))
+           /* else if (Input.GetKeyUp(KeyCode.Mouse1))
             {
                 // Return to hip fire position
                 playerHand.localPosition =
@@ -527,7 +542,12 @@ namespace SuperShooter
 
                 // Reset camera FOV
                 cameraLook.ZoomToDefault(currentWeapon.timeToUnADS);
+                isZoomed = true;
             }
+            */
+            // On MouseRightDown else Up
+
+
 
 
         }
@@ -616,8 +636,8 @@ namespace SuperShooter
                 //itemTransform.localPosition = w.playerHandOffset;
                 //w.aimTarget = aimTarget;
 
-                var lat = w.gameObject.AddComponent<FPSLookAtDirection>();
-                lat.target = aimTarget;
+            //    var lat = w.gameObject.AddComponent<FPSLookAtDirection>();
+              //  lat.target = aimTarget;
             }
             
         }

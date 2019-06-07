@@ -26,6 +26,8 @@ namespace SuperShooter
         private Vector2 euler; // Current rotation of the camera
         private Vector3 targetOffset, currentOffset;
 
+        
+
         // ------------------------------------------------- //
 
         public float FOV => attachedCamera?.fieldOfView ?? 0;
@@ -140,6 +142,8 @@ namespace SuperShooter
             // Rotate the Player and Transform seperately
             transform.parent.localEulerAngles = new Vector3(0f, x + currentOffset.y, 0f);
             transform.localEulerAngles = new Vector3(y - currentOffset.x, 0f, 0f);
+           
+            
         }
 
         // ------------------------------------------------- //

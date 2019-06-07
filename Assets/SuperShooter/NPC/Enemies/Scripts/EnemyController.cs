@@ -18,7 +18,7 @@ namespace SuperShooter
         /// <summary>
         /// The distance away from the 'goToPos' that results in the 'Search' function.
         /// </summary>
-        public float searchDisToTarget;
+        public float searchDisToTarget;  
 
         [Header("Sight")]
         public float viewRadius;
@@ -60,7 +60,8 @@ namespace SuperShooter
             // Are we on the ground?
             // If not, simulate gravity and fall until we do hit ground.
             bool isGrounded = transform.CheckIfGrounded(out RaycastHit hit, groundRayDistance);
-            if (!isGrounded) {
+            if (!isGrounded)
+            {
                 var y = transform.position.y - (gravity * Time.deltaTime);
                 transform.position = new Vector3(transform.position.x, y, transform.position.z);
                 return;
@@ -97,7 +98,7 @@ namespace SuperShooter
                     break;
             }
 
-            
+
 
         }
 
@@ -161,6 +162,7 @@ namespace SuperShooter
             time += Time.deltaTime;
             _agent.SetDestination(goToPos);
         }
+
     }
 
     public enum EnemyControllerState
@@ -168,7 +170,7 @@ namespace SuperShooter
         Search,
         Goto,
         Flee,
-        Shoot
-
+        Shoot,
+        melee
     }
 }

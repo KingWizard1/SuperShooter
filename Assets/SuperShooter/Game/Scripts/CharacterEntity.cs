@@ -72,11 +72,16 @@ namespace SuperShooter
             // Run override
             OnDamageDealt(amount, target);
 
+            if (target.isDead)
+                OnTargetKilled(target);
+
 
         }
 
         // Override
         public virtual void OnDamageDealt(int amount, ICharacterEntity target) { }  // Do nothing. MUST be overriden.
+
+        public virtual void OnTargetKilled(ICharacterEntity target) { } // Do nothing. MUST be overriden.
 
         // ------------------------------------------------- //
 

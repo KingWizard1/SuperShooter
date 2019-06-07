@@ -171,6 +171,7 @@ namespace SuperShooter
         Goto,
         Flee,
         Shoot,
-        melee
+        Melee
+
     }
 }

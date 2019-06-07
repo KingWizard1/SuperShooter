@@ -85,10 +85,11 @@ namespace SuperShooter
             }
 
             // Is the main player dead?
-            if (GameManager.Main.Player.isDead) {
-                characterState = EnemyCharacterState.Victory;
-                return;
-            }
+            if (GameManager.Main != null && GameManager.Main.PlayerCharacter != null)
+                if (GameManager.Main.PlayerCharacter.isDead) {
+                    characterState = EnemyCharacterState.Victory;
+                    return;
+                }
 
             // Do we have a weapon equipped?
             if (weapon != null) {
@@ -104,11 +105,16 @@ namespace SuperShooter
                 if (_controller.movementState == EnemyControllerState.Goto ||
                     _controller.movementState == EnemyControllerState.Search)
                     characterState = EnemyCharacterState.Running;
+
             }
 
             // Are we running away from danger?
             if (_controller.movementState == EnemyControllerState.Flee)
                 characterState = EnemyCharacterState.Running;
+
+
+            // Set the animator state.
+            _animator.SetInteger("characterState", (int)characterState);
 
             // Done.
 

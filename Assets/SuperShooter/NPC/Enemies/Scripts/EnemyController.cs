@@ -28,8 +28,13 @@ namespace SuperShooter
         public LayerMask obstacleMask;
         public Transform target;
 
+        [Header("Physic")]
         public float gravity = 10f;
         public float groundRayDistance = 1.1f;
+        [SerializeField]
+        private Vector3 lastKnowPosition;
+        bool hasChecked;
+
 
         // ------------------------------------------------- //
 
@@ -47,12 +52,15 @@ namespace SuperShooter
         {
             _agent = GetComponent<NavMeshAgent>();
             _agent.enabled = false;  // Disable by default.
+            _agent.updateRotation = false;
         }
 
         // ------------------------------------------------- //
 
         void Update()
         {
+
+
             FindVisibleTarget();
 
             disToTarget = (goToPos - transform.position).magnitude;
@@ -60,7 +68,8 @@ namespace SuperShooter
             // Are we on the ground?
             // If not, simulate gravity and fall until we do hit ground.
             bool isGrounded = transform.CheckIfGrounded(out RaycastHit hit, groundRayDistance);
-            if (!isGrounded) {
+            if (!isGrounded)
+            {
                 var y = transform.position.y - (gravity * Time.deltaTime);
                 transform.position = new Vector3(transform.position.x, y, transform.position.z);
                 return;
@@ -70,20 +79,44 @@ namespace SuperShooter
             // NavMeshAgent doesn't like it when we call SetDestination() when not on a NavMesh.
             _agent.enabled = isGrounded;
 
+            // Check distance to target
+            isWithinStoppingDistance = disToTarget < _agent.stoppingDistance;
+
+            if (isWithinStoppingDistance)
+            {
+                hasChecked = true;
+
+
+                transform.LookAt(new Vector3(goToPos.x, transform.position.y, goToPos.z));
+
+            }
+
+            else
+            {
+
+                    transform.rotation = Quaternion.LookRotation(_agent.velocity);
+            }
+
             // If we have a target, lets configure the agent to move toward them.
             if (target != null)
             {
-                movementState = EnemyControllerState.Goto;
-                goToPos = target.transform.position;
+                hasChecked = false;
+                lastKnowPosition = target.position;
 
-                // Check distance to target
-                isWithinStoppingDistance = disToTarget < _agent.stoppingDistance;
+                movementState = EnemyControllerState.Goto;
+                goToPos = target.position;
             }
             else
             {
-                movementState = EnemyControllerState.Search;
-
-                isWithinStoppingDistance = false;
+                //if they have checked the players last known pos, it will begin the search.
+                if (hasChecked)
+                {
+                    movementState = EnemyControllerState.Search;
+                }
+                else
+                {
+                    goToPos = lastKnowPosition;
+                }
             }
 
 
@@ -97,7 +130,7 @@ namespace SuperShooter
                     break;
             }
 
-            
+
 
         }
 
@@ -161,6 +194,7 @@ namespace SuperShooter
             time += Time.deltaTime;
             _agent.SetDestination(goToPos);
         }
+
     }
 
     public enum EnemyControllerState
@@ -168,7 +202,8 @@ namespace SuperShooter
         Search,
         Goto,
         Flee,
-        Shoot
+        Shoot,
+        Melee
 
     }
 }

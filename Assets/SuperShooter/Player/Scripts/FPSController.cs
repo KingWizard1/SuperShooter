@@ -28,7 +28,7 @@ namespace SuperShooter
         public float jumpHeight = 20f;
         public float interactRange = 10f;
         public float groundRayDistance = 1.1f;
-        
+
         [Header("Powerups")]
         public bool isInvincible;
         public bool isDoubleSpeed;
@@ -151,7 +151,7 @@ namespace SuperShooter
 
             defaultPlayerHandPosition = playerHand.localPosition;
 
-            
+
 
         }
 
@@ -171,7 +171,7 @@ namespace SuperShooter
                 // as well as ensures our indexes are correct and ready for weapon switching.
                 SelectWeapon(0);
             }
-            
+
 
         }
 
@@ -185,16 +185,16 @@ namespace SuperShooter
             UpdateMovement();
             UpdateInteract();
 
-                UpdateAim();
-            
+            UpdateAim();
+
             UpdateAbilities();
             UpdateThrowables();
             UpdateWeaponShooting();
             UpdateWeaponSwitching();
 
 
-            
-        
+
+
             // DEBUG
             if (Input.GetKeyDown(KeyCode.BackQuote))
             {
@@ -210,7 +210,7 @@ namespace SuperShooter
             if (currentWeapon)
             {
                 currentWeapon.gameObject.transform.localPosition = currentWeapon.playerHandOffset;
-              //  currentWeapon.gameObject.transform.rotation = Cam.transform.rotation;
+                //  currentWeapon.gameObject.transform.rotation = Cam.transform.rotation;
             }
 
             //Debug.Log($"{nameof(FPSController)}.Update() end");
@@ -240,9 +240,11 @@ namespace SuperShooter
                 isOnLadder = true;
             }
 
-            if (isOnLadder) {
-                
-                if (Input.GetKey("w") || Input.GetKey("s") || Input.GetButtonDown("Jump")) {
+            if (isOnLadder)
+            {
+
+                if (Input.GetKey("w") || Input.GetKey("s") || Input.GetButtonDown("Jump"))
+                {
 
                     isOnLadder = true;
                     // We're on a ladder.
@@ -270,7 +272,7 @@ namespace SuperShooter
                 }
                 else
                     return;
-                
+
             }
 
 
@@ -284,9 +286,11 @@ namespace SuperShooter
             bool isJumpPressed = Input.GetButtonDown("Jump");
             bool canJump = jumps < maxJumps; // jumps = int, maxJumps = int
 
-            if (isGrounded) {
+            if (isGrounded)
+            {
 
-                if (isJumpPressed) {
+                if (isJumpPressed)
+                {
 
                     jumps = 1;
 
@@ -295,9 +299,11 @@ namespace SuperShooter
                 }
 
             }
-            else {
+            else
+            {
 
-                if (isJumpPressed && canJump) {
+                if (isJumpPressed && canJump)
+                {
                     movement.y += jumpHeight;
                     jumps++;
                 }
@@ -371,11 +377,11 @@ namespace SuperShooter
             if (MovementState == MovementState.Running && inputV > 0)   // Only if running forward.
                 cameraLook.ZoomTo(cameraLook.defaultFOV + 5, 1.5f);
             else
-               // cameraLook.ZoomToDefault(1.5f);
+                // cameraLook.ZoomToDefault(1.5f);
 
 
-            // Apply movement to X and Z.
-            movement.x = input.x * MoveSpeed;
+                // Apply movement to X and Z.
+                movement.x = input.x * MoveSpeed;
             movement.z = input.z * MoveSpeed;
         }
 
@@ -480,7 +486,7 @@ namespace SuperShooter
 
         private void FixedUpdate()
         {
-            
+
         }
 
 
@@ -521,19 +527,19 @@ namespace SuperShooter
             {
                 // Camera FOV
                 cameraLook.ZoomTo(currentWeapon.zoomLevels[0], currentWeapon.timeToADS);
-               
+
             }
 
             // On MouseRightDown else Up
             if (Input.GetKeyDown(KeyCode.Mouse1))
             {
                 // Player hand is now up to the their "eye"
-                playerHand.localPosition = 
+                playerHand.localPosition =
                     new Vector3(-.05f, playerHand.localPosition.y + .03f, playerHand.localPosition.z + -.58f);
 
 
             }
-           else if (Input.GetKeyUp(KeyCode.Mouse1))
+            else if (Input.GetKeyUp(KeyCode.Mouse1))
             {
                 // Return to hip fire position
                 playerHand.localPosition =
@@ -542,9 +548,9 @@ namespace SuperShooter
 
                 // Reset camera FOV
                 cameraLook.ZoomToDefault(currentWeapon.timeToUnADS);
-                
+
             }
-            
+
             // On MouseRightDown else Up
 
 
@@ -631,15 +637,16 @@ namespace SuperShooter
             itemTransform.localRotation = Quaternion.identity;
 
             // Each weapon is held differently
-            if (item is Weapon) {
+            if (item is Weapon)
+            {
                 var w = item as Weapon;
                 //itemTransform.localPosition = w.playerHandOffset;
                 //w.aimTarget = aimTarget;
 
-            //    var lat = w.gameObject.AddComponent<FPSLookAtDirection>();
-              //  lat.target = aimTarget;
+                //    var lat = w.gameObject.AddComponent<FPSLookAtDirection>();
+                //  lat.target = aimTarget;
             }
-            
+
         }
 
         /// <summary>Removes weapon from <see cref="weapons"/> list and drops it from the player's hand.
@@ -698,12 +705,13 @@ namespace SuperShooter
                 currentThrowable.StartThrow();
 
             // Release Q to let it go/throw it/release.
-            if (Input.GetKeyUp(KeyCode.Q)) {
+            if (Input.GetKeyUp(KeyCode.Q))
+            {
                 currentThrowable.StopThrowing();
                 currentThrowable = null;
             }
 
-            
+
         }
 
         // ------------------------------------------------- //
@@ -731,7 +739,7 @@ namespace SuperShooter
             if (UIManager.Exists)
                 UIManager.Main.SetAbility(currentAbility);
 
-            
+
 
         }
 

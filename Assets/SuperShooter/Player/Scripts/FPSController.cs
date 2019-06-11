@@ -371,7 +371,7 @@ namespace SuperShooter
             if (MovementState == MovementState.Running && inputV > 0)   // Only if running forward.
                 cameraLook.ZoomTo(cameraLook.defaultFOV + 5, 1.5f);
             else
-                cameraLook.ZoomToDefault(1.5f);
+               // cameraLook.ZoomToDefault(1.5f);
 
 
             // Apply movement to X and Z.
@@ -517,7 +517,7 @@ namespace SuperShooter
             if (currentWeapon == null)
                 return;
 
-            if (Input.GetKeyDown(KeyCode.Mouse1))
+            if (Input.GetKey(KeyCode.Mouse1))
             {
                 // Camera FOV
                 cameraLook.ZoomTo(currentWeapon.zoomLevels[0], currentWeapon.timeToADS);
@@ -533,7 +533,7 @@ namespace SuperShooter
 
 
             }
-           /* else if (Input.GetKeyUp(KeyCode.Mouse1))
+           else if (Input.GetKeyUp(KeyCode.Mouse1))
             {
                 // Return to hip fire position
                 playerHand.localPosition =
@@ -542,9 +542,9 @@ namespace SuperShooter
 
                 // Reset camera FOV
                 cameraLook.ZoomToDefault(currentWeapon.timeToUnADS);
-                isZoomed = true;
+                
             }
-            */
+            
             // On MouseRightDown else Up
 
 

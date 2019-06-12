@@ -57,7 +57,8 @@ namespace SuperShooter
 
         private void Start()
         {
-            
+            ResetHealth();
+
         }
 
         // ------------------------------------------------- //
@@ -65,13 +66,15 @@ namespace SuperShooter
 
         private void Update()
         {
-
+            
             UpdateAgentProperties();
             UpdateCharacterState();
 
         }
 
         // ------------------------------------------------- //
+
+        #region Update Methods
 
         private void UpdateAgentProperties()
         {
@@ -96,18 +99,14 @@ namespace SuperShooter
 
             // Is character idle? (Agent NOT active)
             if (!_controller.isAgentActive) {
-                characterState = EnemyCharacterState.Idle;
-                // Set the animator state.
-                _setAnimationState();
+                SetCharacterState(EnemyCharacterState.Idle);
                 return;
             }
 
             // Is the main player dead?
             if (GameManager.Main != null && GameManager.Main.PlayerCharacter != null)
                 if (GameManager.Main.PlayerCharacter.isDead) {
-                    characterState = EnemyCharacterState.Victory;
-                    // Set the animator state.
-                    _setAnimationState();
+                    SetCharacterState(EnemyCharacterState.Victory);
                     return;
                 }
 
@@ -115,9 +114,9 @@ namespace SuperShooter
             if (weapon != null) {
 
                 // We will use weapon attacks.
-                if (_controller.movementState == EnemyControllerState.Goto ||
-                    _controller.movementState == EnemyControllerState.Search)
-                    characterState = EnemyCharacterState.RunningWeaponAttack;
+                if (_controller.state == EnemyControllerState.Goto ||
+                    _controller.state == EnemyControllerState.Search)
+                    SetCharacterState(EnemyCharacterState.RunningWeaponAttack);
 
                 if (_controller.isWithinStoppingDistance)
                 {
@@ -127,36 +126,40 @@ namespace SuperShooter
             else {
 
                 // We will use melee attacks.
-                if (_controller.movementState == EnemyControllerState.Goto ||
-                    _controller.movementState == EnemyControllerState.Search)
-                    characterState = EnemyCharacterState.Running;
+                if (_controller.state == EnemyControllerState.Goto ||
+                    _controller.state == EnemyControllerState.Search)
+                    SetCharacterState(EnemyCharacterState.Running);
 
                 // Melee attack!
                 // The animation clip is expected to have an animation event
                 // that will fire a function at the peak of the attack action.
                 if (_controller.isWithinStoppingDistance) {
-                    characterState = EnemyCharacterState.StandingMeleeAttack;
-                    _controller.movementState = EnemyControllerState.Melee;
+                    SetCharacterState(EnemyCharacterState.StandingMeleeAttack);
+                    _controller.state = EnemyControllerState.Melee;
                 }
             }
 
             // Are we running away from danger?
-            if (_controller.movementState == EnemyControllerState.Flee)
-                characterState = EnemyCharacterState.Running;
-
-            // Set the animation state.
-            _setAnimationState();
+            if (_controller.state == EnemyControllerState.Flee)
+                SetCharacterState(EnemyCharacterState.Running);
 
             // Done.
 
         }
 
+        #endregion
+
         // ------------------------------------------------- //
 
-        private void _setAnimationState()
+        #region Character Animation
+
+        private void SetCharacterState(EnemyCharacterState newState)
         {
+            // Set the character state
+            characterState = newState;
+
             // Set the animation state.
-            _animator.SetInteger("characterState", (int)characterState);
+            _animator.SetInteger("characterState", (int)newState);
         }
 
         // ------------------------------------------------- //
@@ -173,8 +176,36 @@ namespace SuperShooter
 
         }
 
+        #endregion
+
         // ------------------------------------------------- //
 
+        #region Character Event Overrides
+
+        public override void OnTargetKilled(ICharacterEntity target)
+        {
+            SetCharacterState(EnemyCharacterState.Victory);
+
+        }
+
+        public override void OnDeath()
+        {
+
+            // Disable AI
+            _controller.enabled = false;
+
+            // Set state
+            SetCharacterState(EnemyCharacterState.DiedBackward);
+
+
+        }
+
+        public override void BackFromTheDead()
+        {
+            _controller.enabled = true;
+        }
+
+        #endregion
 
         // ------------------------------------------------- //
     }

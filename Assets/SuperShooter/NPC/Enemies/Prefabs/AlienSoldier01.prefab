@@ -1076,7 +1076,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17e37a4ba971b3d46809675b5681f66b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startHealth: 100
+  type: 4
+  maxHealth: 10
   meleeDamage: 25
   meleeRange: 5
   shootingRange: 10
@@ -1099,6 +1100,7 @@ MonoBehaviour:
   goToPos: {x: 0, y: 0, z: 0}
   disToTarget: 0
   searchDisToTarget: 0
+  lastKnownPosition: {x: 0, y: 0, z: 0}
   viewRadius: 100
   viewAngle: 180
   targetLayer:
@@ -1110,7 +1112,6 @@ MonoBehaviour:
   target: {fileID: 0}
   gravity: 20
   groundRayDistance: 1.1
-  lastKnowPosition: {x: 0, y: 0, z: 0}
 --- !u!195 &6603679701488929085
 NavMeshAgent:
   m_ObjectHideFlags: 0

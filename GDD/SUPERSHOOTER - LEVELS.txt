@@ -1,0 +1,51 @@
+---------------------------------------------------------------
+TUTORIAL AREA - "FIRST ENCOUNTER"
+---------------------------------------------------------------
+
+INT. HOUSE.
+
+Player 'awakens' upstairs in a closed bedroom. All is well for the moment. Player walks around the room and familiarises themselves with the controls, while a news segment plays on a nearby television sitting on some furniture. The news segment mentions the idea that if we were indeed to come in contact with an alien civilisation, would they be friendly, or hostile? And if they were hostile, what sort of ideals and technology would they possess?
+
+Eventually the Player discovers a weapon in the room. Picking up and equipping the weapon opens a nearby door leading out of the bedroom. A light shines just outside the door. The Player steps out into the open area and the light flickers out with a zap. In the distance, an unarmed Alien can be seen in the shadows. It roars, loudly, to instill fear, and begins to run and chase the Player, until killed.
+
+
+---------------------------------------------------------------
+AREA ONE - "FIRST WAVE"
+---------------------------------------------------------------
+
+INT. HOUSE.
+
+Proceeding downstairs, the Player begins to encounter waves of enemies. Each wave increases the number of enemies that spawn.
+
+Enemy Types:
+ - Basic Alien. Roars when intimidated. Chases and bites the player.
+
+
+---------------------------------------------------------------
+AREA TWO - "OH, THERE'S MORE"
+---------------------------------------------------------------
+
+EXT. OUTSIDE.
+
+"The Sandpeople are easily startled, but they'll soon be back, and in greater numbers." - Ben Kenobi
+
+The doors to the house now unlock allowing the player to leave and go outside. More waves of enemies appear, with the difficulty increasing with
+each wave. More enemy types appear every few waves. Survive.
+
+Enemy Types:
+ - Alien Soldier. Roars when intimidated. Chases and uses martial arts-like tactics to punch and kick the player.
+ - Alien Solider (Armed). Tactically navigates the game world to come within shooting range of the player for close-to-medium range shoot outs.
+ - Alien Dropship. Flies in and hovers over an open area in which to drop aliens in order to attack the player. It then flies away. Dropships can be shot, and explode when destroyed, earning the player multiple kills and bonus points.
+
+
+---------------------------------------------------------------
+AREA THREE - "GAME OVER, MAN"
+---------------------------------------------------------------
+
+All new waves of enemies spawn with all enemy types. A new enemy type is also introduced. Survive.
+
+Enemy Types:
+ - All of the above, and:
+ - Enraged Alien. Roars at everything. Larger and beefier than other aliens. Can jump high in the air and slam down in front of the player.
+
+

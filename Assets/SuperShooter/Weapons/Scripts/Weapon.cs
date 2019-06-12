@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace SuperShooter
 {
@@ -8,7 +9,7 @@ namespace SuperShooter
     [RequireComponent(typeof(BoxCollider))]
     [RequireComponent(typeof(LineRenderer))]
     [RequireComponent(typeof(SphereCollider))]
-    public class Weapon : MonoBehaviour, IInteractable
+    public class Weapon : CharacterEntity, IInteractable
     {
         [SerializeField]
         public string baseName = "New Weapon";
@@ -31,12 +32,15 @@ namespace SuperShooter
         public float[] zoomLevels = new float[1] { 50f };
 
         [Header("References")]
-        public Transform shotOrigin;
+        public Transform spawnPoint;
         public GameObject bulletPrefab;
 
         [Header("Cheats")]
         public bool autoReload = false;
         public bool infiniteAmmo = false;
+
+        [Header("Events")]
+        UnityEvent<ICharacterEntity> CrossHairTargetChanged;
 
         // ------------------------------------------------- //
 
@@ -66,6 +70,7 @@ namespace SuperShooter
 
         private void Awake()
         {
+
             // Get required components.
             GetComponentReferences();
 
@@ -73,6 +78,8 @@ namespace SuperShooter
             OnAwake();
 
         }
+
+        // ------------------------------------------------- //
 
         private void Reset()
         {
@@ -106,6 +113,8 @@ namespace SuperShooter
 
         }
 
+        // ------------------------------------------------- //
+
         private void GetComponentReferences()
         {
             //rigid = GetComponent<Rigidbody>();
@@ -117,10 +126,17 @@ namespace SuperShooter
             pickupGlow = transform.Find("PickupGlow").gameObject;
         }
 
+        public virtual string GetDisplayName()
+        {
+            return (!string.IsNullOrEmpty(baseName)) ? baseName : "Unnamed Weapon";
+        }
+
+        // ------------------------------------------------- //
+
         private void Start()
         {
             // Check we can shoot from somewhere
-            if (shotOrigin == null)
+            if (spawnPoint == null)
                 Debug.LogWarning(string.Format(FPSMessages.WARN_WEAPON_NO_SHOT_ORIGIN, GetDisplayName()));
 
             // Check we have a bullet prefab to shoot
@@ -134,8 +150,18 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
+        //public bool TESTAimAtCrosshair = false;
+
+        private Quaternion crossHairDirection;
+
         private void Update()
         {
+
+            // Aim.
+            //if (TESTAimAtCrosshair)
+            //    transform.rotation = AimAtCrosshair();
+            AimAtCrosshair();
+
             // Increase shoot timer
             shootTimer += Time.deltaTime;
 
@@ -151,6 +177,36 @@ namespace SuperShooter
 
             // Allow derived weapons to be notified that we have updated.
             OnUpdate();
+        }
+
+        // ------------------------------------------------- //
+
+        protected virtual Quaternion AimAtCrosshair()
+        {
+
+            Ray crossHairRay = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2, Screen.height / 2));
+            if (Physics.Raycast(crossHairRay, out RaycastHit hit, Mathf.Infinity)) // or 1000f? Hmm.
+            {
+                Vector3 direction = hit.point - spawnPoint.position;
+                spawnPoint.rotation = Quaternion.LookRotation(direction);
+            }
+            else
+            {
+                spawnPoint.localRotation = Quaternion.Euler(0, 90, 0);
+            }
+
+
+            crossHairDirection = spawnPoint.rotation;
+
+
+            // Notify target changed. If entity is coming in as null,
+            // it should be treated as though the target is exactly that: nothing. no target.
+            //CrossHairTargetChanged.Invoke(entity);
+            //OnCrossHairTargetChanged(entity);
+
+
+            return spawnPoint.rotation;
+
         }
 
         // ------------------------------------------------- //
@@ -220,7 +276,6 @@ namespace SuperShooter
             var cam = Camera.main;
             var bulletOrigin = cam.transform.position;
             var bulletRotation = cam.transform.rotation; // Rotation of the bullet
-            var lineOrigin = shotOrigin.position; // Where the bullet line starts
             var direction = cam.transform.forward; // Forward direction of camera
 
             // Apply weapon recoil
@@ -245,9 +300,15 @@ namespace SuperShooter
                 //var direction = shotOrigin.position - aimTarget.position;
                 //Bullet.SpawnNew(bulletPrefab, shotOrigin, /*direction,*/ damage, bulletRange, bulletForce);
 
-                var bulletObject = Instantiate(bulletPrefab, bulletOrigin, bulletRotation);
-                var bulletScript = bulletObject.GetComponent<RigidBullet>();
-                bulletScript.Fire(lineOrigin, direction);
+                //var bulletObject = Instantiate(bulletPrefab, bulletOrigin, bulletRotation);
+                //var bulletScript = bulletObject.GetComponent<RigidBullet>();
+                //bulletScript.Fire(lineOrigin, direction);
+
+                var rigidBullet = RigidBullet.SpawnNew(
+                    bulletPrefab, spawnPoint.position, crossHairDirection, hitCallback);
+
+                rigidBullet.Fire(spawnPoint.position, direction);
+
 
             }
             else
@@ -281,11 +342,36 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
+        private void hitCallback(RigidBullet script, Collision collision)
+        {
+            //Debug.Log($"Hit {collision.gameObject.name} CALLBACK!!!");
+
+            // Get the game object
+            var obj = collision.gameObject;
+
+            // Did we hit something of value?
+            var entity =
+                obj.GetComponent<CharacterEntity>() ??
+                obj.GetComponentInParent<CharacterEntity>() ?? 
+                obj.GetComponentInChildren<CharacterEntity>();
+
+            if (entity != null)
+            {
+
+                // Deal damage !!
+                entity.TakeDamage(damage, this);
+
+            }
+
+        }
+
+        // ------------------------------------------------- //
+
         private void SimulateBullet()
         {
 
             // Create a bullet ray from shot origin to forward
-            Ray bulletRay = new Ray(shotOrigin.position, shotOrigin.forward);
+            Ray bulletRay = new Ray(spawnPoint.position, spawnPoint.forward);
             RaycastHit hit;
 
             // Perform Raycast (Hit Scan)
@@ -307,15 +393,11 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
-        protected virtual void OnAwake()
-        {
-            // Allow derived weapons to be notified when the object awakens.
-        }
+        /// <summary>Allow derived weapons to be notified when the object awakens.</summary>
+        protected virtual void OnAwake() { }
 
-        protected virtual void OnUpdate()
-        {
-            // Allow derived weapons to be notified when the object has been updated.
-        }
+        /// <summary>Allow derived weapons to be notified when the object has been updated.</summary>
+        protected virtual void OnUpdate() { }
 
         /// <summary>Override this method to run logic when <see cref="Shoot()"/> is called,
         /// but before any bullets are fired. If false is returned, no bullets will be fired.</summary>
@@ -325,10 +407,11 @@ namespace SuperShooter
             return true;
         }
 
-        protected virtual void OnShootStop()
-        {
-            // Allows derived weapons to be notified when the player stops shooting.
-        }
+        /// <summary>Allows derived weapons to be notified when the player stops shooting.</summary>
+        protected virtual void OnShootStop() { }
+
+        /// <summary>Allows derived weapons to be notified when the crosshair target changes.</summary>
+        protected virtual void OnCrossHairTargetChanged(ICharacterEntity targetEntity) { }
 
         // ------------------------------------------------- //
 
@@ -344,13 +427,6 @@ namespace SuperShooter
 
             // Disable
             lineRenderer.enabled = false;
-        }
-
-        // ------------------------------------------------- //
-
-        public virtual string GetDisplayName()
-        {
-            return (!string.IsNullOrEmpty(baseName)) ? baseName : "Unnamed Weapon";
         }
 
         // ------------------------------------------------- //

@@ -9,8 +9,8 @@ namespace SuperShooter
     [RequireComponent(typeof(NavMeshAgent))]
     public class EnemyController : MonoBehaviour
     {
-        [Header("Movement")]
-        public EnemyControllerState movementState = EnemyControllerState.Search;
+        [Header("State")]
+        public EnemyControllerState state = EnemyControllerState.Search;
         [SerializeField]
         private Vector3 goToPos;
         [SerializeField]
@@ -110,7 +110,7 @@ namespace SuperShooter
                 hasChecked = false;
                 lastKnownPosition = target.position;
 
-                movementState = EnemyControllerState.Goto;
+                state = EnemyControllerState.Goto;
                 goToPos = target.position;
             }
             else
@@ -118,7 +118,7 @@ namespace SuperShooter
                 //if they have checked the players last known pos, it will begin the search.
                 if (hasChecked)
                 {
-                    movementState = EnemyControllerState.Search;
+                    state = EnemyControllerState.Search;
                 }
                 else
                 {
@@ -127,7 +127,7 @@ namespace SuperShooter
             }
 
 
-            switch (movementState)
+            switch (state)
             {
                 case EnemyControllerState.Goto:
                     GoTo();
@@ -210,7 +210,7 @@ namespace SuperShooter
         Goto,
         Flee,
         Shoot,
-        Melee
-
+        Melee,
+        
     }
 }

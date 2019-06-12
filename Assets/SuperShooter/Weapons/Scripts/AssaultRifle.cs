@@ -5,6 +5,7 @@ using UnityEngine;
 namespace SuperShooter
 {
 
+    //[MenuItem("GameObject/Create Other/Your Object")]
     public class AssaultRifle : Weapon
     {
 

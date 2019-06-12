@@ -34,6 +34,7 @@ namespace SuperShooter
 
         private void Awake()
         {
+            
             // Get the first player controller we come across.
             controller = GetComponentInChildren<FPSController>();
 
@@ -43,8 +44,7 @@ namespace SuperShooter
 
         private void Start()
         {
-            health = startHealth;
-
+            ResetHealth();
         }
 
         // ------------------------------------------------- //
@@ -75,6 +75,13 @@ namespace SuperShooter
 
         #region Update() Methods
 
+        private void UpdateHealth()
+        {
+            if (UIManager.Exists)
+                UIManager.Main.SetHealth(health, maxHealth, isDead);
+
+        }
+
         private void UpdateAbilities()
         {
 
@@ -87,16 +94,19 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
-        #region Player Health
+        #region Event Overrides
 
-        private void UpdateHealth()
+        public override void BackFromTheDead()
         {
+            // Reset UI
             if (UIManager.Exists)
-                UIManager.Main.SetHealth(health, startHealth, isDead);
-
+                UIManager.Main.ShowDeathScreen(false);
         }
 
-        // ------------------------------------------------- //
+        public override void OnDamageDealt(int amount, ICharacterEntity target)
+        {
+            
+        }
 
         public override void OnDamageTaken(int amount, ICharacterEntity from)
         {
@@ -118,20 +128,6 @@ namespace SuperShooter
             if (UIManager.Exists)
                 UIManager.Main.ShowDeathScreen(true);
 
-        }
-
-        // ------------------------------------------------- //
-
-        private void Respawn()
-        {
-
-            // Reset health and enable controller
-            ResetHealth();
-            controller.characterEnabled = true;
-
-            // Reset UI
-            if (UIManager.Exists)
-                UIManager.Main.ShowDeathScreen(false);
         }
 
         #endregion
@@ -181,6 +177,15 @@ namespace SuperShooter
             isDashing = true;
         }
 
+
+        public void Respawn()
+        {
+
+            // Reset health and enable controller
+            Reincarnate();
+            controller.characterEnabled = true;
+
+        }
 
 
         #endregion

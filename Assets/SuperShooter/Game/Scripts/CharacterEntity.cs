@@ -13,10 +13,20 @@ namespace SuperShooter
         void TakeDamage(int amount, ICharacterEntity from);
     }
 
+    public enum TargetType
+    {
+        None = 0,
+        Player = 1,
+        Friendly = 2,
+        Hostile = 3,
+        Enemy = 4,
+    }
+
     public class CharacterEntity : GameEntity, ICharacterEntity
     {
-        [Header("Health")]
-        public int startHealth = 100;
+        [Header("Entity")]
+        public TargetType type;
+        public int maxHealth = 100;
 
         // ------------------------------------------------- //
 
@@ -26,11 +36,26 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
+        /// <summary>Resets character to back to its maximum health value, and updates <see cref="isDead"/>.</summary>
         public void ResetHealth()
         {
-            health = startHealth;
-            isDead = false;
+            health = maxHealth;
+            isDead = health == 0;
         }
+
+        /// <summary>Resets character to maximum health and brings them back to life.
+        /// If the character is not already dead when this is called, <see cref="BackFromTheDead"/> will not fire.</summary>
+        public void Reincarnate()
+        {
+            var wasDead = isDead;       // Are we currently dead?
+            ResetHealth();              // Reset our health values FIRST.
+            if (wasDead)                // If we were dead before the health reset...
+                BackFromTheDead();      // Allow art/effects/other events to happen.
+        }
+
+        /// <summary>Notifies derived class that its health as been reset to maximum.</summary>
+        public virtual void BackFromTheDead() { }
+
 
         // ------------------------------------------------- //
 
@@ -48,7 +73,7 @@ namespace SuperShooter
             health -= amount;
 
             //
-            Debug.Log($"Character '{name}' took {amount} damage from '{from.name}'.");
+            Debug.Log($"{type} '{name}' took {amount} damage from '{from.name}'. {health} left.");
 
             //
             OnDamageTaken(amount, from);
@@ -99,7 +124,7 @@ namespace SuperShooter
             OnDeath();
             
 
-            Debug.Log($"Character '{name}' has died.");
+            Debug.Log($"{type} '{name}' has died.");
             
         }
 

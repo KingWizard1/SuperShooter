@@ -10634,6 +10634,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4597109189103825579, guid: 72a7d8b37eaebf046bdeb7c58ff95d43,
         type: 3}
+    - target: {fileID: 114252547702600566, guid: 0edff78131edadb47b5990ed1003b3df,
+        type: 3}
+      propertyPath: aimAtCrosshair
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0edff78131edadb47b5990ed1003b3df, type: 3}
 --- !u!1 &1604568708

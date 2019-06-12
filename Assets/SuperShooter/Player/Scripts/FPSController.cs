@@ -393,7 +393,7 @@ namespace SuperShooter
         {
             // Disable interact UI
             if (UIManager.Exists)
-                UIManager.Main.HideAllPrompts();
+                UIManager.Main.HideInteract();
 
             // Create ray from center of screen.
             // In viewport dimensions, 0 == top left corner, 1 == bottom right corner.
@@ -412,10 +412,10 @@ namespace SuperShooter
                     return;
 
                 // Enable the UI and show the interactable name
-                var interactableName = interactable.GetDisplayName();
-                var interactablePosition = ((MonoBehaviour)interactable).transform.position;
+                //var interactableName = interactable.GetDisplayName();
+                //var interactablePosition = ((MonoBehaviour)interactable).transform.position;
                 if (UIManager.Exists)
-                    UIManager.Main.ShowPickupPrompt3D(interactableName, interactablePosition);
+                    UIManager.Main.ShowInteract(interactable);
 
                 // Pickup the interactable if key is being pressed on this frame
                 if (Input.GetKeyDown(KeyCode.E))

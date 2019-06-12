@@ -268,6 +268,11 @@ namespace SuperShooter
             return (!string.IsNullOrEmpty(baseName)) ? baseName : "Unnamed Weapon";
         }
 
+        public string GetInteractionString()
+        {
+            return "Pickup" + GetDisplayName();
+        }
+
         // ------------------------------------------------- //
 
 

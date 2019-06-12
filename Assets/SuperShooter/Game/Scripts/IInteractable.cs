@@ -7,6 +7,7 @@ namespace SuperShooter
     public interface IInteractable
     {
 
+        string GetInteractionString();
 
         string GetDisplayName();
 

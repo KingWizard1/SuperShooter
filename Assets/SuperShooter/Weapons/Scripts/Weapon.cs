@@ -132,7 +132,12 @@ namespace SuperShooter
 
         public virtual string GetDisplayName()
         {
-            return (!string.IsNullOrEmpty(baseName)) ? baseName : "Unnamed Weapon";
+            return (!string.IsNullOrEmpty(baseName)) ? baseName : "Weapon";
+        }
+
+        public string GetInteractionString()
+        {
+            return $"Pickup {GetDisplayName()}";
         }
 
         // ------------------------------------------------- //

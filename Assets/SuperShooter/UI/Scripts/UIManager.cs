@@ -15,6 +15,7 @@ namespace SuperShooter
         public GameObject pickupPrompt3D;
         public GameObject crossHairSystem;
         public GameObject deathScreen;
+        public TextMeshProUGUI contextText;
 
         private CrossHairUI crossHairUI;
         private PauseScreenUI pauseScreenUI;
@@ -51,7 +52,8 @@ namespace SuperShooter
 
         void Start()
         {
-
+            if (contextText)
+                contextText.text = string.Empty;
         }
 
         #endregion
@@ -122,20 +124,39 @@ namespace SuperShooter
 
         //}
 
-        public void ShowPickupPrompt3D(string text, Vector3 objectPosition)
+        //public void ShowPickupPrompt3D(string text, Vector3 objectPosition)
+        //{
+        //    if (pickupPrompt3D)
+        //        pickupPrompt3D.GetComponent<PickupPrompt3D>().ShowPrompt(text, objectPosition);
+        //    else
+        //        Debug.LogError("[UI] No PickupPrompt assigned to UIManager.");
+        //}
+
+        //public void HideAllPrompts()
+        //{
+        //    //if (pickupPrompt)
+        //    //    pickupPrompt.GetComponent<PickupPrompt>().HidePrompt();
+        //    if (pickupPrompt3D)
+        //        pickupPrompt3D.GetComponent<PickupPrompt3D>().HidePrompt();
+        //}
+
+        public void ShowInteract(IInteractable interactable)
         {
-            if (pickupPrompt3D)
-                pickupPrompt3D.GetComponent<PickupPrompt3D>().ShowPrompt(text, objectPosition);
+            if (contextText)
+            {
+
+                var interactionKey = "E";
+                contextText.text = $"[{interactionKey}] {interactable.GetInteractionString()}";
+
+            }
             else
-                Debug.LogError("[UI] No PickupPrompt assigned to UIManager.");
+                Debug.LogError($"[UI] No {nameof(contextText)} assigned to {name}.");
         }
 
-        public void HideAllPrompts()
+        public void HideInteract()
         {
-            //if (pickupPrompt)
-            //    pickupPrompt.GetComponent<PickupPrompt>().HidePrompt();
-            if (pickupPrompt3D)
-                pickupPrompt3D.GetComponent<PickupPrompt3D>().HidePrompt();
+            if (contextText)
+                contextText.text = string.Empty;
         }
 
         // ------------------------------------------------- //
@@ -145,7 +166,7 @@ namespace SuperShooter
             if (deathScreen)
                 deathScreen.SetActive(makeActive);
             else
-                Debug.LogError($"[UI] No {deathScreen} assigned to UIManager.");
+                Debug.LogError($"[UI] No {nameof(deathScreen)} assigned to {name}.");
             
 
         }

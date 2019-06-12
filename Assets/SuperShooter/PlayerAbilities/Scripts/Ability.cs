@@ -193,6 +193,11 @@ namespace SuperShooter
             return (!string.IsNullOrEmpty(displayName)) ? displayName : "Unnamed Ability";
         }
 
+        public string GetInteractionString()
+        {
+            return "Pickup" + GetDisplayName();
+        }
+
         // ------------------------------------------------- //
 
 

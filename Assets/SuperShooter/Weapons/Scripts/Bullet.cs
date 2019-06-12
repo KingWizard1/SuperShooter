@@ -21,6 +21,7 @@ namespace SuperShooter
         private int damage;
         private int range;
         private float force;
+        public int speed = 1;
         private Vector3 direction;
 
         // State
@@ -61,10 +62,10 @@ namespace SuperShooter
 
         private void FixedUpdate()
         {
-            //transform.position += transform.forward * Time.deltaTime * (speed);
+            transform.position += transform.forward * Time.deltaTime * (speed);
 
-            //if (addForce)
-            //    rigid.AddForce(transform.forward * force);
+            if (addForce)
+                rigid.AddForce(transform.forward * force);
         }
 
         // ------------------------------------------------- //

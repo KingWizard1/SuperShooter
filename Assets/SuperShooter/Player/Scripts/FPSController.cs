@@ -27,7 +27,8 @@ namespace SuperShooter
         public float gravity = 10f;
         public float crouchSpeed = 4f;
         public float jumpHeight = 20f;
-        public float interactRange = 10f;
+        public float interactRange = .5f;
+        public float interactScanDistance = 10f;
         public float groundRayDistance = 1.1f;
 
         [Header("Powerups")]
@@ -399,10 +400,9 @@ namespace SuperShooter
             // In viewport dimensions, 0 == top left corner, 1 == bottom right corner.
             // Thus, 0.5 on the X and Y == dead center of the screen.
             Ray interactRay = attachedCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f));
-            RaycastHit hit;
-
+            
             // Shoot ray in a range
-            if (Physics.Raycast(interactRay, out hit, interactRange))
+            if (Physics.Raycast(interactRay, out RaycastHit hit, interactScanDistance))
             {
                 // Try getting Interactable object
                 var interactable = hit.collider.GetComponent<IInteractable>();
@@ -411,14 +411,20 @@ namespace SuperShooter
                 if (interactable == null)
                     return;
 
+                // Range to target
+                float dist = Vector3.Distance(transform.position, ((MonoBehaviour)interactable).transform.position);
+                //print("Distance to other: " + dist);
+
+                bool withinInteractRange = dist <= interactRange;
+
                 // Enable the UI and show the interactable name
                 //var interactableName = interactable.GetDisplayName();
                 //var interactablePosition = ((MonoBehaviour)interactable).transform.position;
                 if (UIManager.Exists)
-                    UIManager.Main.ShowInteract(interactable);
+                    UIManager.Main.ShowInteract(interactable, withinInteractRange);
 
                 // Pickup the interactable if key is being pressed on this frame
-                if (Input.GetKeyDown(KeyCode.E))
+                if (withinInteractRange && Input.GetKeyDown(KeyCode.E))
                     Pickup(interactable);
             }
 
@@ -448,13 +454,6 @@ namespace SuperShooter
                 UIManager.Main.SetPlayerWeaponStatus(currentWeapon);
 
 
-            var ammoInClip = currentWeapon.ammo;
-            var maxAmmoPerClip = currentWeapon.maxAmmoPerClip;
-            var totalAmmoLeft = (currentWeapon.maxAmmoPerClip * currentWeapon.clips);
-            var weaponName = currentWeapon.GetDisplayName();
-
-            //Debug.Log(string.Format("{0} {1}/{2} ({3})",
-            //    weaponName, ammoInClip, maxAmmoPerClip, totalAmmoLeft));
         }
 
         // ------------------------------------------------- //

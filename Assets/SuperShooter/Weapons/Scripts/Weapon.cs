@@ -15,9 +15,9 @@ namespace SuperShooter
         public string baseName = "New Weapon";
 
         [Header("Numbers")]
-        public int damage = 10;
-        public int maxClips = 8;
-        public int maxAmmoPerClip = 30;
+        public int damage = 1;
+        public int clipsToStart = 32;
+        public int maxAmmoPerClip = 24;
         public float spread = 2f;
         public float recoil = 1f;
         public float shootRate = .2f;
@@ -47,19 +47,21 @@ namespace SuperShooter
         // Ownership
         public CharacterEntity owner { get; private set; }
 
-        // Mechanics
-        public int ammo { get; private set; }
-        public int clips { get; private set; }
+        // Runtime Mechanics
+        public int ammoInClip { get; private set; }
+        public int ammoRemaining { get; private set; }
 
+        public bool isFullClip { get; private set; }    // "Do you want to mess with this?"
         public bool isLastClip { get; private set; }
-        public bool isClipEmpty { get; private set; }
+        public bool isLastReload { get; private set; }
+        public bool isReloadRequired { get; private set; }
+        public bool isReloadPossible { get; private set; }
         public bool isOutOfAmmo { get; private set; }
 
         private bool canShoot = false;
         private float shootTimer = 0f;
 
-        // The destination for the bullet.
-        //internal Transform aimTarget;
+        // ------------------------------------------------- //
 
         // Components
         //private Rigidbody rigid;
@@ -157,8 +159,10 @@ namespace SuperShooter
                 Debug.LogWarning(string.Format(FPSMessages.WARN_WEAPON_NO_BULLET_PREFAB, GetDisplayName()));
 
             // Set ammo
-            ammo = maxAmmoPerClip;
-            clips = maxClips;
+            ammoInClip = maxAmmoPerClip;
+            ammoRemaining = maxAmmoPerClip * clipsToStart;
+            if (ammoRemaining > 999)
+                ammoRemaining = 999;    // Cap it.
         }
 
         private void GetOwner()
@@ -188,11 +192,6 @@ namespace SuperShooter
             {
                 canShoot = true;
             }
-
-            // Check ammo status
-            isClipEmpty = ammo == 0;
-            isOutOfAmmo = clips == 0;
-            isLastClip = clips == 1;
 
             // Allow derived weapons to be notified that we have updated.
             OnUpdate();
@@ -260,32 +259,6 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
-        public virtual void Reload()
-        {
-
-            if (clips > 0)
-            {
-                // Use clip
-                if (!infiniteAmmo)
-                    clips--;
-
-                ammo = maxAmmoPerClip;
-                isClipEmpty = false;
-            }
-            else
-            {
-                isOutOfAmmo = true;
-            }
-
-            
-        }
-
-        public virtual void OnReloadStart() { }
-
-        public virtual void OnReloadFinished() { }
-
-        // ------------------------------------------------- //
-
         public virtual void Shoot()
         {
             if (!canShoot)
@@ -297,7 +270,7 @@ namespace SuperShooter
                 return;
 
             // No bullets to fire!
-            if (isClipEmpty)
+            if (isReloadRequired)
                 return;
 
             // ------ NEW ------
@@ -347,15 +320,8 @@ namespace SuperShooter
             }
 
 
-            // Deplete ammunition
-            ammo--;
-            if (ammo == 0) {
-
-                if (autoReload)
-                    Reload();
-                else
-                    isClipEmpty = true;
-            }
+            // Deplete ammo by 1
+            DepleteAmmoInClip(1);
 
             // Reset timer
             shootTimer = 0;
@@ -393,6 +359,74 @@ namespace SuperShooter
             }
 
         }
+
+        // ------------------------------------------------- //
+
+        /// <summary>Deplete the ammount of ammo currently in the weapon's magazine by the specified amount.</summary>
+        /// <param name="amount"></param>
+        private void DepleteAmmoInClip(int amount)
+        {
+            // Deplete ammunition
+            ammoInClip-= amount;
+            if (ammoInClip <= 0) {
+                ammoInClip = 0;     // Don't want to go in the minus.
+                if (autoReload)     // Cheating!
+                    Reload();
+            }
+                
+
+            // Update ammo bools (must always do this after changing ammo counts)
+            UpdateAmmunitionStates();
+        }
+
+        /// <summary>Replenishes the weapon's current ammunition clip as much as possible.</summary>
+        public virtual void Reload()
+        {
+
+            // Otherwise...
+            if (infiniteAmmo)
+                ammoInClip = maxAmmoPerClip;    // Cheater !!!
+            else {
+
+                // Is it possible to reload at this time? And can the clip be replenished?
+                if (isReloadPossible && !isFullClip) {
+
+                    // How much ammo do we need to fill the clip?
+                    var ammoRequired = maxAmmoPerClip - ammoInClip;
+
+                    // Do we have enough bullets to completely fill the clip?
+                    // If yes, refill the clip to its max size, and deplete total ammunition by the amount that was required.
+                    // If not, insert the number of ammo remaining into the clip, and set the total ammunition to zero.
+                    if (ammoRemaining >= ammoRequired) {
+                        ammoInClip = maxAmmoPerClip;
+                        ammoRemaining -= ammoRequired;
+                    }
+                    else {
+                        ammoInClip += ammoRemaining;
+                        ammoRemaining = 0;
+                    }
+
+                }
+
+            }
+            
+            // Update ammo bools (must always do this after changing ammo counts)
+            UpdateAmmunitionStates();
+        }
+
+        private void UpdateAmmunitionStates()
+        {
+            isLastClip = ammoRemaining == 0;
+            isFullClip = ammoInClip == maxAmmoPerClip;
+            isLastReload = ammoRemaining <= maxAmmoPerClip;
+            isOutOfAmmo = ammoRemaining == 0 && ammoInClip == 0;
+            isReloadRequired = ammoInClip == 0;
+            isReloadPossible = ammoRemaining > 0 || infiniteAmmo;
+        }
+
+        public virtual void OnReloadStart() { }
+
+        public virtual void OnReloadFinished() { }
 
         // ------------------------------------------------- //
 

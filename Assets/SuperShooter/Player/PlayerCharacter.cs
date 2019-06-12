@@ -32,6 +32,12 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
+        private void Reset()
+        {
+            // Force default value.
+            type = TargetType.Player;
+        }
+
         private void Awake()
         {
             
@@ -88,7 +94,7 @@ namespace SuperShooter
         private void UpdateAbilities()
         {
 
-            controller.MoveSpeedMod = Input.GetKey(KeyCode.E) ? dashSpeed : 0;
+            controller.MoveSpeedMod = Input.GetKey(KeyCode.F) ? dashSpeed : 0;
 
 
         }

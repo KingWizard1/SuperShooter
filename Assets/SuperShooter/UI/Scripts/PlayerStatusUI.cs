@@ -8,8 +8,10 @@ namespace SuperShooter
     {
         public GameObject ammoIcon;
         public TextMeshProUGUI ammoText;
+        public TextMeshProUGUI ammoText2;
         public TextMeshProUGUI weaponText;
         public TextMeshProUGUI healthText;
+
         // ------------------------------------------------- //
 
         public Image damageImage;                                   // Reference to an image to flash on the screen on being hurt.
@@ -55,24 +57,29 @@ namespace SuperShooter
 
             if (weapon != null)
             {
-                var currentAmmoInClip = weapon.ammo;
-                var maxAmmoPerClip = weapon.maxAmmoPerClip;
-                var totalAmmoLeft = (weapon.maxAmmoPerClip * weapon.clips);
-
+                
                 var weaponName = weapon.GetDisplayName();
 
                 // Set
                 weaponText.text = weaponName;
-                ammoText.text = string.Format("{0}/{1} + {2}",
-                    currentAmmoInClip, maxAmmoPerClip, totalAmmoLeft);
+                ammoText.text = $"{weapon.ammoInClip}/{weapon.maxAmmoPerClip}";
+                ammoText2.text = $"+{weapon.ammoRemaining}";
 
-                // Colors
-                ammoText.color = weapon.isClipEmpty ? Color.red : Color.white;
-                weaponText.color = weapon.isOutOfAmmo ? Color.red : Color.white;
-                if (weapon.isLastClip) {
-                    ammoText.color = Color.yellow;
-                    weaponText.color = Color.yellow;
-                }
+
+                // Colors. Things are set in a specific order, for logic reasons.
+                if      (weapon.isReloadRequired || weapon.isOutOfAmmo) ammoText.color = Color.red;
+                else if (weapon.isLastClip)                             ammoText.color = Color.yellow;
+                else                                                    ammoText.color = Color.white;
+
+                if      (weapon.isLastClip)                             ammoText2.color = Color.red;
+                else if (weapon.isLastReload)                           ammoText2.color = Color.yellow;
+                else                                                    ammoText2.color = Color.white;
+
+                if      (weapon.isOutOfAmmo)                            weaponText.color = Color.red;
+                else if (weapon.isLastClip || weapon.isReloadRequired)  weaponText.color = Color.yellow;
+                else                                                    weaponText.color = Color.white;
+
+
 
             }
             else
@@ -81,9 +88,11 @@ namespace SuperShooter
                 // Set
                 weaponText.text = "Unarmed";
                 ammoText.text = string.Empty;
+                ammoText2.text = string.Empty;
 
                 // Colors
                 ammoText.color = Color.white;
+                ammoText2.color = Color.white;
                 weaponText.color = Color.white;
 
             }

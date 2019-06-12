@@ -140,13 +140,15 @@ namespace SuperShooter
         //        pickupPrompt3D.GetComponent<PickupPrompt3D>().HidePrompt();
         //}
 
-        public void ShowInteract(IInteractable interactable)
+        public void ShowInteract(IInteractable interactable, bool isWithinRange)
         {
             if (contextText)
             {
 
                 var interactionKey = "E";
                 contextText.text = $"[{interactionKey}] {interactable.GetInteractionString()}";
+
+                contextText.color = isWithinRange ? Color.white : Color.grey;
 
             }
             else

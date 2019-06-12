@@ -148,7 +148,7 @@ Halo:
   m_Enabled: 1
   m_Color:
     serializedVersion: 2
-    rgba: 4280650198
+    rgba: 4281479730
   m_Size: 1
 --- !u!1 &1527219140428622
 GameObject:
@@ -690,7 +690,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1938956370783444}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -9.486, y: 4.279, z: -6}
   m_LocalScale: {x: 0.66666657, y: 0.5, z: 0.66666657}
   m_Children:
@@ -833,13 +833,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0c791ad714f25f44b42effa3ebb14c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseName: Hot Shot
-  damage: 2
-  maxClips: 128
+  type: 0
+  maxHealth: 100
+  baseName: AK12
+  damage: 1
+  clipsToStart: 3
   maxAmmoPerClip: 30
   spread: 2
   recoil: 1
-  shootRate: 0.1
+  shootRate: 0.05
   bulletForce: 7.5
   bulletRange: 50
   lineDelay: 0.1

@@ -20,7 +20,6 @@ namespace SuperShooter
         DiedForward = 64,
     }
 
-    [RequireComponent(typeof(EnemyController))]
     public class EnemyCharacter : CharacterEntity
     {
 
@@ -38,7 +37,7 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
-        public EnemyCharacterState characterState = EnemyCharacterState.Idle;
+        public EnemyCharacterState characterState { get; private set; } = EnemyCharacterState.Idle;
 
         // ------------------------------------------------- //
 
@@ -46,6 +45,12 @@ namespace SuperShooter
         private EnemyController _controller;
 
         // ------------------------------------------------- //
+
+        private void Reset()
+        {
+            // Force default value.
+            type = TargetType.Enemy;
+        }
 
         private void Awake()
         {
@@ -62,7 +67,6 @@ namespace SuperShooter
         }
 
         // ------------------------------------------------- //
-
 
         private void Update()
         {
@@ -82,10 +86,11 @@ namespace SuperShooter
             // If we have a weapon equipped, we want the controller
             // to get within shooting range of the target. If no weapon,
             // then we want it to get within melee range instead.
-            if (weapon != null)
-                _controller.stoppingDistance = shootingRange;
-            else
-                _controller.stoppingDistance = meleeRange;
+            if (_controller != null)
+                if (weapon != null)
+                    _controller.stoppingDistance = shootingRange;
+                else
+                    _controller.stoppingDistance = meleeRange;
 
 
         }

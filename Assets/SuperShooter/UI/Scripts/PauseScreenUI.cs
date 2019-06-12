@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 namespace SuperShooter
 {
 
-    public class PauseMenu : MonoBehaviour
+    public class PauseScreenUI : MonoBehaviour
     {
 
         public static bool paused;

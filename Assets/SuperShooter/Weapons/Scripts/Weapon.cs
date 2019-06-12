@@ -44,10 +44,14 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
+        // Ownership
+        public CharacterEntity owner { get; private set; }
+
         // Mechanics
         public int ammo { get; private set; }
         public int clips { get; private set; }
 
+        public bool isLastClip { get; private set; }
         public bool isClipEmpty { get; private set; }
         public bool isOutOfAmmo { get; private set; }
 
@@ -135,6 +139,10 @@ namespace SuperShooter
 
         private void Start()
         {
+            // Check ownership. Can be null.
+            // But generally a weapon should have an owner of some kind.
+            GetOwner();
+
             // Check we can shoot from somewhere
             if (spawnPoint == null)
                 Debug.LogWarning(string.Format(FPSMessages.WARN_WEAPON_NO_SHOT_ORIGIN, GetDisplayName()));
@@ -146,6 +154,11 @@ namespace SuperShooter
             // Set ammo
             ammo = maxAmmoPerClip;
             clips = maxClips;
+        }
+
+        private void GetOwner()
+        {
+            owner = transform.parent?.GetComponentInParent<CharacterEntity>();
         }
 
         // ------------------------------------------------- //
@@ -174,6 +187,7 @@ namespace SuperShooter
             // Check ammo status
             isClipEmpty = ammo == 0;
             isOutOfAmmo = clips == 0;
+            isLastClip = clips == 1;
 
             // Allow derived weapons to be notified that we have updated.
             OnUpdate();
@@ -213,6 +227,9 @@ namespace SuperShooter
 
         public void Pickup()
         {
+            // Try transfer ownership
+            GetOwner();
+
             //// Disable physics (set to true)
             //rigid.isKinematic = true;
 
@@ -226,6 +243,9 @@ namespace SuperShooter
 
         public void Drop()
         {
+            // No owner.
+            owner = null;
+
             //// Enable physics (set to false)
             //rigid.isKinematic = false;
 
@@ -254,6 +274,10 @@ namespace SuperShooter
 
             
         }
+
+        public virtual void OnReloadStart() { }
+
+        public virtual void OnReloadFinished() { }
 
         // ------------------------------------------------- //
 
@@ -359,7 +383,7 @@ namespace SuperShooter
             {
 
                 // Deal damage !!
-                entity.TakeDamage(damage, this);
+                DealDamage(damage, entity);
 
             }
 
@@ -387,8 +411,22 @@ namespace SuperShooter
             }
 
             // Show Line
-            StartCoroutine(ShowLine(bulletRay, lineDelay));
+            StartCoroutine(LineRoutine(bulletRay, lineDelay));
 
+        }
+
+        IEnumerator LineRoutine(Ray bulletRay, float lineDelay)
+        {
+            // Enable and Set Line
+            lineRenderer.enabled = true;
+            lineRenderer.SetPosition(0, bulletRay.origin);
+            lineRenderer.SetPosition(1, bulletRay.origin + bulletRay.direction * bulletRange);
+
+            // Wait
+            yield return new WaitForSeconds(lineDelay);
+
+            // Disable
+            lineRenderer.enabled = false;
         }
 
         // ------------------------------------------------- //
@@ -415,18 +453,10 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
-        IEnumerator ShowLine(Ray bulletRay, float lineDelay)
+        public override void OnDamageDealt(int amount, ICharacterEntity target)
         {
-            // Enable and Set Line
-            lineRenderer.enabled = true;
-            lineRenderer.SetPosition(0, bulletRay.origin);
-            lineRenderer.SetPosition(1, bulletRay.origin + bulletRay.direction * bulletRange);
-
-            // Wait
-            yield return new WaitForSeconds(lineDelay);
-
-            // Disable
-            lineRenderer.enabled = false;
+            // Make sure our owner gets the message too ;)
+            owner?.OnDamageDealt(amount, target);
         }
 
         // ------------------------------------------------- //

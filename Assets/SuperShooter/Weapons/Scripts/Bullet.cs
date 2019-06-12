@@ -160,18 +160,18 @@ namespace SuperShooter
             }
 
 
-            // Show UI hit marker
-            if (hitSomething)
-            {
+            //// Show UI hit marker
+            //if (hitSomething)
+            //{
 
-                // Show HUD hit marker
-                if (UIManager.Exists)
-                    UIManager.Main.CrossHair.ShowHitMarker(Color.white);
+            //    // Show HUD hit marker
+            //    if (UIManager.Exists)
+            //        UIManager.Main.CrossHair.ShowHitMarker(Color.white);
 
-                // TODO
-                // Award points or something.
+            //    // TODO
+            //    // Award points or something.
 
-            }
+            //}
 
         }
 

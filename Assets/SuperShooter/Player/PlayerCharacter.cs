@@ -64,22 +64,25 @@ namespace SuperShooter
             }
 
 
-            // Usual suspects
-
-            UpdateHealth();
             UpdateAbilities();
 
+
+        }
+
+        private void LateUpdate()
+        {
+            // Must happen last to ensure the UI is accurate.
+            UpdateUI();
         }
 
         // ------------------------------------------------- //
 
         #region Update() Methods
 
-        private void UpdateHealth()
+        private void UpdateUI()
         {
-            if (UIManager.Exists)
-                UIManager.Main.SetHealth(health, maxHealth, isDead);
-
+            UIManager.Main?.SetPlayerStatus(this);
+            UIManager.Main?.SetPlayerWeaponStatus(controller.currentWeapon);
         }
 
         private void UpdateAbilities()
@@ -99,13 +102,15 @@ namespace SuperShooter
         public override void BackFromTheDead()
         {
             // Reset UI
-            if (UIManager.Exists)
-                UIManager.Main.ShowDeathScreen(false);
+            UIManager.Main?.ShowDeathScreen(false);
         }
 
         public override void OnDamageDealt(int amount, ICharacterEntity target)
         {
-            
+
+            // Show damage indicator on the UI
+            UIManager.Main?.ShowPlayerDealtDamage(amount, target);
+
         }
 
         public override void OnDamageTaken(int amount, ICharacterEntity from)
@@ -114,8 +119,7 @@ namespace SuperShooter
             // how much damage was taken, and from whom.
 
             // Show damage indicator on the UI
-            if (UIManager.Exists)
-                UIManager.Main.ShowDamage();
+            UIManager.Main?.ShowPlayerTookDamage();
 
         }
 
@@ -125,8 +129,7 @@ namespace SuperShooter
             controller.characterEnabled = false;
 
             // Show kill screen
-            if (UIManager.Exists)
-                UIManager.Main.ShowDeathScreen(true);
+            UIManager.Main?.ShowDeathScreen(true);
 
         }
 

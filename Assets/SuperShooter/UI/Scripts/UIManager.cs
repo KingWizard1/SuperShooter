@@ -11,18 +11,18 @@ namespace SuperShooter
     {
 
         [Header("UI Elements")]
-        public GameObject healthUI;
-        public GameObject pickupPrompt;
+        public GameObject playerStatus;
         public GameObject pickupPrompt3D;
         public GameObject crossHairSystem;
         public GameObject deathScreen;
 
-        public TextMeshProUGUI ammoText;
-        public TextMeshProUGUI weaponText;
+        private CrossHairUI crossHairUI;
+        private PauseScreenUI pauseScreenUI;
+        private PlayerStatusUI playerStatusUI;
 
         // ------------------------------------------------- //
 
-        public CrossHairSystem CrossHair { get { return crossHairSystem.GetComponent<CrossHairSystem>(); } }
+        public CrossHairUI CrossHair { get { return crossHairSystem.GetComponent<CrossHairUI>(); } }
 
         // ------------------------------------------------- //
 
@@ -37,16 +37,20 @@ namespace SuperShooter
         void Awake()
         {
             Main = this;
+
+            crossHairUI = crossHairSystem?.GetComponent<CrossHairUI>();
+            pauseScreenUI = pauseScreenUI?.GetComponent<PauseScreenUI>();
+            playerStatusUI = playerStatus?.GetComponent<PlayerStatusUI>();
+
+            if (!crossHairUI) Debug.LogWarning($"There is no {nameof(CrossHairUI)} specified for the UI!");
+            if (!pauseScreenUI) Debug.LogWarning($"There is no {nameof(PauseScreenUI)} specified for the UI!");
+            if (!playerStatusUI) Debug.LogWarning($"There is no {nameof(PlayerStatusUI)} specified for the UI!");
         }
 
         // ------------------------------------------------- //
 
         void Start()
         {
-
-            // Reset text
-            ammoText.text = string.Empty;
-            weaponText.text = string.Empty;
 
         }
 
@@ -63,26 +67,27 @@ namespace SuperShooter
 
         #region UI Elements
 
-        /// <summary>Updates the player health bar on the UI.</summary>
-        public void SetHealth(int health, int maxHealth, bool isDead)
+        public void SetPlayerStatus(PlayerCharacter player)
         {
 
-            // Update InGame UI
-
-            var playerHealth = healthUI.GetComponent<PlayerHealth>();
-            playerHealth.SetHealth(health, maxHealth, isDead);
-
+            playerStatusUI?.SetStatus(player);
 
         }
 
-        public void ShowDamage()
+        public void ShowPlayerDealtDamage(int amount, ICharacterEntity target)
         {
-            var playerHealth = healthUI.GetComponent<PlayerHealth>();
-            playerHealth.ShowDamage();
+            var color = target.isDead ? Color.red : Color.white;
+            crossHairUI?.ShowHitMarker(color);
         }
+
+        public void ShowPlayerTookDamage()
+        {
+            playerStatusUI?.ShowDamage();
+        }
+
 
         /// <summary>Updates the ability bar on the UI.</summary>
-        public void SetAbility(Ability ability)
+        public void SetPlayerAbilityStatus(Ability ability)
         {
             var name = ability.GetDisplayName();
             var maximum = ability.MaxDuration;
@@ -93,31 +98,11 @@ namespace SuperShooter
 
         }
 
-        public void SetWeaponStatus(Weapon weapon)
+        public void SetPlayerWeaponStatus(Weapon weapon)
         {
 
-            if (weapon == null)
-            {
-                // There is no weapon currently equipped by the player.
-                // ..
-            }
-            else
-            {
-                // Get values
-                var currentAmmoInClip = weapon.ammo;
-                var maxAmmoPerClip = weapon.maxAmmoPerClip;
-                var totalAmmoLeft = (weapon.maxAmmoPerClip * weapon.clips);
+            playerStatusUI?.SetWeapon(weapon);
 
-                var weaponName = weapon.GetDisplayName();
-
-                // Update UI
-
-                ammoText.text = string.Format("{0}/{1} + {2}", 
-                    currentAmmoInClip, maxAmmoPerClip, totalAmmoLeft);
-
-                weaponText.text = weaponName;
-
-            }
 
         }
 
@@ -128,14 +113,14 @@ namespace SuperShooter
 
         #region Screens
 
-        public void ShowPickupPrompt2D(string text)
-        {
-            if (pickupPrompt)
-                pickupPrompt.GetComponent<PickupPrompt>().ShowPrompt(text);
-            else
-                Debug.LogError("[UI] No PickupPrompt assigned to UIManager.");
+        //public void ShowPickupPrompt2D(string text)
+        //{
+        //    if (pickupPrompt)
+        //        pickupPrompt.GetComponent<PickupPrompt>().ShowPrompt(text);
+        //    else
+        //        Debug.LogError("[UI] No PickupPrompt assigned to UIManager.");
 
-        }
+        //}
 
         public void ShowPickupPrompt3D(string text, Vector3 objectPosition)
         {
@@ -160,7 +145,7 @@ namespace SuperShooter
             if (deathScreen)
                 deathScreen.SetActive(makeActive);
             else
-                Debug.LogError("[UI] No PickupPrompt assigned to UIManager.");
+                Debug.LogError($"[UI] No {deathScreen} assigned to UIManager.");
             
 
         }

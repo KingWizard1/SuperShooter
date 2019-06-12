@@ -24,8 +24,8 @@ namespace SuperShooter
 
         // Mechanics
         private bool show = false;
-        public float fadeInTime = 1;
-        public float fadeOutTime = 2;
+        public float fadeInTime = .05f;
+        public float fadeOutTime = .1f;
         private float fadeInTimer = 0;      //  0 is default value.
         private float fadeOutTimer = -1;    // -1 is default value.
 

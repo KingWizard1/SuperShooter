@@ -5,7 +5,7 @@ using UnityEngine;
 namespace SuperShooter
 {
 
-    public class CrossHairSystem : MonoBehaviour
+    public class CrossHairUI : MonoBehaviour
     {
 
         public GameObject crossHair;

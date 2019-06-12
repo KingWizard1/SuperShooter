@@ -445,7 +445,7 @@ namespace SuperShooter
 
             // Update UI
             if (UIManager.Exists)
-                UIManager.Main.SetWeaponStatus(currentWeapon);
+                UIManager.Main.SetPlayerWeaponStatus(currentWeapon);
 
 
             var ammoInClip = currentWeapon.ammo;
@@ -687,7 +687,7 @@ namespace SuperShooter
 
             // Update UI
             if (UIManager.Exists)
-                UIManager.Main.SetWeaponStatus(currentWeapon);
+                UIManager.Main.SetPlayerWeaponStatus(currentWeapon);
         }
 
         // ------------------------------------------------- //
@@ -737,8 +737,7 @@ namespace SuperShooter
                 Destroy(currentAbility.gameObject);
 
             // Update UI
-            if (UIManager.Exists)
-                UIManager.Main.SetAbility(currentAbility);
+            UIManager.Main?.SetPlayerAbilityStatus(currentAbility);
 
 
 

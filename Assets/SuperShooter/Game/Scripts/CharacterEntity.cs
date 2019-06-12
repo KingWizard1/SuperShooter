@@ -69,8 +69,11 @@ namespace SuperShooter
             if (Modifiers.HasFlag(EntityModifier.Invincible))
                 return;
 
-            // Deplete health by amount
+            // Deplete health by amount.
+            // Clamp the value to zero as the minimum.
             health -= amount;
+            if (health < 0)
+                health = 0;
 
             //
             Debug.Log($"{type} '{name}' took {amount} damage from '{from.name}'. {health} left.");
@@ -93,7 +96,7 @@ namespace SuperShooter
         {
             // Is target already dead?
             if (target.isDead)
-                return;
+                return; // Do nothing.
 
             // Deal damage
             target.TakeDamage(amount, this);

@@ -8,11 +8,15 @@ namespace SuperShooter
 
         [Header("Setup")]
         public Transform spawnPoint;
+        public GameObject Parent;
+        public GameObject Parent2;
         public GameObject[] enemyPrefabs;
 
         [Header("Configuration")]
         public int enemiesToSpawn = 3;
+        public int Wave2EnemiesToSpawn = 7;
         public float timeBetweenSpawns = 1;
+        public bool Wave2 = false;
 
         // ------------------------------------------------- //
 
@@ -25,6 +29,7 @@ namespace SuperShooter
         {
 
             spawnTimer = timeBetweenSpawns;
+            
 
         }
 
@@ -32,6 +37,8 @@ namespace SuperShooter
 
         private void Update()
         {
+
+           
 
             // Spawn an enemy at each time interval until the
             // desired number of enemies have been spawned.
@@ -49,6 +56,21 @@ namespace SuperShooter
             }
 
 
+            if (Parent == null && Wave2 == false)
+            {
+                Wave2 = true;
+
+                    if (spawned < Wave2EnemiesToSpawn)
+                    {
+                        SpawnEnemy();
+                        spawned++;
+                    spawnTimer = timeBetweenSpawns;
+                    Debug.Log("wave2");
+                    }
+                
+            }
+
+    
         }
 
         // ------------------------------------------------- //
@@ -62,7 +84,8 @@ namespace SuperShooter
         {
             
             // Resource check
-            if (enemyPrefabs.Length == 0) {
+            if (enemyPrefabs.Length == 0)
+            {
                 Debug.LogError($"Cannot spawn enemy: no prefabs have been assigned to object '{name}'");
                 return;
             }
@@ -72,7 +95,15 @@ namespace SuperShooter
             var i = Random.Range(0, enemyPrefabs.Length);
 
             // Instantiate
-            Instantiate(enemyPrefabs[i], spawnPoint.position, spawnPoint.rotation, null);
+            if ( Wave2 == false)
+            {
+                Instantiate(enemyPrefabs[i], spawnPoint.position, spawnPoint.rotation, Parent.transform);
+            }
+           if ( Wave2 == true)
+           {
+               Instantiate(enemyPrefabs[i], spawnPoint.position, spawnPoint.rotation, Parent2.transform);
+            }
+            
 
 
 

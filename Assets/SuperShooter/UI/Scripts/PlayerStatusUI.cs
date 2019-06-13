@@ -76,7 +76,7 @@ namespace SuperShooter
                 else                                                    ammoText2.color = Color.white;
 
                 if      (weapon.isOutOfAmmo)                            weaponText.color = Color.red;
-                else if (weapon.isLastClip || weapon.isReloadRequired)  weaponText.color = Color.yellow;
+                //else if (weapon.isLastClip || weapon.isReloadRequired)  weaponText.color = Color.yellow;
                 else                                                    weaponText.color = Color.white;
 
 

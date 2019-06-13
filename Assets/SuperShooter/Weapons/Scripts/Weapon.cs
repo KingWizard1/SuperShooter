@@ -129,7 +129,7 @@ namespace SuperShooter
             sphereCollider = GetComponent<SphereCollider>();
 
             pickupSpin = GetComponent<Spin>();
-            pickupGlow = transform.Find("PickupGlow").gameObject;
+            pickupGlow = transform.Find("PickupGlow")?.gameObject;
         }
 
         public virtual string GetDisplayName()
@@ -143,6 +143,11 @@ namespace SuperShooter
         }
 
         // ------------------------------------------------- //
+
+        private void OnDisable()
+        {
+            ;
+        }
 
         private void Start()
         {
@@ -241,8 +246,9 @@ namespace SuperShooter
             sphereCollider.enabled = false;
 
             // Disable glow and spin
-            pickupSpin.enabled = false;
-            pickupGlow.SetActive(false);
+            if (pickupSpin) pickupSpin.enabled = false;
+            if (pickupGlow) pickupGlow.SetActive(false);
+            
         }
 
         public void Drop()
@@ -276,8 +282,8 @@ namespace SuperShooter
             // ------ NEW ------
 
             var cam = Camera.main;
-            var bulletOrigin = cam.transform.position;
-            var bulletRotation = cam.transform.rotation; // Rotation of the bullet
+            //var bulletOrigin = cam.transform.position;
+            //var bulletRotation = cam.transform.rotation; // Rotation of the bullet
             var direction = cam.transform.forward; // Forward direction of camera
 
             // Apply weapon recoil

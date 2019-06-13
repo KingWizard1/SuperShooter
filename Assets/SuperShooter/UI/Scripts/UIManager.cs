@@ -146,6 +146,7 @@ namespace SuperShooter
             {
 
                 var interactionKey = "E";
+
                 contextText.text = $"[{interactionKey}] {interactable.GetInteractionString()}";
 
                 contextText.color = isWithinRange ? Color.white : Color.grey;

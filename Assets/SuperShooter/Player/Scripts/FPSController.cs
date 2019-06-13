@@ -393,8 +393,7 @@ namespace SuperShooter
         void UpdateInteract()
         {
             // Disable interact UI
-            if (UIManager.Exists)
-                UIManager.Main.HideInteract();
+            UIManager.Main?.HideInteract();
 
             // Create ray from center of screen.
             // In viewport dimensions, 0 == top left corner, 1 == bottom right corner.
@@ -420,8 +419,8 @@ namespace SuperShooter
                 // Enable the UI and show the interactable name
                 //var interactableName = interactable.GetDisplayName();
                 //var interactablePosition = ((MonoBehaviour)interactable).transform.position;
-                if (UIManager.Exists)
-                    UIManager.Main.ShowInteract(interactable, withinInteractRange);
+                if (withinInteractRange)
+                    UIManager.Main?.ShowInteract(interactable, withinInteractRange);
 
                 // Pickup the interactable if key is being pressed on this frame
                 if (withinInteractRange && Input.GetKeyDown(KeyCode.E))

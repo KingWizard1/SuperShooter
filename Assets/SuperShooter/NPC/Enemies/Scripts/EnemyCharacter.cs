@@ -16,8 +16,8 @@ namespace SuperShooter
 
         Victory = 32,
 
-        DiedBackward = 63,
-        DiedForward = 64,
+        DiedBackward = 64,
+        DiedForward = 65,
     }
 
     public class EnemyCharacter : CharacterEntity
@@ -197,17 +197,18 @@ namespace SuperShooter
         {
 
             // Disable AI
-            _controller.enabled = false;
+            _controller.Stop();
 
-            // Set state
-            SetCharacterState(EnemyCharacterState.DiedBackward);
+            // Death/fall animation
+            var randomFallAnim = Random.Range((int)EnemyCharacterState.DiedBackward, (int)EnemyCharacterState.DiedForward);
+            SetCharacterState((EnemyCharacterState)randomFallAnim);
 
 
         }
 
         public override void BackFromTheDead()
         {
-            _controller.enabled = true;
+            _controller.state = EnemyControllerState.Goto;
         }
 
         #endregion

@@ -66,15 +66,7 @@ namespace SuperShooter
 
         void Update()
         {
-
-            FindVisibleTarget();
-
-            disToTarget = (goToPos - transform.position).magnitude;
-
-            // Check distance to target
-            isWithinStoppingDistance = disToTarget < _agent.stoppingDistance;
-
-
+            
             // Are we on the ground?
             // If not, simulate gravity and fall until we do hit ground.
             bool isGrounded = transform.CheckIfGrounded(out RaycastHit hit, groundRayDistance);
@@ -88,6 +80,17 @@ namespace SuperShooter
             // NavMeshAgent doesn't like it when we call SetDestination() when not on a NavMesh.
             _agent.enabled = isGrounded;
 
+            // Bail if theres nothing to do at this point.
+            if (!_agent.enabled || _agent.isStopped)
+                return;
+
+            // 
+            FindVisibleTarget();
+
+            disToTarget = (goToPos - transform.position).magnitude;
+
+            // Check distance to target
+            isWithinStoppingDistance = disToTarget < _agent.stoppingDistance;
 
             if (isWithinStoppingDistance)
             {
@@ -202,15 +205,25 @@ namespace SuperShooter
             _agent.SetDestination(goToPos);
         }
 
+        // ------------------------------------------------- //
+
+        public void Stop()
+        {
+            state = EnemyControllerState.Stop;
+            _agent.isStopped = true;
+        }
+
+        // ------------------------------------------------- //
+
     }
 
     public enum EnemyControllerState
     {
+        Stop,
         Search,
         Goto,
         Flee,
         Shoot,
         Melee,
-        
     }
 }

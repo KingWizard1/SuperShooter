@@ -29,11 +29,18 @@ namespace SuperShooter
         public float shootingRange = 10;
         public GameObject weapon;
 
+      //  public bool spawned;
+       // public GameObject Renderer;
+        
+        
+
         [Header("Rewards")]
         public int XPValue;
 
         //[Header("Events")]
         //public UnityEvent ev = new UnityEvent();
+
+       
 
         // ------------------------------------------------- //
 
@@ -56,6 +63,7 @@ namespace SuperShooter
         {
             _animator = GetComponent<Animator>();
             _controller = GetComponent<EnemyController>();
+            
         }
 
         // ------------------------------------------------- //
@@ -74,7 +82,12 @@ namespace SuperShooter
             UpdateAgentProperties();
             UpdateCharacterState();
 
+           // OnPostRender();
+
+  
         }
+
+
 
         // ------------------------------------------------- //
 
@@ -105,6 +118,7 @@ namespace SuperShooter
             // Is character idle? (Agent NOT active)
             if (!_controller.isAgentActive) {
                 SetCharacterState(EnemyCharacterState.Idle);
+               // spawned = false;
                 return;
             }
 
@@ -131,9 +145,11 @@ namespace SuperShooter
             else {
 
                 // We will use melee attacks.
-                if (_controller.state == EnemyControllerState.Goto ||
-                    _controller.state == EnemyControllerState.Search)
+                if (_controller.state == EnemyControllerState.Goto || _controller.state == EnemyControllerState.Search)
+                {
                     SetCharacterState(EnemyCharacterState.Running);
+                     //   spawned = true;
+                }
 
                 // Melee attack!
                 // The animation clip is expected to have an animation event
@@ -141,6 +157,7 @@ namespace SuperShooter
                 if (_controller.isWithinStoppingDistance) {
                     SetCharacterState(EnemyCharacterState.StandingMeleeAttack);
                     _controller.state = EnemyControllerState.Melee;
+                   // spawned = true;
                 }
             }
 

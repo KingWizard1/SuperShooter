@@ -176,7 +176,12 @@ namespace SuperShooter
             // Try and get a CharacterEntity script from the target.
             // If it has one, tell it to take some damage.
             var target = _controller.target;
-            if (target != null)
+            if (target == null)
+                return;
+
+            var distanceToTarget = (target.transform.position - transform.position);
+
+            if (distanceToTarget.magnitude <= meleeRange)
                 target.GetComponent<ICharacterEntity>()?.TakeDamage(meleeDamage, this);
 
         }

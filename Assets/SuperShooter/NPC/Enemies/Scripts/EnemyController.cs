@@ -33,8 +33,10 @@ namespace SuperShooter
         [Header("Physics")]
         public float gravity = 10f;
         public float groundRayDistance = 1.1f;
-        
+
         bool hasChecked;
+
+        public float meleeRange = 1;
 
 
         // ------------------------------------------------- //
@@ -44,7 +46,8 @@ namespace SuperShooter
         public bool isWithinStoppingDistance { get; private set; }
 
         // Expose the agent's stopping distance.
-        public float stoppingDistance {
+        public float stoppingDistance
+        {
             get => _agent.stoppingDistance;
             set => _agent.stoppingDistance = value;
         }
@@ -66,11 +69,12 @@ namespace SuperShooter
 
         void Update()
         {
-            
+
             // Are we on the ground?
             // If not, simulate gravity and fall until we do hit ground.
             bool isGrounded = transform.CheckIfGrounded(out RaycastHit hit, groundRayDistance);
-            if (!isGrounded) {
+            if (!isGrounded)
+            {
                 var y = transform.position.y - (gravity * Time.deltaTime);
                 transform.position = new Vector3(transform.position.x, y, transform.position.z);
                 return;
@@ -115,6 +119,10 @@ namespace SuperShooter
 
                 state = EnemyControllerState.Goto;
                 goToPos = target.position;
+                if ((transform.position - target.position).magnitude <= meleeRange)
+                {
+                    Melee();
+                }
             }
             else
             {
@@ -130,6 +138,7 @@ namespace SuperShooter
             }
 
 
+
             switch (state)
             {
                 case EnemyControllerState.Goto:
@@ -137,6 +146,12 @@ namespace SuperShooter
                     break;
                 case EnemyControllerState.Search:
                     Search();
+                    break;
+                case EnemyControllerState.Stop:
+                    Stop();
+                    break;
+                case EnemyControllerState.Melee:
+                    Melee();
                     break;
             }
 
@@ -207,13 +222,19 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
+        public void Melee()
+        {
+            state = EnemyControllerState.Melee;
+            
+        }
+
+        // ------------------------------------------------- //
+
         public void Stop()
         {
             state = EnemyControllerState.Stop;
             _agent.isStopped = true;
         }
-
-        // ------------------------------------------------- //
 
     }
 

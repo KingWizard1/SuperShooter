@@ -108,6 +108,11 @@ namespace SuperShooter
                 return;
             }
 
+            // Is character idle? (Agent stopped)
+            if (_controller.State == EnemyControllerState.Stop)
+                SetCharacterState(EnemyCharacterState.Idle);
+
+
             // Is the main player dead?
             if (GameManager.Main != null && GameManager.Main.PlayerCharacter != null)
                 if (GameManager.Main.PlayerCharacter.isDead) {
@@ -115,12 +120,15 @@ namespace SuperShooter
                     return;
                 }
 
+            // Is searching for a target?
+            if (_controller.State == EnemyControllerState.Search)
+                SetCharacterState(EnemyCharacterState.Walking);
+
             // Do we have a weapon equipped?
             if (weapon != null) {
 
                 // We will use weapon attacks.
-                if (_controller.state == EnemyControllerState.Goto ||
-                    _controller.state == EnemyControllerState.Search)
+                if (_controller.State == EnemyControllerState.Goto)
                     SetCharacterState(EnemyCharacterState.RunningWeaponAttack);
 
                 if (_controller.isWithinStoppingDistance)
@@ -131,21 +139,18 @@ namespace SuperShooter
             else {
 
                 // We will use melee attacks.
-                if (_controller.state == EnemyControllerState.Goto ||
-                    _controller.state == EnemyControllerState.Search)
+                if (_controller.State == EnemyControllerState.Goto)
                     SetCharacterState(EnemyCharacterState.Running);
 
                 // Melee attack!
                 // The animation clip is expected to have an animation event
                 // that will fire a function at the peak of the attack action.
-                if (_controller.isWithinStoppingDistance) {
+                if (_controller.isWithinStoppingDistance)
                     SetCharacterState(EnemyCharacterState.StandingMeleeAttack);
-                    _controller.state = EnemyControllerState.Melee;
-                }
             }
 
             // Are we running away from danger?
-            if (_controller.state == EnemyControllerState.Flee)
+            if (_controller.State == EnemyControllerState.Flee)
                 SetCharacterState(EnemyCharacterState.Running);
 
             // Done.
@@ -169,20 +174,34 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
+        //public void AnimationSprintEvent()
+        //{
+        //    _controller.allowMovement = true;
+        //}
+
+        // ------------------------------------------------- //
+
         // Called by the related animation event script.
-        public void AnimationKickEvent()
+        public void AnimationKickEvent(bool finished)
         {
+            // If the kick event fired on the frame the animation is finished.
+            if (!finished) {
 
-            // Try and get a CharacterEntity script from the target.
-            // If it has one, tell it to take some damage.
-            var target = _controller.target;
-            if (target == null)
-                return;
+                // Try and get a CharacterEntity script from the target.
+                // If it has one, tell it to take some damage.
+                if (!_controller.hasTarget)
+                    return;
 
-            var distanceToTarget = (target.transform.position - transform.position);
+                if (_controller.distanceToTarget <= meleeRange)
+                    _controller.target.GetComponent<ICharacterEntity>()?.TakeDamage(meleeDamage, this);
 
-            if (distanceToTarget.magnitude <= meleeRange)
-                target.GetComponent<ICharacterEntity>()?.TakeDamage(meleeDamage, this);
+            }
+            else
+            {
+
+                _controller.GoToTarget();
+
+            }
 
         }
 
@@ -213,7 +232,7 @@ namespace SuperShooter
 
         public override void BackFromTheDead()
         {
-            _controller.state = EnemyControllerState.Goto;
+            _controller.Search();
         }
 
         #endregion

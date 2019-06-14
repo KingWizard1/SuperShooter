@@ -76,7 +76,7 @@ namespace SuperShooter
                 health = 0;
 
             //
-            Debug.Log($"{type} '{name}' took {amount} damage from '{from.name}'. {health} left.");
+            Debug.Log($"{type} '{name}' took {amount} damage from '{from.name}'. {health}HP left.");
 
             //
             OnDamageTaken(amount, from);

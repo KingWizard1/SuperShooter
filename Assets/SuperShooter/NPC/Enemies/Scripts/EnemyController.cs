@@ -9,18 +9,42 @@ namespace SuperShooter
     [RequireComponent(typeof(NavMeshAgent))]
     public class EnemyController : MonoBehaviour
     {
-        [Header("State")]
-        public EnemyControllerState state = EnemyControllerState.Search;
+        [Header("State Debug")]
         [SerializeField]
-        private Vector3 goToPos;
+        public Transform target;
         [SerializeField]
-        private float disToTarget;
-        /// <summary>
-        /// The distance away from the 'goToPos' that results in the 'Search' function.
-        /// </summary>
-        public float searchDisToTarget;
+        public Vector3 targetPosition => target?.position ?? Vector3.zero;
         [SerializeField]
-        private Vector3 lastKnownPosition;
+        public Vector3 destination => _agent.destination;
+        [SerializeField]
+        public float distanceToTarget;
+        [SerializeField]
+        public float distanceToDestination => _agent.remainingDistance;
+        //public float distanceToDestination;
+        [SerializeField]
+        private Vector3 lastKnownTargetPosition;
+        [SerializeField]
+        private EnemyControllerState state = EnemyControllerState.Search;
+
+        public EnemyControllerState State => state;
+
+        [SerializeField]
+        private bool isGrounded = false;
+
+        public bool hasTarget;
+
+        // ------------------------------------------------- //
+
+        [Header("Settings")]
+        //public bool allowMovement = true;
+        //public bool allowRotation = true;
+        private float arrivalDistance = .1f;
+
+        [Range(1, 5)]
+        public float searchTime = 1;
+        private float searchTimer;
+
+
 
         [Header("Sight")]
         public float viewRadius;
@@ -28,16 +52,12 @@ namespace SuperShooter
         public float viewAngle;
         public LayerMask targetLayer;
         public LayerMask obstacleMask;
-        public Transform target;
 
         [Header("Physics")]
         public float gravity = 10f;
         public float groundRayDistance = 1.1f;
 
-        bool hasChecked;
-
-        public float meleeRange = 1;
-
+        //bool hasChecked;
 
         // ------------------------------------------------- //
 
@@ -67,14 +87,24 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
-        void Update()
+        private void Start()
         {
 
+            // Safeties
+            if (arrivalDistance <= 0)
+                arrivalDistance = .5f;    // Set to minimum value.
+
+        }
+
+        // ------------------------------------------------- //
+
+        void Update()
+        {
+            
             // Are we on the ground?
             // If not, simulate gravity and fall until we do hit ground.
-            bool isGrounded = transform.CheckIfGrounded(out RaycastHit hit, groundRayDistance);
-            if (!isGrounded)
-            {
+            isGrounded = transform.CheckIfGrounded(out RaycastHit hit, groundRayDistance);
+            if (!isGrounded) {
                 var y = transform.position.y - (gravity * Time.deltaTime);
                 transform.position = new Vector3(transform.position.x, y, transform.position.z);
                 return;
@@ -85,77 +115,77 @@ namespace SuperShooter
             _agent.enabled = isGrounded;
 
             // Bail if theres nothing to do at this point.
-            if (!_agent.enabled || _agent.isStopped)
+            if (!_agent.enabled /*|| _agent.isStopped*/)
                 return;
 
-            // 
-            FindVisibleTarget();
+            // Look for a target within my sights (my field of view).
+            target = FindTargetWithinFOV();
+            if (!hasTarget && target != null) {
+                hasTarget = true;
+                Debug.Log($"Target acquired: {target.name}");
+            }
+            else if (hasTarget && target == null) {
+                Debug.Log($"Target lost!");
+                hasTarget = false;
+            }
 
-            disToTarget = (goToPos - transform.position).magnitude;
 
-            // Check distance to target
-            isWithinStoppingDistance = disToTarget < _agent.stoppingDistance;
+            // Stop here if the controller should be stopped.
+            if (state == EnemyControllerState.Stop) {
 
-            if (isWithinStoppingDistance)
-            {
-                hasChecked = true;
+                //// Look at our target if we have one.
+                //if (hasTarget)
+                //    transform.LookAt(target.position);
 
-
-                transform.LookAt(new Vector3(goToPos.x, transform.position.y, goToPos.z));
+                // Do nothing else. The controller is 'stopped'.
+                return;
 
             }
 
-            else
-            {
+            // Rotate to look in the direction of movement.
+            transform.rotation = Quaternion.LookRotation(_agent.velocity);
 
-                transform.rotation = Quaternion.LookRotation(_agent.velocity);
-            }
 
             // If we have a target, lets configure the agent to move toward them.
-            if (target != null)
+            if (hasTarget)
             {
-                hasChecked = false;
-                lastKnownPosition = target.position;
+                // Calculations
+                distanceToTarget = (target.position - transform.position).magnitude;
+                isWithinStoppingDistance = distanceToTarget < _agent.stoppingDistance;
 
-                state = EnemyControllerState.Goto;
-                goToPos = target.position;
-                if ((transform.position - target.position).magnitude <= meleeRange)
+                // Remember this position in case we lose sight of the target.
+                lastKnownTargetPosition = target.position;
+
+
+                // Are we within stopping distance of our target? 
+                if (isWithinStoppingDistance)
                 {
-                    Melee();
-                }
-            }
-            else
-            {
-                //if they have checked the players last known pos, it will begin the search.
-                if (hasChecked)
-                {
-                    state = EnemyControllerState.Search;
+                    Debug.Log("Reached stopping distance of target.");
+                    Stop();
                 }
                 else
                 {
-                    goToPos = lastKnownPosition;
+                    // Tell the agent to go to this position if we're not stopped.
+                    if (state != EnemyControllerState.Stop)
+                        GoTo(target.position);
                 }
             }
-
-
-
-            switch (state)
+            else
             {
-                case EnemyControllerState.Goto:
-                    GoTo();
-                    break;
-                case EnemyControllerState.Search:
+                // We have no target in sight.
+
+                // If we have a last known position, try and find the target there.
+                // If we dont have a last known position, try and find a target in visible sight.
+                var distanceToLastKnown = (transform.position - lastKnownTargetPosition).magnitude;
+                if (lastKnownTargetPosition != Vector3.zero && distanceToLastKnown <= arrivalDistance)
+                {
+                    SearchLastKnown(lastKnownTargetPosition);
+                }
+                else
+                {
                     Search();
-                    break;
-                case EnemyControllerState.Stop:
-                    Stop();
-                    break;
-                case EnemyControllerState.Melee:
-                    Melee();
-                    break;
+                }
             }
-
-
 
         }
 
@@ -163,25 +193,26 @@ namespace SuperShooter
 
         #region Sight
 
-        void FindVisibleTarget()
+        Transform FindTargetWithinFOV()
         {
-            target = null;
+            
             Collider[] targetsInRadius = Physics.OverlapSphere(transform.position, viewRadius, targetLayer);
             for (int i = 0; i < targetsInRadius.Length; i++)
             {
-                Transform target = targetsInRadius[i].transform;
+                var target = targetsInRadius[i].transform;
                 Vector3 dirToTarget = (target.position - transform.position).normalized;
                 if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
                 {
                     float distToTarget = Vector3.Distance(transform.position, target.position);
                     if (!Physics.Raycast(transform.position, dirToTarget, distToTarget, obstacleMask))
                     {
-
-                        this.target = target;
-
+                        return target;
                     }
                 }
             }
+
+            // No targets found.
+            return null;
         }
 
         public Vector3 DirFromAngle(float angle, bool isGlobalAngle)
@@ -197,35 +228,77 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
-        void GoTo()
+        /// <summary>Call this to set the controller's current destination.</summary>
+        public void SetDestination(Vector3 worldPosition)
         {
-            _agent.SetDestination(goToPos);
-        }
-
-        float time;
-
-        void Search()
-        {
-            if (disToTarget < searchDisToTarget)
-            {
-                time = 0;
-                goToPos = transform.position + new Vector3(Random.Range(-5, 5), transform.position.y, Random.Range(-5, 5));
-            }
-            if (time >= 1)
-            {
-                time = 0;
-                goToPos = transform.position + new Vector3(Random.Range(-5, 5), transform.position.y, Random.Range(-5, 5));
-            }
-            time += Time.deltaTime;
-            _agent.SetDestination(goToPos);
+            //destination = worldPosition;
+            _agent.SetDestination(worldPosition);
+            _agent.isStopped = false;
         }
 
         // ------------------------------------------------- //
 
-        public void Melee()
+        public void Search()
         {
-            state = EnemyControllerState.Melee;
-            
+
+            // Add time
+            searchTimer += Time.deltaTime;
+
+            // Bail if we haven't reached the end of our time to search for a player at this position.
+            // Otherwise, reset the timer and move to a new destionation to look for a target from.
+            if (searchTimer < searchTime)
+                return;
+
+            // Reset timer.
+            searchTimer = 0;
+
+            // Set new destination.
+            var r = 10;
+            var randomOffset = new Vector3(Random.Range(-r, r), transform.position.y, Random.Range(-r, r));
+            var destinationPos = transform.position + randomOffset;
+
+            SetDestination(destinationPos);
+
+            // Set state
+            if (state != EnemyControllerState.Search) {
+                state = EnemyControllerState.Search;
+                Debug.Log("Searching for new target at new destintation.");
+            }
+
+        }
+
+        public void GoTo(Vector3 worldPosition)
+        {
+            // Set state
+            state = EnemyControllerState.Goto;
+            SetDestination(worldPosition);
+        }
+
+        public void GoToTarget()
+        {
+            if (target != null)
+                GoTo(target.position);
+        }
+
+        void SearchLastKnown(Vector3 worldPosition)
+        {
+            // Set state
+            state = EnemyControllerState.SearchLastKnown;
+
+            if (distanceToDestination > arrivalDistance)
+            {
+                Debug.Log("Moving to lost target's last known position...");
+                SetDestination(worldPosition);
+            }
+            else
+            {
+                // Arrived at destination. Switch to Search state.
+                Debug.Log("Arrived at lost target's last known position.");
+                lastKnownTargetPosition = Vector3.zero;
+                Search();
+            }
+
+
         }
 
         // ------------------------------------------------- //
@@ -240,11 +313,16 @@ namespace SuperShooter
 
     public enum EnemyControllerState
     {
+        /// <summary>The character is idle.</summary>
         Stop,
+        /// <summary>The character is trying to look for a new target.</summary>
         Search,
+        /// <summary>The character is attempting to find its current target at its last known location.</summary>
+        SearchLastKnown,
+        /// <summary>The character is making its way to its target.</summary>
         Goto,
+        /// <summary>The character is fleeing from its target.</summary>
         Flee,
-        Shoot,
-        Melee,
     }
+
 }

@@ -41,9 +41,19 @@ namespace SuperShooter
             //_character.AnimationReturnedToIdle();
         }
 
+        public void SprintEvent()
+        {
+            //_character.AnimationSprintEvent();
+        }
+
         public void KickEvent()
         {
-            _character.AnimationKickEvent();
+            _character.AnimationKickEvent(false);
+        }
+
+        public void KickFinishedEvent()
+        {
+            _character.AnimationKickEvent(true);
         }
 
         #endregion

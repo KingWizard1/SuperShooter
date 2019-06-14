@@ -1078,7 +1078,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 4
   maxHealth: 10
-  meleeDamage: 25
+  meleeDamage: 10
   meleeRange: 5
   shootingRange: 10
   weapon: {fileID: 0}

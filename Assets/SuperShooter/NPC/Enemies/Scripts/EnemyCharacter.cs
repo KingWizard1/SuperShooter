@@ -6,7 +6,7 @@ using UnityEngine.Events;
 namespace SuperShooter
 {
     public enum EnemyCharacterState
-    {   
+    {
         Idle = 0,
         Walking = 1,
         Running = 2,
@@ -29,18 +29,11 @@ namespace SuperShooter
         public float shootingRange = 10;
         public GameObject weapon;
 
-      //  public bool spawned;
-       // public GameObject Renderer;
-        
-        
-
         [Header("Rewards")]
         public int XPValue;
 
         //[Header("Events")]
         //public UnityEvent ev = new UnityEvent();
-
-       
 
         // ------------------------------------------------- //
 
@@ -63,7 +56,6 @@ namespace SuperShooter
         {
             _animator = GetComponent<Animator>();
             _controller = GetComponent<EnemyController>();
-            
         }
 
         // ------------------------------------------------- //
@@ -78,16 +70,11 @@ namespace SuperShooter
 
         private void Update()
         {
-            
+
             UpdateAgentProperties();
             UpdateCharacterState();
 
-           // OnPostRender();
-
-  
         }
-
-
 
         // ------------------------------------------------- //
 
@@ -116,25 +103,35 @@ namespace SuperShooter
                 return;
 
             // Is character idle? (Agent NOT active)
-            if (!_controller.isAgentActive) {
+            if (!_controller.isAgentActive)
+            {
                 SetCharacterState(EnemyCharacterState.Idle);
-               // spawned = false;
                 return;
             }
 
+            // Is character idle? (Agent stopped)
+            if (_controller.State == EnemyControllerState.Stop)
+                SetCharacterState(EnemyCharacterState.Idle);
+
+
             // Is the main player dead?
             if (GameManager.Main != null && GameManager.Main.PlayerCharacter != null)
-                if (GameManager.Main.PlayerCharacter.isDead) {
+                if (GameManager.Main.PlayerCharacter.isDead)
+                {
                     SetCharacterState(EnemyCharacterState.Victory);
                     return;
                 }
 
+            // Is searching for a target?
+            if (_controller.State == EnemyControllerState.Search)
+                SetCharacterState(EnemyCharacterState.Walking);
+
             // Do we have a weapon equipped?
-            if (weapon != null) {
+            if (weapon != null)
+            {
 
                 // We will use weapon attacks.
-                if (_controller.state == EnemyControllerState.Goto ||
-                    _controller.state == EnemyControllerState.Search)
+                if (_controller.State == EnemyControllerState.Goto)
                     SetCharacterState(EnemyCharacterState.RunningWeaponAttack);
 
                 if (_controller.isWithinStoppingDistance)
@@ -142,27 +139,22 @@ namespace SuperShooter
                     // TODO: Shoot.
                 }
             }
-            else {
+            else
+            {
 
                 // We will use melee attacks.
-                if (_controller.state == EnemyControllerState.Goto || _controller.state == EnemyControllerState.Search)
-                {
+                if (_controller.State == EnemyControllerState.Goto)
                     SetCharacterState(EnemyCharacterState.Running);
-                     //   spawned = true;
-                }
 
                 // Melee attack!
                 // The animation clip is expected to have an animation event
                 // that will fire a function at the peak of the attack action.
-                if (_controller.isWithinStoppingDistance) {
+                if (_controller.isWithinStoppingDistance)
                     SetCharacterState(EnemyCharacterState.StandingMeleeAttack);
-                    _controller.state = EnemyControllerState.Melee;
-                   // spawned = true;
-                }
             }
 
             // Are we running away from danger?
-            if (_controller.state == EnemyControllerState.Flee)
+            if (_controller.State == EnemyControllerState.Flee)
                 SetCharacterState(EnemyCharacterState.Running);
 
             // Done.
@@ -186,15 +178,35 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
-        // Called by the related animation event script.
-        public void AnimationKickEvent()
-        {
+        //public void AnimationSprintEvent()
+        //{
+        //    _controller.allowMovement = true;
+        //}
 
-            // Try and get a CharacterEntity script from the target.
-            // If it has one, tell it to take some damage.
-            var target = _controller.target;
-            if (target != null)
-                target.GetComponent<ICharacterEntity>()?.TakeDamage(meleeDamage, this);
+        // ------------------------------------------------- //
+
+        // Called by the related animation event script.
+        public void AnimationKickEvent(bool finished)
+        {
+            // If the kick event fired on the frame the animation is finished.
+            if (!finished)
+            {
+
+                // Try and get a CharacterEntity script from the target.
+                // If it has one, tell it to take some damage.
+                if (!_controller.hasTarget)
+                    return;
+
+                if (_controller.distanceToTarget <= meleeRange)
+                    _controller.target.GetComponent<ICharacterEntity>()?.TakeDamage(meleeDamage, this);
+
+            }
+            else
+            {
+
+                _controller.GoToTarget();
+
+            }
 
         }
 
@@ -225,7 +237,7 @@ namespace SuperShooter
 
         public override void BackFromTheDead()
         {
-            _controller.state = EnemyControllerState.Goto;
+            _controller.Search();
         }
 
         #endregion

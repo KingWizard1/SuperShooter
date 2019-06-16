@@ -16,8 +16,8 @@ namespace SuperShooter
 
         public void Start()
         {
-            alphaColor = this.GetComponent<Material>().color;
-            alphaColor.a = 0;
+           // alphaColor = this.GetComponent<Material>().color;
+         //   alphaColor.a = 0;
         }
 
 
@@ -47,7 +47,7 @@ namespace SuperShooter
             {
 
                     // set color with i as alpha
-                    this.GetComponent<Renderer>().material.color = new Color(1, 1, 1, i);
+                    this.GetComponentInChildren<Renderer>().material.color = new Color(1, 1, 1, i);
 
                     yield return null;
                 

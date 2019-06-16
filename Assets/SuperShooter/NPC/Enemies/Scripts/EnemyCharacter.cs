@@ -32,7 +32,7 @@ namespace SuperShooter
         
 
 
-        public Renderer rend;
+ 
 
         [Header("Rewards")]
         public int XPValue;

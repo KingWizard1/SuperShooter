@@ -93,6 +93,7 @@ namespace SuperShooter
             // Safeties
             if (arrivalDistance <= 0)
                 arrivalDistance = .5f;    // Set to minimum value.
+          
 
         }
 

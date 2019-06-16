@@ -8,9 +8,11 @@ namespace SuperShooter
 
         [Header("Setup")]
         public Transform spawnPoint;
+        public Transform spawnPoint2;
         public GameObject Parent;
         public GameObject Parent2;
         public GameObject[] enemyPrefabs;
+        public GameObject UFO;
 
         [Header("Configuration")]
         public int enemiesToSpawn = 3;
@@ -70,6 +72,11 @@ namespace SuperShooter
                 
             }
 
+            if (Wave2)
+            {
+                UFO.gameObject.SetActive(true);
+            }
+
     
         }
 
@@ -101,7 +108,7 @@ namespace SuperShooter
             }
            if ( Wave2 == true)
            {
-               Instantiate(enemyPrefabs[i], spawnPoint.position, spawnPoint.rotation, Parent2.transform);
+               Instantiate(enemyPrefabs[i], spawnPoint2.position, spawnPoint2.rotation, Parent2.transform);
             }
             
 

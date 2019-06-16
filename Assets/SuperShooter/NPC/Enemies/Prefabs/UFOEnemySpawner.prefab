@@ -39,7 +39,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6174215385791837461}
-  - component: {fileID: 4443487788979889185}
   m_Layer: 0
   m_Name: UFOEnemySpawner
   m_TagString: Untagged
@@ -63,23 +62,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4443487788979889185
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9116116619185791838}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f51d104fa61aa8c4089fef4e68ced2e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawnPoint: {fileID: 1311238434201867683}
-  enemyPrefabs:
-  - {fileID: 2581900308347727005, guid: 6ef9d1f07df02bb4ba0497153c39a73d, type: 3}
-  enemiesToSpawn: 1
-  timeBetweenSpawns: 1
 --- !u!1001 &434165681526385236
 PrefabInstance:
   m_ObjectHideFlags: 0

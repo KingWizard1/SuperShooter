@@ -3770,8 +3770,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 143.7431, y: -2}
-  m_SizeDelta: {x: 90, y: 90}
+  m_AnchoredPosition: {x: 140, y: -2}
+  m_SizeDelta: {x: 65, y: 65}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &616532685645481210
 CanvasRenderer:
@@ -3801,7 +3801,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 3c0a9725afcae2743901b774a5ada3d4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5c08054a6928f444abb844bb69b55f05, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4970,7 +4970,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -60, y: -14.336}
+  m_AnchoredPosition: {x: -50, y: -14.5}
   m_SizeDelta: {x: 225.9, y: 41.33}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7265743137232781911
@@ -5134,7 +5134,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 195, y: -160}
+  m_AnchoredPosition: {x: 205, y: -160}
   m_SizeDelta: {x: 355.53, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7265743137677362355
@@ -5248,7 +5248,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 4.5, y: -0.2}
+  m_AnchoredPosition: {x: 7.5, y: -0.2}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7265743138016659353
@@ -5558,7 +5558,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 80, y: -14.337}
+  m_AnchoredPosition: {x: 90, y: -14.5}
   m_SizeDelta: {x: 49.468, y: 41.33}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5493297224475278137
@@ -5625,7 +5625,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_textAlignment: 1028
+  m_textAlignment: 1025
   m_isAlignmentEnumConverted: 1
   m_characterSpacing: 0
   m_wordSpacing: 0

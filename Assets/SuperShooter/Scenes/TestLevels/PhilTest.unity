@@ -3502,10 +3502,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shotgun
       objectReference: {fileID: 0}
-    - target: {fileID: 1391298990858028, guid: 618a2dc3bcba0d64d84d7ef544a5e0fd, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4235903615061874, guid: 618a2dc3bcba0d64d84d7ef544a5e0fd, type: 3}
       propertyPath: m_LocalPosition.x
       value: -8.097514
@@ -13300,10 +13296,6 @@ PrefabInstance:
     - target: {fileID: 1938956370783444, guid: 0edff78131edadb47b5990ed1003b3df, type: 3}
       propertyPath: m_Name
       value: AK12
-      objectReference: {fileID: 0}
-    - target: {fileID: 1938956370783444, guid: 0edff78131edadb47b5990ed1003b3df, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4041401128501340, guid: 0edff78131edadb47b5990ed1003b3df, type: 3}
       propertyPath: m_LocalPosition.x

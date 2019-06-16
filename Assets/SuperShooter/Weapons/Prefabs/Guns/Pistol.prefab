@@ -433,15 +433,19 @@ MonoBehaviour:
   type: 0
   maxHealth: 100
   baseName: Pistol
+  icon: {fileID: 21300000, guid: c3afe08250cafc74fbf04c4cdcee3edb, type: 3}
   damage: 2
   clipsToStart: 3
   maxAmmoPerClip: 7
   spread: 2
   recoil: 0.75
-  shootRate: 0.2
+  shootRate: 0.1
+  mechanism: 1
   bulletPrefab: {fileID: 4597109189103825579, guid: 72a7d8b37eaebf046bdeb7c58ff95d43,
     type: 3}
   bulletSpeed: 150
+  bulletsPerShot: 1
+  timeBetweenShots: 0
   lineDelay: 0.1
   applyHandOffset: 1
   playerHandOffset: {x: -0.11, y: 0.15, z: 0.3}

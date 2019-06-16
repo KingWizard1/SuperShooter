@@ -8,6 +8,14 @@ namespace SuperShooter
     public interface IWeapon : ICharacterEntity
     {
         ICharacterController owner { get; }
+
+    }
+
+    public enum WeaponFiringMechanism
+    {
+        //Manual = 0,
+        SemiAutomatic = 1,
+        Automatic = 2,
     }
 
     //[RequireComponent(typeof(Rigidbody))]
@@ -18,7 +26,9 @@ namespace SuperShooter
     {
         [SerializeField]
         public string baseName = "New Weapon";
-        
+
+        public Sprite icon;
+
         [Header("Numbers")]
         public int damage = 1;
         public int clipsToStart = 32;
@@ -26,11 +36,13 @@ namespace SuperShooter
         public float spread = 2f;
         public float recoil = 1f;
         public float shootRate = .2f;
-        
-        [Header("Bullets")]
+
+        [Header("Firing/Bullets")]
+        public WeaponFiringMechanism mechanism = WeaponFiringMechanism.SemiAutomatic;
         public GameObject bulletPrefab;
         public float bulletSpeed = 50f;
-        //public int bulletsPerShot = 1;
+        public int bulletsPerShot = 1;
+        public float timeBetweenShots = 0;
         //public float bulletForce = 1f;
         //public int bulletRange = 10;
         public float lineDelay = .1f;
@@ -53,6 +65,7 @@ namespace SuperShooter
         [Header("Events")]
         UnityEvent<ICharacterEntity> CrossHairTargetChanged;
 
+
         // ------------------------------------------------- //
 
         // Ownership
@@ -60,6 +73,7 @@ namespace SuperShooter
 
         // Runtime Mechanics
         public int ammoInClip { get; private set; }
+        public int ammoInBarrel { get; private set; }
         public int ammoRemaining { get; private set; }
 
         public bool isADS { get; private set; }
@@ -67,13 +81,20 @@ namespace SuperShooter
         public bool isFullClip { get; private set; }    // "Do you want to mess with this?"
         public bool isLastClip { get; private set; }
         public bool isLastReload { get; private set; }
+        public bool isBarrelLoaded { get; private set; }
         public bool isReloadRequired { get; private set; }
         public bool isReloadPossible { get; private set; }
+        public bool isTriggerPressed { get; private set; }
         public bool isOutOfAmmo { get; private set; }
 
         public bool isPickedUp => owner != null;
 
-        private bool readyToFire;
+
+        public bool readyToFire { get; private set; }
+
+        // ------------------------------------------------- //
+
+
         private float shootTimer = 0f;
 
         // ------------------------------------------------- //
@@ -179,11 +200,13 @@ namespace SuperShooter
             if (bulletPrefab == null)
                 Debug.LogWarning(string.Format(FPSMessages.WARN_WEAPON_NO_BULLET_PREFAB, GetDisplayName()));
 
-            // Set ammo
+            // Set ammo, load the barrel
             ammoInClip = maxAmmoPerClip;
+            ammoInBarrel = bulletsPerShot;
             ammoRemaining = maxAmmoPerClip * clipsToStart;
             if (ammoRemaining > 999)
                 ammoRemaining = 999;    // Cap it.
+
         }
 
         // ------------------------------------------------- //
@@ -200,12 +223,10 @@ namespace SuperShooter
             //    transform.rotation = AimAtCrosshair();
             AimAtCrosshair();
 
-            // Increase shoot timer
+            // Increase shoot timer. If time reaches threshold, we're ready to fire.
             shootTimer += Time.deltaTime;
-
-            // If time reaches rate
-            if (shootTimer >= shootRate)
-            {
+            if (shootTimer >= shootRate) {
+                ReloadChamber();
                 readyToFire = true;
             }
 
@@ -299,8 +320,18 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
-        public virtual void Shoot()
+        public virtual void Fire()
         {
+            // If this is a semi-automatic weapon, and the trigger is being held, we can't fire.
+            // This is because our chamber was emptied on the last frame that the trigger was pressed down.
+            if (mechanism == WeaponFiringMechanism.SemiAutomatic && isTriggerPressed)
+                return;
+
+            // Set trigger bool. It was released, now its pressed.
+            // It releases when the player releases the fire button.
+            isTriggerPressed = true;
+
+            // Has enough time elapsed for the weapon to be ready to fire again?
             if (!readyToFire)
                 return;
 
@@ -335,6 +366,7 @@ namespace SuperShooter
 
             // -----------------
 
+            var shotsFired = 0;
 
             // Instantiate a bullet. Its script will do the rest.
             if (bulletPrefab != null)
@@ -346,10 +378,16 @@ namespace SuperShooter
                 //var bulletScript = bulletObject.GetComponent<RigidBullet>();
                 //bulletScript.Fire(lineOrigin, direction);
 
-                var rigidBullet = RigidBullet.SpawnNew(
-                    bulletPrefab, spawnPoint.position, crossHairDirection, hitCallback);
+                var bulletDelay = 0f;
 
-                rigidBullet.Fire(spawnPoint.position, direction, bulletSpeed);
+                while (ammoInBarrel > 0)
+                {
+                    var rigidBullet = RigidBullet.SpawnNew(bulletPrefab, spawnPoint.position, crossHairDirection, hitCallback);
+                    rigidBullet.FireWithDelay(spawnPoint.position, direction, bulletSpeed, bulletDelay);
+                    bulletDelay += timeBetweenShots;
+                    ammoInBarrel--;
+                    shotsFired++;
+                }
 
 
             }
@@ -361,17 +399,21 @@ namespace SuperShooter
 
 
             // Deplete ammo by number of bullets fired
-            DepleteAmmoInClip(1);
+            DepleteAmmoInClip(shotsFired);
 
             // Reset timer
             shootTimer = 0;
 
-            // Can't shoot anymore
+            // Can't shoot anymore, gun needs time to be ready for another shot.
             readyToFire = false;
         }
 
-        public void StopShooting()
+        public void StopFiring()
         {
+            // The firing trigger has been released.
+            isTriggerPressed = false;
+
+            // Notify derived class that the player has stopped firing.
             OnShootStop();
         }
 
@@ -411,7 +453,8 @@ namespace SuperShooter
         private void DepleteAmmoInClip(int amount)
         {
             // Deplete ammunition
-            ammoInClip-= amount;
+            ammoInClip -= amount;
+            ammoInBarrel -= amount;
             if (ammoInClip <= 0) {
                 ammoInClip = 0;     // Don't want to go in the minus.
                 if (autoReload)     // Cheating!
@@ -423,13 +466,22 @@ namespace SuperShooter
             UpdateAmmunitionStates();
         }
 
+        private void ReloadChamber()
+        {
+            if (ammoInClip >= bulletsPerShot)
+                ammoInBarrel = bulletsPerShot;
+            else
+                ammoInBarrel = ammoInClip;
+        }
+
         /// <summary>Replenishes the weapon's current ammunition clip as much as possible.</summary>
-        public virtual void Reload()
+        public void Reload()
         {
 
             // Otherwise...
-            if (infiniteAmmo)
+            if (infiniteAmmo) {
                 ammoInClip = maxAmmoPerClip;    // Cheater !!!
+            }
             else {
 
                 // Is it possible to reload at this time? And can the clip be replenished?
@@ -443,10 +495,12 @@ namespace SuperShooter
                     // If not, insert the number of ammo remaining into the clip, and set the total ammunition to zero.
                     if (ammoRemaining >= ammoRequired) {
                         ammoInClip = maxAmmoPerClip;
+                        ammoInBarrel = bulletsPerShot;
                         ammoRemaining -= ammoRequired;
                     }
                     else {
                         ammoInClip += ammoRemaining;
+                        ammoInBarrel = ammoInClip;
                         ammoRemaining = 0;
                     }
 
@@ -464,8 +518,9 @@ namespace SuperShooter
             isFullClip = ammoInClip == maxAmmoPerClip;
             isLastReload = ammoRemaining <= maxAmmoPerClip;
             isOutOfAmmo = ammoRemaining == 0 && ammoInClip == 0;
-            isReloadRequired = ammoInClip == 0;
             isReloadPossible = ammoRemaining > 0 || infiniteAmmo;
+            isReloadRequired = ammoInClip == 0 || ammoInBarrel == 0;
+            isBarrelLoaded = ammoInBarrel == bulletsPerShot;
         }
 
         public virtual void OnReloadStart() { }
@@ -520,7 +575,7 @@ namespace SuperShooter
         /// <summary>Allow derived weapons to be notified when the object has been updated.</summary>
         protected virtual void OnUpdate() { }
 
-        /// <summary>Override this method to run logic when <see cref="Shoot()"/> is called,
+        /// <summary>Override this method to run logic when <see cref="Fire()"/> is called,
         /// but before any bullets are fired. If false is returned, no bullets will be fired.</summary>
         protected virtual bool OnShoot()
         {

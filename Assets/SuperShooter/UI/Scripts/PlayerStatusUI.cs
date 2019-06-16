@@ -57,16 +57,14 @@ namespace SuperShooter
 
             if (weapon != null)
             {
-                
-                var weaponName = weapon.GetDisplayName();
 
-                // Set
-                weaponText.text = weaponName;
-                ammoText.text = $"{weapon.ammoInClip}/{weapon.maxAmmoPerClip}";
+                // Set text
+                weaponText.text = weapon.GetDisplayName();
+                ammoText.text = $"{weapon.ammoInClip}";
                 ammoText2.text = $"+{weapon.ammoRemaining}";
 
 
-                // Colors. Things are set in a specific order, for logic reasons.
+                // Set colors. Things are set in a specific order, for logic reasons.
                 if      (weapon.isReloadRequired || weapon.isOutOfAmmo) ammoText.color = Color.red;
                 else if (weapon.isLastClip)                             ammoText.color = Color.yellow;
                 else                                                    ammoText.color = Color.white;
@@ -76,8 +74,19 @@ namespace SuperShooter
                 else                                                    ammoText2.color = Color.white;
 
                 if      (weapon.isOutOfAmmo)                            weaponText.color = Color.red;
-                //else if (weapon.isLastClip || weapon.isReloadRequired)  weaponText.color = Color.yellow;
+                else if (weapon.isLastClip || weapon.isReloadRequired)  weaponText.color = Color.yellow;
                 else                                                    weaponText.color = Color.white;
+
+
+                // Set icon
+                if (weapon.icon != null) {
+                    var image = ammoIcon.GetComponent<Image>();
+                    image.sprite = weapon.icon;
+                    image.color = weaponText.color;
+                    ammoIcon.SetActive(true);
+                }
+                else
+                    ammoIcon.SetActive(false);
 
 
 
@@ -86,9 +95,10 @@ namespace SuperShooter
             {
 
                 // Set
-                weaponText.text = "Unarmed";
+                weaponText.text = string.Empty /*"Unarmed"*/;
                 ammoText.text = string.Empty;
                 ammoText2.text = string.Empty;
+                ammoIcon.SetActive(false);
 
                 // Colors
                 ammoText.color = Color.white;

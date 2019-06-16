@@ -16,6 +16,8 @@ namespace SuperShooter
         public Transform line;
         public GameObject bulletHolePrefab;
 
+        private Collider col;
+        private Renderer rend;
         private Rigidbody rigid;
 
         // ------------------------------------------------- //
@@ -48,15 +50,20 @@ namespace SuperShooter
         private void Awake()
         {
 
+            col = GetComponent<Collider>();
+            rend = GetComponentInChildren<Renderer>();
             rigid = GetComponent<Rigidbody>();
-
         }
 
         // ------------------------------------------------- //
 
         private void Start()
         {
+            // We want to be OFF by default, until Fire() is called.
+            col.enabled = false;
+            rend.enabled = false;
 
+            // Warn if no decal prefab
             if (bulletHolePrefab == null)
                 Debug.LogWarning(string.Format(FPSMessages.WARN_BULLET_NO_DECAL_PREFAB, nameof(RigidBullet)));
 
@@ -70,25 +77,62 @@ namespace SuperShooter
             {
                 //line.transform.rotation = Quaternion.LookRotation(rigid.velocity);
             }
+
+            // Bullets can either be fired immediately, or after a delay.
+            // The code here allows for both scenarios to occur.
+            if (fire && !fired) {
+                fireTimer += Time.deltaTime;
+                if (fireTimer >= fireTime) {
+                    fired = true;
+                    fireFunction?.Invoke();
+                }
+            }
         }
 
         // ------------------------------------------------- //
 
+        private bool fire;
+        private bool fired;
+        private float fireTime = 0;
+        private float fireTimer = 0;
+        private Action fireFunction;
+
         public void Fire(Vector3 lineOrigin, Vector3 direction, float speed)
         {
+            FireWithDelay(lineOrigin, direction, speed, 0f);
+        }
 
-            // Set line position to origin
-            line.transform.position = lineOrigin;
+        public void FireWithDelay(Vector3 lineOrigin, Vector3 direction, float speed, float delay)
+        {
 
-            // Set bullet flying in direction with speed
-            rigid.AddForce(direction * speed, ForceMode.Impulse);
+            // Set up a function to fire when the delay timer reaches the target delay time.
+            fireFunction = () => {
 
+                // Turn on
+                col.enabled = true;
+                rend.enabled = true;
+
+                // Set line position to origin
+                line.transform.position = lineOrigin;
+
+                // Set bullet flying in direction with speed
+                rigid.AddForce(direction * speed, ForceMode.Impulse);
+
+            };
+
+            fireTime = delay;   // Set target time.
+            fireTimer = 0;      // Reset timer.
+            fire = true;        // Allow fire/timer to happen on next Update.
         }
 
         // ------------------------------------------------- //
 
         private void OnCollisionEnter(Collision collision)
         {
+            // Ignore other bullets
+            if (collision.gameObject.GetComponent<RigidBullet>() != null)
+                return;
+
             // -- Collisions
             // Fire the callback if not null.
             //Debug.Log($"Hit {collision.gameObject.name}!!!");

@@ -459,10 +459,10 @@ namespace SuperShooter
 
             // Inputs
             if (Input.GetMouseButton(0))
-                currentWeapon.Shoot();
+                currentWeapon.Fire();
 
             if (Input.GetMouseButtonUp(0))
-                currentWeapon.StopShooting();
+                currentWeapon.StopFiring();
 
             if (Input.GetKeyDown(KeyCode.R))
                 currentWeapon.Reload();

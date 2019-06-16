@@ -836,15 +836,19 @@ MonoBehaviour:
   type: 0
   maxHealth: 100
   baseName: AK12
+  icon: {fileID: 21300000, guid: e47e502270b2a4c439b0ea6add71d2e8, type: 3}
   damage: 1
   clipsToStart: 3
   maxAmmoPerClip: 30
   spread: 2
   recoil: 1
   shootRate: 0.05
+  mechanism: 2
   bulletPrefab: {fileID: 4597109189103825579, guid: 72a7d8b37eaebf046bdeb7c58ff95d43,
     type: 3}
   bulletSpeed: 100
+  bulletsPerShot: 1
+  timeBetweenShots: 0
   lineDelay: 0.1
   applyHandOffset: 1
   playerHandOffset: {x: 0, y: 0.05, z: 0.2}

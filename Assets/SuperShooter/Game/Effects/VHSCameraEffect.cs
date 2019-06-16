@@ -38,7 +38,7 @@ namespace SuperShooter
             _scanLinePlaneRend.sharedMaterial = scanlineMat;
 
             // Set opacity value to starting opacity value
-            _scanLinePlaneRend.sharedMaterial.SetFloat("Opacity", scanlineOpacity);
+          //  _scanLinePlaneRend.sharedMaterial.SetFloat("Opacity", scanlineOpacity);
 
         }
 

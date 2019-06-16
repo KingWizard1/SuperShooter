@@ -6,9 +6,11 @@ using UnityEngine;
 namespace SuperShooter
 {
     public class OpenDoors : MonoBehaviour, IInteractable
-{
+    {
 
         public Animator anim;
+        public bool up = false;
+
 
         public void Drop()
         {
@@ -36,14 +38,19 @@ namespace SuperShooter
         // Start is called before the first frame update
         void Start()
         {
-
+             
             anim = gameObject.GetComponent<Animator>();
+            // equipped = false;
 
         }
 
         // Update is called once per frame
         void Update()
         {
+
+
+
+            anim.SetBool("Equipped", up);
 
 
             if (Input.GetKeyDown(KeyCode.E))
@@ -59,11 +66,29 @@ namespace SuperShooter
 
 
             }
-            if (GetComponent<Weapon>().hasWeapon == true)
+
+
+            //  if (GetComponent<FPSController>().equipped == true)
+            //  {
+
+            // }
+
+
+
+
+            if (up == true)
             {
                 anim.Play("SpawnDoorL");
                 anim.Play("SpawnDoorR");
             }
+
+
+
+
+
         }
+
+
+
     }
 }

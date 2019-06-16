@@ -201,6 +201,11 @@ namespace SuperShooter
 
             // Allow derived weapons to be notified that we have updated.
             OnUpdate();
+
+            if (hasWeapon == true)
+            {
+                Debug.Log("hasWeapon");
+            }
         }
 
         // ------------------------------------------------- //

@@ -40,6 +40,7 @@ namespace SuperShooter
         [Header("Firing/Bullets")]
         public WeaponFiringMechanism mechanism = WeaponFiringMechanism.SemiAutomatic;
         public GameObject bulletPrefab;
+        public Transform bulletOrigin;
         public float bulletSpeed = 50f;
         public int bulletsPerShot = 1;
         public float timeBetweenShots = 0;
@@ -54,9 +55,6 @@ namespace SuperShooter
         public float timeToADS = 0.15f;
         public float timeToUnADS = 0.05f;
         public float[] zoomLevelOffsets = new float[1] { -10f };
-
-        [Header("References")]
-        public Transform spawnPoint;
 
         [Header("Cheats")]
         public bool autoReload = false;
@@ -193,7 +191,7 @@ namespace SuperShooter
             //owner = transform.parent?.GetComponentInParent<CharacterEntity>();
 
             // Check we can shoot from somewhere
-            if (spawnPoint == null)
+            if (bulletOrigin == null)
                 Debug.LogWarning(string.Format(FPSMessages.WARN_WEAPON_NO_SHOT_ORIGIN, GetDisplayName()));
 
             // Check we have a bullet prefab to shoot
@@ -247,16 +245,16 @@ namespace SuperShooter
             Ray crossHairRay = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2, Screen.height / 2));
             if (Physics.Raycast(crossHairRay, out RaycastHit hit, Mathf.Infinity)) // or 1000f? Hmm.
             {
-                Vector3 direction = hit.point - spawnPoint.position;
-                spawnPoint.rotation = Quaternion.LookRotation(direction);
+                Vector3 direction = hit.point - bulletOrigin.position;
+                bulletOrigin.rotation = Quaternion.LookRotation(direction);
             }
             else
             {
-                spawnPoint.localRotation = Quaternion.Euler(0, 90, 0);
+                bulletOrigin.localRotation = Quaternion.Euler(0, 90, 0);
             }
 
 
-            crossHairDirection = spawnPoint.rotation;
+            crossHairDirection = bulletOrigin.rotation;
 
 
             // Notify target changed. If entity is coming in as null,
@@ -265,7 +263,7 @@ namespace SuperShooter
             //OnCrossHairTargetChanged(entity);
 
 
-            return spawnPoint.rotation;
+            return bulletOrigin.rotation;
 
         }
 
@@ -382,8 +380,8 @@ namespace SuperShooter
 
                 while (ammoInBarrel > 0)
                 {
-                    var rigidBullet = RigidBullet.SpawnNew(bulletPrefab, spawnPoint.position, crossHairDirection, hitCallback);
-                    rigidBullet.FireWithDelay(spawnPoint.position, direction, bulletSpeed, bulletDelay);
+                    var rigidBullet = RigidBullet.SpawnNew(bulletPrefab, bulletOrigin.position, crossHairDirection, hitCallback);
+                    rigidBullet.FireWithDelay(bulletOrigin.position, direction, bulletSpeed, bulletDelay);
                     bulletDelay += timeBetweenShots;
                     ammoInBarrel--;
                     shotsFired++;
@@ -533,7 +531,7 @@ namespace SuperShooter
         {
 
             // Create a bullet ray from shot origin to forward
-            Ray bulletRay = new Ray(spawnPoint.position, spawnPoint.forward);
+            Ray bulletRay = new Ray(bulletOrigin.position, bulletOrigin.forward);
             RaycastHit hit;
 
             // Perform Raycast (Hit Scan)

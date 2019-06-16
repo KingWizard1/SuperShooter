@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1315471591659120284}
   - component: {fileID: 6350152671251042577}
+  - component: {fileID: 8714902037987164627}
   m_Layer: 15
   m_Name: Line
   m_TagString: Untagged
@@ -92,7 +93,7 @@ LineRenderer:
     colorGradient:
       serializedVersion: 2
       key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 0.934266, b: 0.15686274, a: 1}
+      key1: {r: 0.15621199, g: 0.797, b: 0.23457113, a: 1}
       key2: {r: 1, g: 0.77252954, b: 0.15566039, a: 1}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -126,6 +127,18 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 0
   m_Loop: 0
+--- !u!114 &8714902037987164627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4053403710245042513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5b024aa3d3c44748bcfa8b713726d7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4597109189103825579
 GameObject:
   m_ObjectHideFlags: 0
@@ -138,9 +151,9 @@ GameObject:
   - component: {fileID: 3224538108935700869}
   - component: {fileID: 7990497061413950663}
   - component: {fileID: 3552931736736015677}
-  - component: {fileID: 6057552975972687361}
+  - component: {fileID: 3296395909999648725}
   m_Layer: 15
-  m_Name: RigidLightBeam
+  m_Name: RigidLightBeamLX
   m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -205,7 +218,7 @@ MonoBehaviour:
   line: {fileID: 1315471591659120284}
   bulletHolePrefab: {fileID: 5904778190403064552, guid: 2ad163943beee8a4dbdf56a179f0c554,
     type: 3}
---- !u!82 &6057552975972687361
+--- !u!82 &3296395909999648725
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -216,10 +229,10 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 243518691427315738, guid: 540c93105e35cdb41b5a949fdff7fd3b,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: 7c6c4168a58f40c4d81c1d3824620091, type: 3}
-  m_PlayOnAwake: 0
-  m_Volume: 0.5
-  m_Pitch: 1.5
+  m_audioClip: {fileID: 8300000, guid: 6efb4ac84b4c7b844a17b2d848c83db8, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
   Loop: 0
   Mute: 0
   Spatialize: 0

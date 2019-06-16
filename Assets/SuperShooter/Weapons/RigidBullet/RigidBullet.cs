@@ -20,6 +20,8 @@ namespace SuperShooter
         private Renderer rend;
         private Rigidbody rigid;
 
+        private AudioSource sound;
+
         // ------------------------------------------------- //
 
         public delegate void HitCallback(RigidBullet script, Collision collision);
@@ -53,6 +55,7 @@ namespace SuperShooter
             col = GetComponent<Collider>();
             rend = GetComponentInChildren<Renderer>();
             rigid = GetComponent<Rigidbody>();
+            sound = GetComponent<AudioSource>();
         }
 
         // ------------------------------------------------- //
@@ -60,8 +63,8 @@ namespace SuperShooter
         private void Start()
         {
             // We want to be OFF by default, until Fire() is called.
-            col.enabled = false;
             rend.enabled = false;
+            if (col) col.enabled = false;
 
             // Warn if no decal prefab
             if (bulletHolePrefab == null)
@@ -109,8 +112,9 @@ namespace SuperShooter
             fireFunction = () => {
 
                 // Turn on
-                col.enabled = true;
                 rend.enabled = true;
+                if (col) col.enabled = true;
+                if (sound) sound.Play();
 
                 // Set line position to origin
                 line.transform.position = lineOrigin;

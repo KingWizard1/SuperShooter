@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5299738099278430842
+--- !u!1 &91819461782294856
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,50 +8,50 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5304031890711225434}
-  - component: {fileID: 5332065021850893616}
-  - component: {fileID: 5322862717870943342}
-  - component: {fileID: 3194774587408876749}
-  - component: {fileID: 1444449916452500588}
-  - component: {fileID: 5644492724999020256}
-  - component: {fileID: 3037796337703418000}
+  - component: {fileID: 95123216245700456}
+  - component: {fileID: 86986813178981890}
+  - component: {fileID: 77930738875776860}
+  - component: {fileID: 7249766700553050111}
+  - component: {fileID: 6683888731594057566}
+  - component: {fileID: 477103190715649490}
+  - component: {fileID: 7125307331102075810}
   m_Layer: 0
-  m_Name: AlienLightRifle
+  m_Name: AlienLightRifleLX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5304031890711225434
+--- !u!4 &95123216245700456
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5299738099278430842}
+  m_GameObject: {fileID: 91819461782294856}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.4110136, y: 2, z: 2.7693958}
+  m_LocalPosition: {x: -8.8, y: 2, z: 5.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 8478216430788960644}
+  - {fileID: 4423355087587799734}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &5332065021850893616
+--- !u!33 &86986813178981890
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5299738099278430842}
+  m_GameObject: {fileID: 91819461782294856}
   m_Mesh: {fileID: 4300000, guid: 99956a27d3a3d844aacbd02c06ae35d6, type: 3}
---- !u!23 &5322862717870943342
+--- !u!23 &77930738875776860
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5299738099278430842}
+  m_GameObject: {fileID: 91819461782294856}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -82,26 +82,26 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &3194774587408876749
+--- !u!65 &7249766700553050111
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5299738099278430842}
+  m_GameObject: {fileID: 91819461782294856}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.12000179, y: 0.41075873, z: 1.2603133}
   m_Center: {x: 0, y: 0.00470078, z: 0.00807178}
---- !u!120 &1444449916452500588
+--- !u!120 &6683888731594057566
 LineRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5299738099278430842}
+  m_GameObject: {fileID: 91819461782294856}
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -190,26 +190,26 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
---- !u!135 &5644492724999020256
+--- !u!135 &477103190715649490
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5299738099278430842}
+  m_GameObject: {fileID: 91819461782294856}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3037796337703418000
+--- !u!114 &7125307331102075810
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5299738099278430842}
+  m_GameObject: {fileID: 91819461782294856}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e0c791ad714f25f44b42effa3ebb14c0, type: 3}
@@ -217,21 +217,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   maxHealth: 100
-  baseName: Light Rifle
+  baseName: Light Rifle LX
   icon: {fileID: 21300000, guid: 0f3ea483af5c82546876ca21529fba55, type: 3}
   damage: 1
   clipsToStart: 3
-  maxAmmoPerClip: 24
+  maxAmmoPerClip: 50
   spread: 2
   recoil: 0.1
-  shootRate: 0.25
-  mechanism: 1
-  bulletPrefab: {fileID: 4597109189103825579, guid: c273307eb38a8ba478793a41824d9ba8,
+  shootRate: 0.075
+  mechanism: 2
+  bulletPrefab: {fileID: 4597109189103825579, guid: fbb66ded2fa550b41975b96f2d7160ff,
     type: 3}
-  bulletOrigin: {fileID: 8478216430788960644}
-  bulletSpeed: 350
-  bulletsPerShot: 3
-  timeBetweenShots: 0.075
+  bulletOrigin: {fileID: 4423355087587799734}
+  bulletSpeed: 500
+  bulletsPerShot: 1
+  timeBetweenShots: 0
   lineDelay: 0.1
   applyHandOffset: 1
   playerHandOffset: {x: 0, y: 0, z: 0}
@@ -242,7 +242,7 @@ MonoBehaviour:
   - -10
   autoReload: 0
   infiniteAmmo: 0
---- !u!1 &8040180999109587540
+--- !u!1 &2836758612521361766
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -250,7 +250,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8478216430788960644}
+  - component: {fileID: 4423355087587799734}
   m_Layer: 0
   m_Name: SpawnPoint
   m_TagString: Untagged
@@ -258,17 +258,17 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8478216430788960644
+--- !u!4 &4423355087587799734
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8040180999109587540}
+  m_GameObject: {fileID: 2836758612521361766}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.098, z: 0.674}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 5304031890711225434}
+  m_Father: {fileID: 95123216245700456}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

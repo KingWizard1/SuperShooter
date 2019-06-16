@@ -711,7 +711,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 1.2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65465461652724606
 BoxCollider:
@@ -846,6 +846,7 @@ MonoBehaviour:
   mechanism: 2
   bulletPrefab: {fileID: 4597109189103825579, guid: 72a7d8b37eaebf046bdeb7c58ff95d43,
     type: 3}
+  bulletOrigin: {fileID: 4765130856755074}
   bulletSpeed: 100
   bulletsPerShot: 1
   timeBetweenShots: 0
@@ -857,7 +858,6 @@ MonoBehaviour:
   timeToUnADS: 0.05
   zoomLevelOffsets:
   - -25
-  spawnPoint: {fileID: 4765130856755074}
   autoReload: 0
   infiniteAmmo: 0
 --- !u!114 &114240633621090620

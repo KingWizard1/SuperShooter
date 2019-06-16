@@ -443,6 +443,7 @@ MonoBehaviour:
   mechanism: 1
   bulletPrefab: {fileID: 4597109189103825579, guid: 72a7d8b37eaebf046bdeb7c58ff95d43,
     type: 3}
+  bulletOrigin: {fileID: 4622522180870426}
   bulletSpeed: 150
   bulletsPerShot: 1
   timeBetweenShots: 0
@@ -454,7 +455,6 @@ MonoBehaviour:
   timeToUnADS: 0.04
   zoomLevelOffsets:
   - -10
-  spawnPoint: {fileID: 4622522180870426}
   autoReload: 0
   infiniteAmmo: 0
 --- !u!114 &114033758541475090

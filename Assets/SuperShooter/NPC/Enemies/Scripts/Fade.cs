@@ -43,7 +43,7 @@ namespace SuperShooter
 
 
             // loop over 1 second
-            for (float i = 0; i <= 1; i +=  Time.deltaTime / 2)
+            for (float i = 0; i <= 1; i +=  Time.deltaTime / 3)
             {
 
                     // set color with i as alpha

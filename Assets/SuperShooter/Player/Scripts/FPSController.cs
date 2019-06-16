@@ -42,7 +42,10 @@ namespace SuperShooter
         public Camera attachedCamera;
         public Transform aimTarget;
         public Transform playerHand;
-        public bool hasWeapon = false;
+
+
+        public bool equipped;
+
         //public Transform playerArm;
 
         [Header("Weapons/Abilities")]
@@ -155,10 +158,11 @@ namespace SuperShooter
         {
 
             defaultPlayerHandPosition = playerHand.localPosition;
-
+            bool equip = GetComponent<OpenDoors>();
 
 
         }
+
 
         // ------------------------------------------------- //
 
@@ -183,7 +187,20 @@ namespace SuperShooter
         #endregion
 
         // ------------------------------------------------- //
+/*
+        public void pickUp()
+        {
+           
+           
+                bool equip = GetComponent<OpenDoors>().up;
 
+                equip = true;
+
+                Debug.Log("equip");
+
+            
+        }
+        */
         private void Update()
         {
             // Do nothing if dead.
@@ -222,6 +239,10 @@ namespace SuperShooter
             }
 
             //Debug.Log($"{nameof(FPSController)}.Update() end");
+
+
+
+
 
         }
 
@@ -432,7 +453,12 @@ namespace SuperShooter
 
                 // Pickup the interactable if key is being pressed on this frame
                 if (withinInteractRange && Input.GetKeyDown(KeyCode.E))
+                {
                     Pickup(interactable);
+                    equipped = true;
+
+                   // pickUp();
+                }
             }
 
         }

@@ -65,9 +65,9 @@ namespace SuperShooter
             if (isDead)
                 return;
 
-            // Do nothing if we're amazing right now
-            if (Modifiers.HasFlag(EntityModifier.Invincible))
-                return;
+            //// Do nothing if we're amazing right now
+            //if (Modifiers.HasFlag(EntityModifier.Invincible))
+            //    return;
 
             // Deplete health by amount.
             // Clamp the value to zero as the minimum.

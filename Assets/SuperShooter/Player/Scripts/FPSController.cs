@@ -18,10 +18,10 @@ namespace SuperShooter
     }
 
     [RequireComponent(typeof(CharacterController))]
-    public class FPSController : MonoBehaviour, IPlayerController
+    public class FPSController : MonoBehaviour, ICharacterController
     {
         
-        public IPlayerCharacter owner { get; set; }
+        public ICharacterEntity owner { get; set; }
 
         [Header("Mechanics")]
         public float runSpeed = 10f;
@@ -33,6 +33,11 @@ namespace SuperShooter
         public float interactScanDistance = 10f;
         public float groundRayDistance = 1.1f;
 
+        [Header("Hands/Inventory")]
+        public Transform playerHand;
+        private Vector3 playerHandPosition = new Vector3(.15f, -.02f, 0f);
+        private Vector3 playerHandADSPosition = new Vector3(0f, -.15f, 0f);
+
         [Header("Powerups")]
         public bool isInvincible;
         public bool isDoubleSpeed;
@@ -41,10 +46,6 @@ namespace SuperShooter
         [Header("References")]
         public Camera attachedCamera;
         public Transform aimTarget;
-        public Transform playerHand;
-
-
-        public bool equipped;
 
         //public Transform playerArm;
 
@@ -103,9 +104,7 @@ namespace SuperShooter
         public Weapon currentWeapon;       // Current weapon. Public for testing, make private later.
         private List<Weapon> weapons = new List<Weapon>();  // Weapons on hand.
         private int currentWeaponIndex = 0; // Current weapon index.
-
-        // Camera
-        private Vector3 defaultPlayerHandPosition = Vector3.zero;
+        
 
         #endregion
 
@@ -157,10 +156,8 @@ namespace SuperShooter
         private void Start()
         {
 
-            defaultPlayerHandPosition = playerHand.localPosition;
-            bool equip = GetComponent<OpenDoors>();
-
-
+            playerHandPosition = playerHand.localPosition;
+            
         }
 
 
@@ -174,7 +171,7 @@ namespace SuperShooter
             if (weapons.Count > 0)
             {
                 // Configure the weapon so it knows it should be in its picked up state.
-                weapons[0].Pickup();
+                weapons[0].Pickup(this);
 
                 // 'Select' this weapon. Disables all weapons except the specified one,
                 // as well as ensures our indexes are correct and ready for weapon switching.
@@ -187,20 +184,7 @@ namespace SuperShooter
         #endregion
 
         // ------------------------------------------------- //
-/*
-        public void pickUp()
-        {
-           
-           
-                bool equip = GetComponent<OpenDoors>().up;
 
-                equip = true;
-
-                Debug.Log("equip");
-
-            
-        }
-        */
         private void Update()
         {
             // Do nothing if dead.
@@ -232,11 +216,11 @@ namespace SuperShooter
 
 
             // Testing, rough specific weapon placement system.
-            if (currentWeapon)
-            {
-                currentWeapon.gameObject.transform.localPosition = currentWeapon.playerHandOffset;
-                //  currentWeapon.gameObject.transform.rotation = Cam.transform.rotation;
-            }
+            //if (currentWeapon)
+            //{
+            //    currentWeapon.gameObject.transform.localPosition = currentWeapon.playerHandOffset;
+            //    //  currentWeapon.gameObject.transform.rotation = Cam.transform.rotation;
+            //}
 
             //Debug.Log($"{nameof(FPSController)}.Update() end");
 
@@ -440,7 +424,7 @@ namespace SuperShooter
                     return;
 
                 // Range to target
-                float dist = Vector3.Distance(transform.position, ((MonoBehaviour)interactable).transform.position);
+                float dist = Vector3.Distance(transform.position, interactable.transform.position);
                 //print("Distance to other: " + dist);
 
                 bool withinInteractRange = dist <= interactRange;
@@ -451,14 +435,15 @@ namespace SuperShooter
                 if (withinInteractRange)
                     UIManager.Main?.ShowActionText(interactable, withinInteractRange);
 
-                // Pickup the interactable if key is being pressed on this frame
-                if (withinInteractRange && Input.GetKeyDown(KeyCode.E))
-                {
-                    Pickup(interactable);
-                    equipped = true;
+                // Can the interactable be picked up by characters?
+                if (interactable is IInteractablePickup) {
 
-                   // pickUp();
+                    // Pickup the interactable if key is being pressed on this frame.
+                    // We MUST cast the interactable to its pickup version when passing it in.
+                    if (withinInteractRange && Input.GetKeyDown(KeyCode.E))
+                        Pickup((IInteractablePickup)interactable);
                 }
+
             }
 
         }
@@ -556,37 +541,37 @@ namespace SuperShooter
             if (currentWeapon == null)
                 return;
 
-            if (Input.GetKey(KeyCode.Mouse1))
-            {
-                // Camera FOV
-                cameraLook.ZoomTo(currentWeapon.zoomLevels[0], currentWeapon.timeToADS);
-
-            }
-
-            // On MouseRightDown else Up
+            // On MouseRightDown
             if (Input.GetKeyDown(KeyCode.Mouse1))
             {
+                // Switch to ADS
+                currentWeapon.SwitchToADS();
+
                 // Player hand is now up to the their "eye"
                 playerHand.localPosition =
-                    new Vector3(-.05f, playerHand.localPosition.y + .03f, playerHand.localPosition.z + -.58f);
+                //    new Vector3(-.05f, playerHand.localPosition.y + .03f, playerHand.localPosition.z + -.58f);
+                    playerHandADSPosition;
 
+
+                // Camera FOV
+                var newFOV = cameraLook.defaultFOV + currentWeapon.zoomLevelOffsets[0];
+                cameraLook.ZoomTo(newFOV, currentWeapon.timeToADS);
 
             }
             else if (Input.GetKeyUp(KeyCode.Mouse1))
             {
+                // Switch to hip fire
+                currentWeapon.SwitchToHipFire();
+
                 // Return to hip fire position
                 playerHand.localPosition =
                     //new Vector3(0.5f, playerHand.localPosition.y - .05f, playerHand.localPosition.z);
-                    defaultPlayerHandPosition;
+                    playerHandPosition;
 
                 // Reset camera FOV
                 cameraLook.ZoomToDefault(currentWeapon.timeToUnADS);
 
             }
-
-            // On MouseRightDown else Up
-
-
 
 
         }
@@ -622,7 +607,7 @@ namespace SuperShooter
 
         /// <summary>Add weapon to <see cref="weapons"/> list and attaches it to player's hand.</summary>
         /// <param name="item"></param>
-        void Pickup(IInteractable item)
+        void Pickup(IInteractablePickup item)
         {
 
             // Is the item an activatable Ability?
@@ -652,7 +637,7 @@ namespace SuperShooter
             }
 
             // Tell the weapon to change its behavior, its being picked up.
-            item.Pickup();
+            item.Pickup(this);
 
         }
 

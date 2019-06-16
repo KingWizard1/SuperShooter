@@ -16,7 +16,7 @@ namespace SuperShooter
 
         // ----------------------------------------------------- //
 
-        EntityModifier Modifiers { get; }
+        //EntityModifier Modifiers { get; }
 
         //void SetVisibility(bool visible);
 
@@ -28,7 +28,7 @@ namespace SuperShooter
     public abstract class GameEntity : MonoBehaviour, IGameEntity
     {
 
-        public EntityModifier Modifiers { get; }
+        //public EntityModifier Modifiers { get; }
 
         //public void SetVisibility(bool visible)
         //{
@@ -44,10 +44,10 @@ namespace SuperShooter
 
     // ----------------------------------------------------- //
 
-    public enum EntityModifier
-    {
-        None = 0,
-        Invincible = 5,
-    }
+    //public enum EntityModifier
+    //{
+    //    None = 0,
+    //    Invincible = 5,
+    //}
 
 }

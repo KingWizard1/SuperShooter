@@ -4,14 +4,19 @@ using UnityEngine;
 namespace SuperShooter
 {
 
-    public interface IInteractable
+    public interface IInteractable : IGameEntity
     {
 
         string GetInteractionString();
 
         string GetDisplayName();
 
-        void Pickup();
+    }
+
+    public interface IInteractablePickup : IInteractable
+    {
+
+        void Pickup(ICharacterController owner);
 
         void Drop();
 

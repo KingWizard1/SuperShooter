@@ -8,7 +8,7 @@ namespace SuperShooter
     //[RequireComponent(typeof(BoxCollider))]
     //[RequireComponent(typeof(LineRenderer))]
     [RequireComponent(typeof(SphereCollider))]
-    public class Ability : MonoBehaviour, IInteractable
+    public class Ability : MonoBehaviour, IInteractablePickup
     {
         [SerializeField]
         public string displayName = "New Ability";
@@ -87,7 +87,7 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
-        public void Pickup()
+        public void Pickup(ICharacterController owner)
         {
             // Disable physics (set to true)
             //rigid.isKinematic = true;

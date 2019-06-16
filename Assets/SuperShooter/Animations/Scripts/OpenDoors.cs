@@ -10,6 +10,8 @@ namespace SuperShooter
 
         public Animator anim;
         public bool up = false;
+        public bool e;
+        public GameObject doorEnemy1;
 
 
         public void Drop()
@@ -51,6 +53,7 @@ namespace SuperShooter
 
 
             anim.SetBool("Equipped", up);
+            anim.SetBool("Open", e);
 
 
             if (Input.GetKeyDown(KeyCode.E))
@@ -61,7 +64,7 @@ namespace SuperShooter
                 anim.Play("Door1Open");
 
 
-
+                doorEnemy1.SetActive(true);
 
 
 
@@ -77,7 +80,7 @@ namespace SuperShooter
 
 
             if (up == true)
-            {
+           {
                 anim.Play("SpawnDoorL");
                 anim.Play("SpawnDoorR");
             }

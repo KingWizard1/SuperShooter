@@ -7,16 +7,9 @@ namespace SuperShooter
     public interface ICharacterController
     {
 
+        ICharacterEntity owner { get; }
+
         bool characterEnabled { get; set; }
-
-    }
-
-    public interface IPlayerController : ICharacterController
-    {
-
-        IPlayerCharacter owner { get; }
-
-
 
     }
 

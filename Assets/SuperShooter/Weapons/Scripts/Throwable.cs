@@ -8,7 +8,7 @@ namespace SuperShooter
     [RequireComponent(typeof(BoxCollider))]
     [RequireComponent(typeof(LineRenderer))]
     [RequireComponent(typeof(SphereCollider))]
-    public class Throwable : MonoBehaviour, IInteractable
+    public class Throwable : MonoBehaviour, IInteractablePickup
     {
         [SerializeField]
         public string baseName = "New Throwable";
@@ -119,7 +119,7 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
-        public void Pickup()
+        public void Pickup(ICharacterController owner)
         {
             // Disable physics (set to true)
             //rigid.isKinematic = true;

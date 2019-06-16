@@ -174,10 +174,10 @@ namespace SuperShooter
 
         }
 
-        public void ZoomTo(float fov, float time = defaultZoomTime)
+        public void ZoomTo(float newTargetFOV, float time = defaultZoomTime)
         {
             lastTargetFOV = targetFOV;
-            targetFOV = fov;
+            targetFOV = newTargetFOV;
             zoomTime = time;
             zoomTimer = 0;
         }

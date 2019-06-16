@@ -31,7 +31,7 @@ namespace SuperShooter
             
         }
 
-        public void Pickup()
+        public void Pickup(ICharacterController owner)
         {
           //  throw new System.NotImplementedException();
         }

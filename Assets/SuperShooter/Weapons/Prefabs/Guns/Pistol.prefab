@@ -101,7 +101,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1192493865426166}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.049, z: 0.131}
+  m_LocalPosition: {x: 0, y: 0.0144, z: 0.0005}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4742390649280992}
@@ -175,7 +175,7 @@ Transform:
   m_GameObject: {fileID: 1295338029492546}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0.2}
-  m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
+  m_LocalScale: {x: 0.015, y: 0.015, z: 0.015}
   m_Children:
   - {fileID: 4440498249551170}
   - {fileID: 4891532486242260}
@@ -441,16 +441,16 @@ MonoBehaviour:
   shootRate: 0.2
   bulletPrefab: {fileID: 4597109189103825579, guid: 72a7d8b37eaebf046bdeb7c58ff95d43,
     type: 3}
-  bulletSpeed: 75
+  bulletSpeed: 150
   lineDelay: 0.1
-  playerHandOffset: {x: 0, y: 0, z: 0}
-  playerHandADSOffset: {x: 0, y: 0, z: 0}
-  timeToADS: 0.05
-  timeToUnADS: 0.05
-  zoomLevels:
-  - 55
+  applyHandOffset: 1
+  playerHandOffset: {x: -0.11, y: 0.15, z: 0.3}
+  playerHandADSOffset: {x: 0, y: 0.125, z: 0.25}
+  timeToADS: 0.04
+  timeToUnADS: 0.04
+  zoomLevelOffsets:
+  - -10
   spawnPoint: {fileID: 4622522180870426}
-  hasWeapon: 0
   autoReload: 0
   infiniteAmmo: 0
 --- !u!114 &114033758541475090

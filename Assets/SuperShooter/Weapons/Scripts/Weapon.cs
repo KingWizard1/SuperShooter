@@ -7,14 +7,14 @@ namespace SuperShooter
 {
     public interface IWeapon : ICharacterEntity
     {
-        CharacterEntity owner { get; }
+        ICharacterController owner { get; }
     }
 
     //[RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(BoxCollider))]
     [RequireComponent(typeof(LineRenderer))]
     [RequireComponent(typeof(SphereCollider))]
-    public class Weapon : CharacterEntity, IWeapon, IInteractable
+    public class Weapon : CharacterEntity, IWeapon, IInteractablePickup
     {
         [SerializeField]
         public string baseName = "New Weapon";
@@ -36,15 +36,15 @@ namespace SuperShooter
         public float lineDelay = .1f;
 
         [Header("Position / Scope")]
+        public bool applyHandOffset = true;
         public Vector3 playerHandOffset = Vector3.zero;
         public Vector3 playerHandADSOffset = Vector3.zero;
         public float timeToADS = 0.15f;
         public float timeToUnADS = 0.05f;
-        public float[] zoomLevels = new float[1] { 50f };
+        public float[] zoomLevelOffsets = new float[1] { -10f };
 
         [Header("References")]
         public Transform spawnPoint;
-        public bool hasWeapon = false;
 
         [Header("Cheats")]
         public bool autoReload = false;
@@ -56,11 +56,13 @@ namespace SuperShooter
         // ------------------------------------------------- //
 
         // Ownership
-        public CharacterEntity owner { get; private set; }
+        public ICharacterController owner { get; private set; }
 
         // Runtime Mechanics
         public int ammoInClip { get; private set; }
         public int ammoRemaining { get; private set; }
+
+        public bool isADS { get; private set; }
 
         public bool isFullClip { get; private set; }    // "Do you want to mess with this?"
         public bool isLastClip { get; private set; }
@@ -68,6 +70,8 @@ namespace SuperShooter
         public bool isReloadRequired { get; private set; }
         public bool isReloadPossible { get; private set; }
         public bool isOutOfAmmo { get; private set; }
+
+        public bool isPickedUp => owner != null;
 
         private bool readyToFire;
         private float shootTimer = 0f;
@@ -164,7 +168,8 @@ namespace SuperShooter
         {
             // Check ownership. Can be null.
             // But generally a weapon should have an owner of some kind.
-            GetOwner();
+            // An owner can be set when the weapon is picked up in Pickup();
+            //owner = transform.parent?.GetComponentInParent<CharacterEntity>();
 
             // Check we can shoot from somewhere
             if (spawnPoint == null)
@@ -179,11 +184,6 @@ namespace SuperShooter
             ammoRemaining = maxAmmoPerClip * clipsToStart;
             if (ammoRemaining > 999)
                 ammoRemaining = 999;    // Cap it.
-        }
-
-        private void GetOwner()
-        {
-            owner = transform.parent?.GetComponentInParent<CharacterEntity>();
         }
 
         // ------------------------------------------------- //
@@ -209,13 +209,13 @@ namespace SuperShooter
                 readyToFire = true;
             }
 
+            // Set local position hand offset
+            if (applyHandOffset)
+                UpdateLocalPosition();
+
             // Allow derived weapons to be notified that we have updated.
             OnUpdate();
 
-            if (hasWeapon == true)
-            {
-                Debug.Log("hasWeapon");
-            }
         }
 
         // ------------------------------------------------- //
@@ -250,10 +250,28 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
-        public void Pickup()
+        public void SwitchToADS()
+        {
+            isADS = true;
+        }
+
+        public void SwitchToHipFire()
+        {
+            isADS = false;
+        }
+
+        public void UpdateLocalPosition()
+        {
+            if (isPickedUp)
+                transform.localPosition = isADS ? playerHandADSOffset : playerHandOffset;
+        }
+
+        // ------------------------------------------------- //
+
+        public void Pickup(ICharacterController owner)
         {
             // Try transfer ownership
-            GetOwner();
+            this.owner = owner;
 
             //// Disable physics (set to true)
             //rigid.isKinematic = true;
@@ -264,9 +282,7 @@ namespace SuperShooter
             // Disable glow and spin
             if (pickupSpin) pickupSpin.enabled = false;
             if (pickupGlow) pickupGlow.SetActive(false);
-            hasWeapon = true;
-            Debug.Log("pickedup");
-            
+
         }
 
         public void Drop()
@@ -374,7 +390,11 @@ namespace SuperShooter
                 obj.GetComponentInParent<CharacterEntity>() ?? 
                 obj.GetComponentInChildren<CharacterEntity>();
 
-            if (entity != null)
+            if (entity == null)
+                return;
+
+            // If the entity is NOT the Player, and NOT unknown.
+            if (entity.type != TargetType.Player && entity.type != TargetType.None)
             {
 
                 // Deal damage !!
@@ -518,8 +538,9 @@ namespace SuperShooter
 
         public override void OnDamageDealt(int amount, ICharacterEntity target)
         {
-            // Make sure our owner gets the message too ;)
-            owner?.OnDamageDealt(amount, target);
+            // Make sure our owner's character takes the damage too !
+            
+            owner?.owner?.TakeDamage(amount, target);
         }
 
         // ------------------------------------------------- //

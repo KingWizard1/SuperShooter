@@ -28,6 +28,11 @@ namespace SuperShooter
         public float meleeRange = 5;
         public float shootingRange = 10;
         public GameObject weapon;
+        
+        
+
+
+        public Renderer rend;
 
         [Header("Rewards")]
         public int XPValue;
@@ -62,7 +67,10 @@ namespace SuperShooter
 
         private void Start()
         {
+
+
             ResetHealth();
+            
 
         }
 
@@ -74,7 +82,10 @@ namespace SuperShooter
             UpdateAgentProperties();
             UpdateCharacterState();
 
+
         }
+
+
 
         // ------------------------------------------------- //
 

@@ -34,6 +34,7 @@ namespace SuperShooter
         [Header("References")]
         public Transform spawnPoint;
         public GameObject bulletPrefab;
+        public bool hasWeapon = false;
 
         [Header("Cheats")]
         public bool autoReload = false;
@@ -58,7 +59,7 @@ namespace SuperShooter
         public bool isReloadPossible { get; private set; }
         public bool isOutOfAmmo { get; private set; }
 
-        private bool canShoot = false;
+        private bool canShoot;
         private float shootTimer = 0f;
 
         // ------------------------------------------------- //
@@ -248,6 +249,8 @@ namespace SuperShooter
             // Disable glow and spin
             if (pickupSpin) pickupSpin.enabled = false;
             if (pickupGlow) pickupGlow.SetActive(false);
+            hasWeapon = true;
+            Debug.Log("pickedup");
             
         }
 

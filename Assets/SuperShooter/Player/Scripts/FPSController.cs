@@ -40,6 +40,7 @@ namespace SuperShooter
         public Camera attachedCamera;
         public Transform aimTarget;
         public Transform playerHand;
+        public bool hasWeapon = false;
         //public Transform playerArm;
 
         [Header("Weapons/Abilities")]

@@ -52,8 +52,7 @@ namespace SuperShooter
 
         void Start()
         {
-            if (contextText)
-                contextText.text = string.Empty;
+            SetActionText(string.Empty);
         }
 
         #endregion
@@ -140,7 +139,17 @@ namespace SuperShooter
         //        pickupPrompt3D.GetComponent<PickupPrompt3D>().HidePrompt();
         //}
 
-        public void ShowInteract(IInteractable interactable, bool isWithinRange)
+        /// <summary>Get or set the player's action/interaction text prompt.</summary>
+        public void SetActionText(string text, bool useTheForce = false)
+        {
+            if (contextText)
+                contextText.text = text;
+            this.useTheForce = useTheForce;
+        }
+
+        private bool useTheForce;
+
+        public void ShowActionText(IInteractable interactable, bool isWithinRange)
         {
             if (contextText)
             {
@@ -153,12 +162,12 @@ namespace SuperShooter
 
             }
             else
-                Debug.LogError($"[UI] No {nameof(contextText)} assigned to {name}.");
+                Debug.LogError($"[UI] No {nameof(contextText)} is assigned to {name}.");
         }
 
-        public void HideInteract()
+        public void HideActionText()
         {
-            if (contextText)
+            if (contextText && !useTheForce)
                 contextText.text = string.Empty;
         }
 

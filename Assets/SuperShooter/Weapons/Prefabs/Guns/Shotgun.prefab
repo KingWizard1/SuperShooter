@@ -492,23 +492,24 @@ MonoBehaviour:
   type: 0
   maxHealth: 100
   baseName: Shotgun
-  damage: 10
+  damage: 5
   clipsToStart: 3
   maxAmmoPerClip: 4
   spread: 2
   recoil: 10
-  shootRate: 1
-  bulletForce: 25
-  bulletRange: 25
+  shootRate: 1.25
+  bulletPrefab: {fileID: 4597109189103825579, guid: 72a7d8b37eaebf046bdeb7c58ff95d43,
+    type: 3}
+  bulletSpeed: 90
   lineDelay: 0.1
   playerHandOffset: {x: 0, y: 0, z: -0.15}
+  playerHandADSOffset: {x: 0, y: 0, z: 0}
   timeToADS: 0.15
   timeToUnADS: 0.05
   zoomLevels:
   - 55
   spawnPoint: {fileID: 4394880187272900}
-  bulletPrefab: {fileID: 4597109189103825579, guid: 72a7d8b37eaebf046bdeb7c58ff95d43,
-    type: 3}
+  hasWeapon: 0
   autoReload: 0
   infiniteAmmo: 0
 --- !u!114 &114790205641698140

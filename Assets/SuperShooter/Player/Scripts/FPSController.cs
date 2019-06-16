@@ -20,6 +20,8 @@ namespace SuperShooter
     [RequireComponent(typeof(CharacterController))]
     public class FPSController : MonoBehaviour, IPlayerController
     {
+        
+        public IPlayerCharacter owner { get; set; }
 
         [Header("Mechanics")]
         public float runSpeed = 10f;
@@ -184,6 +186,9 @@ namespace SuperShooter
 
         private void Update()
         {
+            // Do nothing if dead.
+            if (owner != null && owner.isDead)
+                return;
 
             UpdateMovement();
             UpdateInteract();
@@ -238,45 +243,45 @@ namespace SuperShooter
                 SetMovementVector(inputH, inputV);
 
             }
-            else
-            {
-                isOnLadder = true;
-            }
+            //else
+            //{
+            //    isOnLadder = true;
+            //}
 
-            if (isOnLadder)
-            {
+            //if (isOnLadder)
+            //{
 
-                if (Input.GetKey("w") || Input.GetKey("s") || Input.GetButtonDown("Jump"))
-                {
+            //    if (Input.GetKey("w") || Input.GetKey("s") || Input.GetButtonDown("Jump"))
+            //    {
 
-                    isOnLadder = true;
-                    // We're on a ladder.
-                    float inputV = Input.GetAxis("Ladder");
-                    if (Input.GetKey("w"))
-                    {
-                        movement.y = walkSpeed;
-                        movement.x = 0;
-                        movement.z = 0;
+            //        isOnLadder = true;
+            //        // We're on a ladder.
+            //        float inputV = Input.GetAxis("Ladder");
+            //        if (Input.GetKey("w"))
+            //        {
+            //            movement.y = walkSpeed;
+            //            movement.x = 0;
+            //            movement.z = 0;
 
-                    }
+            //        }
 
-                    if (Input.GetKey("s"))
-                    {
-                        movement.y = -walkSpeed;
-                        movement.x = 0;
-                        movement.z = 0;
-                    }
+            //        if (Input.GetKey("s"))
+            //        {
+            //            movement.y = -walkSpeed;
+            //            movement.x = 0;
+            //            movement.z = 0;
+            //        }
 
-                    if (Input.GetButtonDown("Jump"))
-                        isOnLadder = false;
+            //        if (Input.GetButtonDown("Jump"))
+            //            isOnLadder = false;
 
-                    // Perform movement
-                    SetMovementVector(0, 0);
-                }
-                else
-                    return;
+            //        // Perform movement
+            //        SetMovementVector(0, 0);
+            //    }
+            //    else
+            //        return;
 
-            }
+            //}
 
 
 
@@ -332,12 +337,14 @@ namespace SuperShooter
         /// <param name="inputV"></param>
         void SetMovementVector(float inputH, float inputV)
         {
-
+            
             // Create direction from input
             Vector3 input = new Vector3(inputH, 0, inputV);
 
             // Localise direction to player transform
             input = transform.TransformDirection(input);
+
+            //UIManager.Main.SetActionText($"X {inputH}\tY {inputV}\tL {input}", true);
 
             // Update current movement state
             if (input.magnitude > 0)
@@ -383,8 +390,8 @@ namespace SuperShooter
                 // cameraLook.ZoomToDefault(1.5f);
 
 
-                // Apply movement to X and Z.
-                movement.x = input.x * MoveSpeed;
+            // Apply movement to X and Z.
+            movement.x = input.x * MoveSpeed;
             movement.z = input.z * MoveSpeed;
         }
 
@@ -394,13 +401,13 @@ namespace SuperShooter
         void UpdateInteract()
         {
             // Disable interact UI
-            UIManager.Main?.HideInteract();
+            UIManager.Main?.HideActionText();
 
             // Create ray from center of screen.
             // In viewport dimensions, 0 == top left corner, 1 == bottom right corner.
             // Thus, 0.5 on the X and Y == dead center of the screen.
             Ray interactRay = attachedCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f));
-            
+
             // Shoot ray in a range
             if (Physics.Raycast(interactRay, out RaycastHit hit, interactScanDistance))
             {
@@ -421,7 +428,7 @@ namespace SuperShooter
                 //var interactableName = interactable.GetDisplayName();
                 //var interactablePosition = ((MonoBehaviour)interactable).transform.position;
                 if (withinInteractRange)
-                    UIManager.Main?.ShowInteract(interactable, withinInteractRange);
+                    UIManager.Main?.ShowActionText(interactable, withinInteractRange);
 
                 // Pickup the interactable if key is being pressed on this frame
                 if (withinInteractRange && Input.GetKeyDown(KeyCode.E))
@@ -635,7 +642,7 @@ namespace SuperShooter
             itemTransform.SetParent(playerHand);
             itemTransform.localPosition = Vector3.zero;
             itemTransform.localRotation = Quaternion.identity;
-
+            
             // Each weapon is held differently
             if (item is Weapon)
             {
@@ -724,9 +731,9 @@ namespace SuperShooter
 
             // Consume the ability while button is being held down.
             // And stop consuming it on the frame button is released.
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (Input.GetKey(KeyCode.F))
                 currentAbility.Use();
-            if (Input.GetKeyUp(KeyCode.LeftShift))
+            if (Input.GetKeyUp(KeyCode.F))
                 currentAbility.StopUse();
 
             //Debug.Log(currentAbility.GetDisplayName() + " " + currentAbility.TimeRemaining + " ( " + currentAbility.IsActive + ", " + currentAbility.IsDepleted + ")");

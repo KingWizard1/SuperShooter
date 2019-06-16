@@ -14,7 +14,7 @@ namespace SuperShooter
     public interface IPlayerController : ICharacterController
     {
 
-        
+        IPlayerCharacter owner { get; }
 
 
 

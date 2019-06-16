@@ -34,7 +34,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: Open
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: Open

@@ -11,12 +11,13 @@ namespace SuperShooter
         public Animator anim;
         public bool up = false;
         public bool e;
+        public bool isDoor;
         public GameObject doorEnemy1;
 
 
         public void Drop()
         {
-            throw new System.NotImplementedException();
+        //    throw new System.NotImplementedException();
         }
 
         public string GetDisplayName()
@@ -27,11 +28,12 @@ namespace SuperShooter
         public string GetInteractionString()
         {
             return $"Open Door";
+            
         }
 
         public void Pickup()
         {
-            throw new System.NotImplementedException();
+          //  throw new System.NotImplementedException();
         }
 
 
@@ -46,41 +48,45 @@ namespace SuperShooter
 
         }
 
+        void OnTriggerEnter(Collider col)
+        {
+            if (col.tag == "Player" )
+            {
+
+                isDoor = true;
+
+               
+            }
+        }
         // Update is called once per frame
         void Update()
         {
 
+           var player = GameManager.Main?.PlayerObject;
+           var weapon = player.GetComponentInChildren<Weapon>();
+            
+
+                anim.SetBool("Equipped", up);
 
 
-            anim.SetBool("Equipped", up);
-            anim.SetBool("Open", e);
 
-
-            if (Input.GetKeyDown(KeyCode.E))
-
+            if (Input.GetKeyDown(KeyCode.E) && isDoor == true)
             {
 
-                anim.Play("Door2Open");
-                anim.Play("Door1Open");
-
-
+                e = true;
+                anim.SetBool("Open", true);
                 doorEnemy1.SetActive(true);
-
-
+                Debug.Log("OPENUP");
 
             }
 
 
-            //  if (GetComponent<FPSController>().equipped == true)
-            //  {
-
-            // }
 
 
 
 
-            if (up == true)
-           {
+            if (weapon != null)
+            {
                 anim.Play("SpawnDoorL");
                 anim.Play("SpawnDoorR");
             }

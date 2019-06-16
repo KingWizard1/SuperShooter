@@ -4,6 +4,11 @@ using UnityEngine;
 
 namespace SuperShooter
 {
+    public interface IPlayerCharacter : ICharacterEntity
+    {
+        ICharacterController controller { get; }
+    }
+
     [RequireComponent(typeof(FPSController))]
     public class PlayerCharacter : CharacterEntity
     {
@@ -134,8 +139,14 @@ namespace SuperShooter
             // Disable the FPSController's character controller.
             controller.characterEnabled = false;
 
+            // Show restart prompt
+#if DEBUG
+            UIManager.Main?.SetActionText("Press CTRL+R to cast Reincarnate");
+#endif
+
             // Show kill screen
             UIManager.Main?.ShowDeathScreen(true);
+
 
         }
 

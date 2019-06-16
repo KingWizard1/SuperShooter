@@ -70,10 +70,10 @@ LineRenderer:
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 2}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.1
+    widthMultiplier: 0.2
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -92,8 +92,8 @@ LineRenderer:
     colorGradient:
       serializedVersion: 2
       key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 0.7524435, b: 0.17254901, a: 1}
-      key2: {r: 1, g: 0.7524435, b: 0.17254901, a: 1}
+      key1: {r: 1, g: 0.934266, b: 0.15686274, a: 1}
+      key2: {r: 1, g: 0.77252954, b: 0.15566039, a: 1}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
@@ -119,7 +119,7 @@ LineRenderer:
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 5
-    numCapVertices: 5
+    numCapVertices: 1
     alignment: 0
     textureMode: 0
     shadowBias: 0.5
@@ -139,7 +139,7 @@ GameObject:
   - component: {fileID: 7990497061413950663}
   - component: {fileID: 3552931736736015677}
   m_Layer: 15
-  m_Name: RigidBullet
+  m_Name: RigidLightBeam
   m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -201,7 +201,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d0167dac8cb425479726a15a70b7b0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 50
+  speed: 250
+  force: 1
   line: {fileID: 1315471591659120284}
   bulletHolePrefab: {fileID: 5904778190403064552, guid: 2ad163943beee8a4dbdf56a179f0c554,
     type: 3}

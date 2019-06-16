@@ -9,8 +9,8 @@ namespace SuperShooter
     [RequireComponent(typeof(Rigidbody))]
     public class RigidBullet : MonoBehaviour
     {
-        [Header("Numbers")]
-        public float speed = 50f;
+        //[Header("Numbers")]
+        //public float speed = 50f;
 
         [Header("References")]
         public Transform line;
@@ -18,9 +18,13 @@ namespace SuperShooter
 
         private Rigidbody rigid;
 
+        // ------------------------------------------------- //
+
         public delegate void HitCallback(RigidBullet script, Collision collision);
 
         private HitCallback hitCallback;
+
+        // ------------------------------------------------- //
 
         /// <summary>Instantiates and returns a new <see cref="RigidBullet"/> at the specified world location and rotation.
         /// The bullet will be "fired" on the next frame in the specified local direction.
@@ -39,12 +43,16 @@ namespace SuperShooter
             return script;
         }
 
+        // ------------------------------------------------- //
+
         private void Awake()
         {
 
             rigid = GetComponent<Rigidbody>();
 
         }
+
+        // ------------------------------------------------- //
 
         private void Start()
         {
@@ -54,6 +62,8 @@ namespace SuperShooter
 
         }
 
+        // ------------------------------------------------- //
+
         private void Update()
         {
             if (rigid.velocity.magnitude > 0f)
@@ -62,7 +72,9 @@ namespace SuperShooter
             }
         }
 
-        public void Fire(Vector3 lineOrigin, Vector3 direction)
+        // ------------------------------------------------- //
+
+        public void Fire(Vector3 lineOrigin, Vector3 direction, float speed)
         {
 
             // Set line position to origin
@@ -72,6 +84,8 @@ namespace SuperShooter
             rigid.AddForce(direction * speed, ForceMode.Impulse);
 
         }
+
+        // ------------------------------------------------- //
 
         private void OnCollisionEnter(Collision collision)
         {

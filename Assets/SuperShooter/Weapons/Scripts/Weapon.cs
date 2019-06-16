@@ -5,15 +5,20 @@ using UnityEngine.Events;
 
 namespace SuperShooter
 {
+    public interface IWeapon : ICharacterEntity
+    {
+        CharacterEntity owner { get; }
+    }
+
     //[RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(BoxCollider))]
     [RequireComponent(typeof(LineRenderer))]
     [RequireComponent(typeof(SphereCollider))]
-    public class Weapon : CharacterEntity, IInteractable
+    public class Weapon : CharacterEntity, IWeapon, IInteractable
     {
         [SerializeField]
         public string baseName = "New Weapon";
-
+        
         [Header("Numbers")]
         public int damage = 1;
         public int clipsToStart = 32;
@@ -21,19 +26,24 @@ namespace SuperShooter
         public float spread = 2f;
         public float recoil = 1f;
         public float shootRate = .2f;
-        public float bulletForce = 1f;
-        public int bulletRange = 10;
+        
+        [Header("Bullets")]
+        public GameObject bulletPrefab;
+        public float bulletSpeed = 50f;
+        //public int bulletsPerShot = 1;
+        //public float bulletForce = 1f;
+        //public int bulletRange = 10;
         public float lineDelay = .1f;
-        public Vector3 playerHandOffset = Vector3.zero;
 
-        [Header("Scope / ADS")]
+        [Header("Position / Scope")]
+        public Vector3 playerHandOffset = Vector3.zero;
+        public Vector3 playerHandADSOffset = Vector3.zero;
         public float timeToADS = 0.15f;
         public float timeToUnADS = 0.05f;
         public float[] zoomLevels = new float[1] { 50f };
 
         [Header("References")]
         public Transform spawnPoint;
-        public GameObject bulletPrefab;
         public bool hasWeapon = false;
 
         [Header("Cheats")]
@@ -59,7 +69,7 @@ namespace SuperShooter
         public bool isReloadPossible { get; private set; }
         public bool isOutOfAmmo { get; private set; }
 
-        private bool canShoot;
+        private bool readyToFire;
         private float shootTimer = 0f;
 
         // ------------------------------------------------- //
@@ -196,7 +206,7 @@ namespace SuperShooter
             // If time reaches rate
             if (shootTimer >= shootRate)
             {
-                canShoot = true;
+                readyToFire = true;
             }
 
             // Allow derived weapons to be notified that we have updated.
@@ -275,7 +285,7 @@ namespace SuperShooter
 
         public virtual void Shoot()
         {
-            if (!canShoot)
+            if (!readyToFire)
                 return;
 
             // Allow derived weapon class to handle pre-firing logic.
@@ -323,7 +333,7 @@ namespace SuperShooter
                 var rigidBullet = RigidBullet.SpawnNew(
                     bulletPrefab, spawnPoint.position, crossHairDirection, hitCallback);
 
-                rigidBullet.Fire(spawnPoint.position, direction);
+                rigidBullet.Fire(spawnPoint.position, direction, bulletSpeed);
 
 
             }
@@ -334,14 +344,14 @@ namespace SuperShooter
             }
 
 
-            // Deplete ammo by 1
+            // Deplete ammo by number of bullets fired
             DepleteAmmoInClip(1);
 
             // Reset timer
             shootTimer = 0;
 
             // Can't shoot anymore
-            canShoot = false;
+            readyToFire = false;
         }
 
         public void StopShooting()
@@ -452,7 +462,7 @@ namespace SuperShooter
             RaycastHit hit;
 
             // Perform Raycast (Hit Scan)
-            if (Physics.Raycast(bulletRay, out hit, bulletRange))
+            if (Physics.Raycast(bulletRay, out hit, bulletSpeed))   // speed = range with RigidBullets...
             {
                 var killable = hit.collider.GetComponent<ICharacterEntity>();
 
@@ -473,7 +483,7 @@ namespace SuperShooter
             // Enable and Set Line
             lineRenderer.enabled = true;
             lineRenderer.SetPosition(0, bulletRay.origin);
-            lineRenderer.SetPosition(1, bulletRay.origin + bulletRay.direction * bulletRange);
+            lineRenderer.SetPosition(1, bulletRay.origin + bulletRay.direction * bulletSpeed);
 
             // Wait
             yield return new WaitForSeconds(lineDelay);

@@ -842,17 +842,18 @@ MonoBehaviour:
   spread: 2
   recoil: 1
   shootRate: 0.05
-  bulletForce: 7.5
-  bulletRange: 50
+  bulletPrefab: {fileID: 4597109189103825579, guid: 72a7d8b37eaebf046bdeb7c58ff95d43,
+    type: 3}
+  bulletSpeed: 50
   lineDelay: 0.1
   playerHandOffset: {x: 0, y: 0, z: 0}
+  playerHandADSOffset: {x: 0, y: 0, z: 0}
   timeToADS: 0.15
   timeToUnADS: 0.05
   zoomLevels:
   - 25
   spawnPoint: {fileID: 4765130856755074}
-  bulletPrefab: {fileID: 4597109189103825579, guid: 72a7d8b37eaebf046bdeb7c58ff95d43,
-    type: 3}
+  hasWeapon: 0
   autoReload: 0
   infiniteAmmo: 0
 --- !u!114 &114240633621090620

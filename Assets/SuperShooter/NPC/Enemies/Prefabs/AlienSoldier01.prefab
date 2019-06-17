@@ -1082,7 +1082,7 @@ MonoBehaviour:
   meleeRange: 5
   shootingRange: 10
   weapon: {fileID: 0}
-  XPValue: 0
+  XPValue: 10
 --- !u!114 &1845207561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1107,6 +1107,9 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 1024
+  obstructionLayer:
+    serializedVersion: 2
+    m_Bits: 256
   gravity: 20
   groundRayDistance: 1.1
 --- !u!195 &6603679701488929085

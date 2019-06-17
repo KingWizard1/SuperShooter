@@ -14,12 +14,15 @@ namespace SuperShooter
         public GameObject playerStatus;
         public GameObject pickupPrompt3D;
         public GameObject crossHairSystem;
+        public GameObject progressionSystem;
         public GameObject deathScreen;
+
         public TextMeshProUGUI contextText;
 
-        private CrossHairUI crossHairUI;
-        private PauseScreenUI pauseScreenUI;
-        private PlayerStatusUI playerStatusUI;
+        public CrossHairUI targetUI;
+        public PauseScreenUI pauseUI;
+        public PlayerStatusUI statusUI;
+        public PlayerProgressionUI progressionUI;
 
         // ------------------------------------------------- //
 
@@ -39,13 +42,13 @@ namespace SuperShooter
         {
             Main = this;
 
-            crossHairUI = crossHairSystem?.GetComponent<CrossHairUI>();
-            pauseScreenUI = pauseScreenUI?.GetComponent<PauseScreenUI>();
-            playerStatusUI = playerStatus?.GetComponent<PlayerStatusUI>();
+            targetUI = crossHairSystem?.GetComponent<CrossHairUI>();
+            pauseUI = pauseUI?.GetComponent<PauseScreenUI>();
+            statusUI = playerStatus?.GetComponent<PlayerStatusUI>();
 
-            if (!crossHairUI) Debug.LogWarning($"There is no {nameof(CrossHairUI)} specified for the UI!");
-            if (!pauseScreenUI) Debug.LogWarning($"There is no {nameof(PauseScreenUI)} specified for the UI!");
-            if (!playerStatusUI) Debug.LogWarning($"There is no {nameof(PlayerStatusUI)} specified for the UI!");
+            if (!targetUI) Debug.LogWarning($"There is no {nameof(CrossHairUI)} specified for the UI!");
+            if (!pauseUI) Debug.LogWarning($"There is no {nameof(PauseScreenUI)} specified for the UI!");
+            if (!statusUI) Debug.LogWarning($"There is no {nameof(PlayerStatusUI)} specified for the UI!");
         }
 
         // ------------------------------------------------- //
@@ -71,19 +74,19 @@ namespace SuperShooter
         public void SetPlayerStatus(PlayerCharacter player)
         {
 
-            playerStatusUI?.SetStatus(player);
+            statusUI?.SetStatus(player);
 
         }
 
         public void ShowPlayerDealtDamage(int amount, ICharacterEntity target)
         {
             var color = target.isDead ? Color.red : Color.white;
-            crossHairUI?.ShowHitMarker(color);
+            targetUI?.ShowHitMarker(color);
         }
 
         public void ShowPlayerTookDamage()
         {
-            playerStatusUI?.ShowDamage();
+            statusUI?.ShowDamage();
         }
 
 
@@ -102,11 +105,15 @@ namespace SuperShooter
         public void SetPlayerWeaponStatus(Weapon weapon)
         {
 
-            playerStatusUI?.SetWeapon(weapon);
+            statusUI?.SetWeapon(weapon);
 
 
         }
 
+        public void SetPlayerProgression(PlayerCharacter player)
+        {
+            progressionUI?.SetXPBar(player);
+        }
 
         #endregion
 

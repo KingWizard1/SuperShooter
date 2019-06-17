@@ -3,12 +3,10 @@ using UnityEngine;
 
 namespace SuperShooter
 {
-    public class CarHealth : GameEntity, ICharacterEntity
+    public class CarHealth : CharacterEntity, ICharacterEntity
     {
 
         public int startingHealth = 50;
-
-        public int health { get; private set; }
 
         private void Start()
         {
@@ -16,26 +14,13 @@ namespace SuperShooter
         }
 
 
-        public void Kill()
+        public override void OnDeath()
         {
-
-            health = 0;
 
             Explode();
             KillTheEngine();
 
         }
-
-        public void TakeDamage(int damage, ICharacterEntity from)
-        {
-
-            health -= damage;
-
-            if (health <= 0)
-                Kill();
-
-        }
-
 
         public float explosionRadius = 5f; // radius of explosine for force
         public float explosionForce = 700; // add force to physic base object that have rigidBody
@@ -43,8 +28,6 @@ namespace SuperShooter
 
         public GameObject damageSphere;
         public GameObject explosionParticle;
-
-        public bool isDead => throw new NotImplementedException();
 
         private void Explode()
         {

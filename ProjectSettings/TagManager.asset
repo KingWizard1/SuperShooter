@@ -9,6 +9,10 @@ TagManager:
   - Bullet
   - Enemy
   - Blocker
+  - SecondCamera
+  - BulletSpawn
+  - LevelPart
+  - Dummie
   layers:
   - Default
   - TransparentFX

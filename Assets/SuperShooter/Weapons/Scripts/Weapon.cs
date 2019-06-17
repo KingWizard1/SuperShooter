@@ -589,11 +589,22 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
-        public override void OnDamageDealt(int amount, ICharacterEntity target)
+        public override void OnDamageTaken(int amount, ICharacterEntity from)
         {
             // Make sure our owner's character takes the damage too !
-            
-            owner?.owner?.TakeDamage(amount, target);
+            owner?.owner?.TakeDamage(amount, from);
+        }
+
+        public override void OnDamageDealt(int amount, ICharacterEntity target)
+        {
+            // Make sure our owner's character is notified that they dealt damage!
+            owner?.owner?.OnDamageDealt(amount, target);
+        }
+
+        public override void OnTargetKilled(ICharacterEntity target)
+        {
+            // Make sure our owner's character is notified that they killed a target!
+            owner?.owner?.OnTargetKilled(target);
         }
 
         // ------------------------------------------------- //

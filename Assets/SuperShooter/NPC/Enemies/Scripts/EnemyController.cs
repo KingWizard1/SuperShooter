@@ -51,6 +51,7 @@ namespace SuperShooter
         [Range(0, 360)]
         public float viewAngle;
         public LayerMask targetLayer;
+        public LayerMask obstructionLayer;
 
         [Header("Physics")]
         public float gravity = 10f;
@@ -205,25 +206,32 @@ namespace SuperShooter
 
         Transform FindTargetWithinFOV()
         {
-            
+            // Cast a sphere and loop over colliders
             Collider[] collidersInSphere = Physics.OverlapSphere(transform.position, detectionRadius, targetLayer);
             for (int i = 0; i < collidersInSphere.Length; i++)
             {
-
+                
+                // Get transform of this collider
                 var target = collidersInSphere[i].transform;
 
+                // If its not a player, bail
                 var player = target.GetComponent<PlayerCharacter>();
                 if (player == null)
                     return null;
 
+                // Get direction target, and relative angle to target. 
                 Vector3 dirToTarget = (target.position - transform.position).normalized;
                 float angleToTarget = Vector3.Angle(transform.forward, dirToTarget);
+                
+                // 
                 if (angleToTarget < viewAngle / 2)
                 {
+                    // Cast a line toward the target.
                     float distToTarget = Vector3.Distance(transform.position, target.position);
-                    if (Physics.Raycast(transform.position, dirToTarget, distToTarget, targetLayer))
+                    if (Physics.Raycast(transform.position, dirToTarget, out RaycastHit hit, distToTarget, targetLayer | obstructionLayer))
                     {
-                        return target;
+                        if (hit.transform.GetComponent<PlayerCharacter>())
+                            return target;
                     }
                 }
             }

@@ -364,9 +364,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   maxHealth: 100
-  curXP: 0
-  XPRequiredToLevel: 0
-  XPLevel: 0
+  currentXP: 0
+  currentXPLevel: 1
+  currentXPRequiredToLevel: 50
+  initialXPRequiredToLevel: 100
+  XPLevelScaleFactor: 1.25
   dashSpeed: 25
   dashDuration: 3
 --- !u!114 &114973145238870596

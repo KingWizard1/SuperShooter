@@ -14,9 +14,13 @@ namespace SuperShooter
     {
 
         [Header("Progression")]
-        public int curXP = 0;
-        public int XPRequiredToLevel = 25;
-        public int XPLevel = 1;
+        public int currentXP = 0;
+        public int currentXPLevel = 1;
+        private int currentXPScaleValue = 0;
+        public int currentXPRequiredToLevel { get; private set; }
+        public int initialXPRequiredToLevel = 100;
+        public int lastXPRequiredToLevel { get; private set; }
+        public float XPLevelScaleFactor = 1.25f;
 
         [Header("Dash")]
         public float dashSpeed = 25f;
@@ -41,6 +45,7 @@ namespace SuperShooter
         {
             // Force default value.
             type = TargetType.Player;
+
         }
 
         private void Awake()
@@ -55,7 +60,12 @@ namespace SuperShooter
 
         private void Start()
         {
+            // Set controller owner
+            controller.owner = this;
+
+            // Setup
             ResetHealth();
+            ResetXP();
         }
 
         // ------------------------------------------------- //
@@ -95,6 +105,7 @@ namespace SuperShooter
         {
             UIManager.Main?.SetPlayerStatus(this);
             UIManager.Main?.SetPlayerWeaponStatus(controller.currentWeapon);
+            UIManager.Main?.SetPlayerProgression(this);
         }
 
         private void UpdateAbilities()
@@ -122,6 +133,11 @@ namespace SuperShooter
 
             // Show damage indicator on the UI
             UIManager.Main?.ShowPlayerDealtDamage(amount, target);
+
+            // Give XP for dealing damage.
+            // 1 XP should be given for each damage event, multiplied by the game phase.
+            // TODO: MULTIPLY BY GAME PHASE.
+            GiveXP(1);
 
         }
 
@@ -167,22 +183,50 @@ namespace SuperShooter
 
         }
 
-        private void GiveXP(int amount) // amount = the amount of XP the enemy gives to you
+        private void ResetXP()
         {
-            curXP += amount; // plussing current XP by the amount of XP the enemy gives
-
-            if (curXP >= XPRequiredToLevel) // if you have enough XP to level up
-            {
-                LevelUp(); // level up
-                curXP = 0; // sets XP back to 0
-                Debug.Log("LeveledUp");
-            }
+            currentXP = 0;
+            currentXPScaleValue = initialXPRequiredToLevel;
+            currentXPRequiredToLevel = initialXPRequiredToLevel;
         }
 
-        private void LevelUp() // is called when you level up
+        public void GiveXP(int amount) // amount = the amount of XP the enemy gives to you
         {
-            XPLevel++; // incrimemts your XP level by 1
-            Debug.Log(XPLevel);
+            // Add experience by amount
+            currentXP += amount;
+
+            // Enough to level up?
+            if (currentXP >= currentXPRequiredToLevel)
+                LevelUp();
+
+            // Show the XP bar. It's hidden by default. We want to show it
+            // when the player earns their first XP point.
+            UIManager.Main?.progressionUI?.ShowHideXPBar(true);
+
+        }
+
+        public void LevelUp() // is called when you level up
+        {
+            // Increment XP Level.
+            currentXPLevel++;
+
+            Debug.Log($"Player strength has grown to Level {currentXPLevel}!");
+
+            // Increment next level's XP requirement
+            // First, calc the level's scaling value.
+            // Then, add that value to the currently required amount of XP.
+            // The result equals the TotalXPRequired, across all earned levels. Growing by the scale factor.
+            var scaleValue = currentXPScaleValue * XPLevelScaleFactor;
+            var xpRequired = currentXPRequiredToLevel + Mathf.RoundToInt(scaleValue);
+
+            // Set the new requirement.
+            lastXPRequiredToLevel = currentXPRequiredToLevel;
+            currentXPRequiredToLevel = xpRequired;
+
+
+            Debug.Log($"Current XP: {currentXP}\tRequired For Next Level: {xpRequired}");
+
+
         }
 
         #endregion

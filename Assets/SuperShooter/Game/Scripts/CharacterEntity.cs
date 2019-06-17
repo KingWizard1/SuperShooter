@@ -11,6 +11,8 @@ namespace SuperShooter
         void Kill();
 
         void TakeDamage(int amount, ICharacterEntity from);
+        void OnDamageDealt(int amount, ICharacterEntity target);
+        void OnTargetKilled(ICharacterEntity target);
     }
 
     public enum TargetType

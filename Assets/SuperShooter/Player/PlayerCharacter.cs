@@ -45,7 +45,7 @@ namespace SuperShooter
 
         private void Awake()
         {
-            
+
             // Get the first player controller we come across.
             controller = GetComponentInChildren<FPSController>();
 
@@ -64,7 +64,8 @@ namespace SuperShooter
         {
 
             // Do nothing if dead.
-            if (isDead) {
+            if (isDead)
+            {
 #if DEBUG
                 // RESPAWN CHEAT.
                 if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.R))

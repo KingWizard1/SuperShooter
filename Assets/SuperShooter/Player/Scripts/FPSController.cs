@@ -20,7 +20,7 @@ namespace SuperShooter
     [RequireComponent(typeof(CharacterController))]
     public class FPSController : MonoBehaviour, ICharacterController
     {
-        
+
         public ICharacterEntity owner { get; set; }
 
         [Header("Mechanics")]
@@ -42,6 +42,7 @@ namespace SuperShooter
         public bool isInvincible;
         public bool isDoubleSpeed;
         public bool isZoomed;
+        public bool aimed;
 
         [Header("References")]
         public Camera attachedCamera;
@@ -104,7 +105,7 @@ namespace SuperShooter
         public Weapon currentWeapon;       // Current weapon. Public for testing, make private later.
         private List<Weapon> weapons = new List<Weapon>();  // Weapons on hand.
         private int currentWeaponIndex = 0; // Current weapon index.
-        
+
 
         #endregion
 
@@ -157,7 +158,7 @@ namespace SuperShooter
         {
 
             playerHandPosition = playerHand.localPosition;
-            
+            bool equip = GetComponent<OpenDoors>();
         }
 
 
@@ -342,7 +343,7 @@ namespace SuperShooter
         /// <param name="inputV"></param>
         void SetMovementVector(float inputH, float inputV)
         {
-            
+
             // Create direction from input
             Vector3 input = new Vector3(inputH, 0, inputV);
 
@@ -389,14 +390,14 @@ namespace SuperShooter
 
 
             // Camera - Change FOV based on movement state
-            if (MovementState == MovementState.Running && inputV > 0)   // Only if running forward.
+            if (MovementState == MovementState.Running && inputV > 0 && aimed == false)    // Only if running forward.
                 cameraLook.ZoomTo(cameraLook.defaultFOV + 5, 1.5f);
-            else
-                // cameraLook.ZoomToDefault(1.5f);
+            else if (aimed == false)
+                 cameraLook.ZoomToDefault(1.5f);
 
 
-            // Apply movement to X and Z.
-            movement.x = input.x * MoveSpeed;
+                // Apply movement to X and Z.
+                movement.x = input.x * MoveSpeed;
             movement.z = input.z * MoveSpeed;
         }
 
@@ -436,7 +437,8 @@ namespace SuperShooter
                     UIManager.Main?.ShowActionText(interactable, withinInteractRange);
 
                 // Can the interactable be picked up by characters?
-                if (interactable is IInteractablePickup) {
+                if (interactable is IInteractablePickup)
+                {
 
                     // Pickup the interactable if key is being pressed on this frame.
                     // We MUST cast the interactable to its pickup version when passing it in.
@@ -544,6 +546,8 @@ namespace SuperShooter
             // On MouseRightDown
             if (Input.GetKeyDown(KeyCode.Mouse1))
             {
+
+                aimed = true;
                 // Switch to ADS
                 currentWeapon.SwitchToADS();
 
@@ -560,6 +564,8 @@ namespace SuperShooter
             }
             else if (Input.GetKeyUp(KeyCode.Mouse1))
             {
+
+                aimed = false; 
                 // Switch to hip fire
                 currentWeapon.SwitchToHipFire();
 
@@ -653,7 +659,7 @@ namespace SuperShooter
             itemTransform.SetParent(playerHand);
             itemTransform.localPosition = Vector3.zero;
             itemTransform.localRotation = Quaternion.identity;
-            
+
             // Each weapon is held differently
             if (item is Weapon)
             {

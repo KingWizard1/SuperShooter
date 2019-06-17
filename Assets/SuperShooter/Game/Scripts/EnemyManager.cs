@@ -31,6 +31,7 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
+        [Header("Events")]
         public UnityEvent WaveStarted;
         public UnityEvent WaveCompleted;
         public UnityEvent SequenceCompleted;

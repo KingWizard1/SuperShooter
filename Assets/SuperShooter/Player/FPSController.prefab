@@ -311,7 +311,7 @@ Transform:
   m_GameObject: {fileID: 1891511372562458}
   m_LocalRotation: {x: 0, y: 0.3094153, z: 0, w: 0.950927}
   m_LocalPosition: {x: -16.44, y: 16.32, z: -41.62}
-  m_LocalScale: {x: 1, y: 1.25, z: 1}
+  m_LocalScale: {x: 1, y: 1.5, z: 1}
   m_Children:
   - {fileID: 4597451510964996}
   - {fileID: 234176997}
@@ -390,9 +390,11 @@ MonoBehaviour:
   interactScanDistance: 10
   groundRayDistance: 1.6
   playerHand: {fileID: 4324149899550320}
+  allowBackwardsRunning: 0
   isInvincible: 0
   isDoubleSpeed: 0
   isZoomed: 0
+  aimed: 0
   attachedCamera: {fileID: 20107630638721488}
   aimTarget: {fileID: 0}
   maxWeapons: 4

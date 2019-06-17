@@ -47,11 +47,10 @@ namespace SuperShooter
 
 
         [Header("Sight")]
-        public float viewRadius;
+        public float detectionRadius;
         [Range(0, 360)]
         public float viewAngle;
         public LayerMask targetLayer;
-        public LayerMask obstacleMask;
 
         [Header("Physics")]
         public float gravity = 10f;
@@ -144,7 +143,8 @@ namespace SuperShooter
             }
 
             // Rotate to look in the direction of movement.
-            transform.rotation = Quaternion.LookRotation(_agent.velocity);
+            if (_agent.velocity != Vector3.zero)
+                transform.rotation = Quaternion.LookRotation(_agent.velocity);
 
 
             // If we have a target, lets configure the agent to move toward them.
@@ -194,18 +194,34 @@ namespace SuperShooter
 
         #region Sight
 
+        //private void OnDrawGizmos()
+        //{
+
+
+        //    Gizmos.color = hasTarget ? Color.yellow : Color.green;
+        //    Gizmos.DrawSphere(transform.position, detectionRadius);
+            
+        //}
+
         Transform FindTargetWithinFOV()
         {
             
-            Collider[] targetsInRadius = Physics.OverlapSphere(transform.position, viewRadius, targetLayer);
-            for (int i = 0; i < targetsInRadius.Length; i++)
+            Collider[] collidersInSphere = Physics.OverlapSphere(transform.position, detectionRadius, targetLayer);
+            for (int i = 0; i < collidersInSphere.Length; i++)
             {
-                var target = targetsInRadius[i].transform;
+
+                var target = collidersInSphere[i].transform;
+
+                var player = target.GetComponent<PlayerCharacter>();
+                if (player == null)
+                    return null;
+
                 Vector3 dirToTarget = (target.position - transform.position).normalized;
-                if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
+                float angleToTarget = Vector3.Angle(transform.forward, dirToTarget);
+                if (angleToTarget < viewAngle / 2)
                 {
                     float distToTarget = Vector3.Distance(transform.position, target.position);
-                    if (!Physics.Raycast(transform.position, dirToTarget, distToTarget, obstacleMask))
+                    if (Physics.Raycast(transform.position, dirToTarget, distToTarget, targetLayer))
                     {
                         return target;
                     }
@@ -315,9 +331,9 @@ namespace SuperShooter
     public enum EnemyControllerState
     {
         /// <summary>The character is idle.</summary>
-        Stop,
+        Stop = -1,
         /// <summary>The character is trying to look for a new target.</summary>
-        Search,
+        Search = 0,
         /// <summary>The character is attempting to find its current target at its last known location.</summary>
         SearchLastKnown,
         /// <summary>The character is making its way to its target.</summary>

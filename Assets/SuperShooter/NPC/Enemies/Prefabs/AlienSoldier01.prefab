@@ -1095,20 +1095,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03d1d747388b025488375be9188ae172, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  distanceToTarget: 0
+  lastKnownTargetPosition: {x: 0, y: 0, z: 0}
   state: 0
-  goToPos: {x: 0, y: 0, z: 0}
-  disToTarget: 0
-  searchDisToTarget: 0
-  lastKnownPosition: {x: 0, y: 0, z: 0}
-  viewRadius: 100
+  isGrounded: 0
+  hasTarget: 0
+  searchTime: 1
+  detectionRadius: 50
   viewAngle: 180
   targetLayer:
     serializedVersion: 2
     m_Bits: 1024
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 0
-  target: {fileID: 0}
   gravity: 20
   groundRayDistance: 1.1
 --- !u!195 &6603679701488929085

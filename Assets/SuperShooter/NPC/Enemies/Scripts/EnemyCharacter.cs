@@ -28,11 +28,7 @@ namespace SuperShooter
         public float meleeRange = 5;
         public float shootingRange = 10;
         public GameObject weapon;
-        
-        
 
-
- 
 
         [Header("Rewards")]
         public int XPValue;

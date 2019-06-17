@@ -163,10 +163,10 @@ namespace SuperShooter
 
             zoomTimer += Time.deltaTime;
 
-            if (zoomTimer >= zoomTime) {
-                attachedCamera.fieldOfView = targetFOV;
-                return;
-            }
+            //if (zoomTimer >= zoomTime) {
+            //    attachedCamera.fieldOfView = targetFOV;
+            //    return;
+            //}
 
             // Apply interpolated fov
             var fov = Mathf.Lerp(lastTargetFOV, targetFOV, (zoomTimer / zoomTime));

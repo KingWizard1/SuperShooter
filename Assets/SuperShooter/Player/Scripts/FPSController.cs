@@ -39,6 +39,7 @@ namespace SuperShooter
         private Vector3 playerHandADSPosition = new Vector3(0f, -.15f, 0f);
 
         [Header("Powerups")]
+        public bool allowBackwardsRunning;
         public bool isInvincible;
         public bool isDoubleSpeed;
         public bool isZoomed;
@@ -352,32 +353,31 @@ namespace SuperShooter
 
             //UIManager.Main.SetActionText($"X {inputH}\tY {inputV}\tL {input}", true);
 
+            // If vertical axis is positive (up), and horizontal axis is anything (left/right).
+            bool movingBackward = inputV < 0;
+            bool canRun = allowBackwardsRunning ? true : !movingBackward;
+
             // Update current movement state
             if (input.magnitude > 0)
             {
-                if (Input.GetKey(KeyCode.LeftShift))
-                    MovementState = MovementState.Running;
-                else if (Input.GetKey(KeyCode.LeftControl))
-                    MovementState = MovementState.CrouchWalking;
-                else
-                    MovementState = MovementState.Walking;
+                if (Input.GetKey(KeyCode.LeftShift) && canRun)  MovementState = MovementState.Running;
+                else if (Input.GetKey(KeyCode.LeftControl))     MovementState = MovementState.CrouchWalking;
+                else                                            MovementState = MovementState.Walking;
             }
             else
             {
-                if (Input.GetKey(KeyCode.LeftControl))
-                    MovementState = MovementState.Crouching;
-                else
-                    MovementState = MovementState.Idle;
+                if (Input.GetKey(KeyCode.LeftControl))          MovementState = MovementState.Crouching;
+                else                                            MovementState = MovementState.Idle;
             }
 
             // Set move speed
             switch (MovementState)
             {
                 default:
-                case MovementState.Walking: MoveSpeed = walkSpeed; break;
-                case MovementState.Running: MoveSpeed = runSpeed; break;
-                case MovementState.CrouchWalking: MoveSpeed = crouchSpeed; break;
-                case MovementState.Crawling: MoveSpeed = crouchSpeed; break;// Need crawlSpeed;
+                case MovementState.Walking:         MoveSpeed = walkSpeed; break;
+                case MovementState.Running:         MoveSpeed = runSpeed; break;
+                case MovementState.CrouchWalking:   MoveSpeed = crouchSpeed; break;
+                case MovementState.Crawling:        MoveSpeed = crouchSpeed; break;// Need a this.crawlSpeed;
             }
 
             // Apply modifier
@@ -388,17 +388,19 @@ namespace SuperShooter
             if (isDoubleSpeed)
                 MoveSpeed *= 2;
 
+            // Apply movement to X and Z.
+            movement.x = input.x * MoveSpeed;
+            movement.z = input.z * MoveSpeed;
 
-            // Camera - Change FOV based on movement state
-            if (MovementState == MovementState.Running && inputV > 0 && aimed == false)    // Only if running forward.
+
+            // Camera - "Run FOV".
+            // If running and not aiming, move to a different FOV.
+            if (MovementState == MovementState.Running && aimed == false) 
                 cameraLook.ZoomTo(cameraLook.defaultFOV + 5, 1.5f);
             else if (aimed == false)
-                 cameraLook.ZoomToDefault(1.5f);
+                cameraLook.ZoomToDefault(1.5f);
 
 
-                // Apply movement to X and Z.
-                movement.x = input.x * MoveSpeed;
-            movement.z = input.z * MoveSpeed;
         }
 
         // ------------------------------------------------- //

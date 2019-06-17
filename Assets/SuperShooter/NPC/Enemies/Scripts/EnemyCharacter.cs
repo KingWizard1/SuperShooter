@@ -32,10 +32,7 @@ namespace SuperShooter
 
         [Header("Rewards")]
         public int XPValue;
-
-        //[Header("Events")]
-        //public UnityEvent ev = new UnityEvent();
-
+        
         // ------------------------------------------------- //
 
         public EnemyCharacterState characterState { get; private set; } = EnemyCharacterState.Idle;

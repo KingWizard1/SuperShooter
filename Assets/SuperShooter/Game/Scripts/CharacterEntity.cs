@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 namespace SuperShooter
 {
@@ -29,6 +30,9 @@ namespace SuperShooter
         [Header("Entity")]
         public TargetType type;
         public int maxHealth = 100;
+
+        [Header("Events")]
+        public UnityEvent<ICharacterEntity> CharacterDied;
 
         // ------------------------------------------------- //
 
@@ -119,6 +123,7 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
+        /// <summary>Kills this character and runs its <see cref="OnDeath"/> function.</summary>
         public void Kill()
         {
 

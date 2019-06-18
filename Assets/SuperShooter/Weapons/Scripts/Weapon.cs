@@ -61,7 +61,8 @@ namespace SuperShooter
         public bool infiniteAmmo = false;
 
         [Header("Events")]
-        UnityEvent<ICharacterEntity> CrossHairTargetChanged;
+        public UnityEvent PickedUp;
+        UnityEvent<ICharacterEntity> TargetChanged;
 
 
         // ------------------------------------------------- //
@@ -294,6 +295,9 @@ namespace SuperShooter
 
             //// Disable physics (set to true)
             //rigid.isKinematic = true;
+
+            // Tell all whose listening that we've been picked up.
+            PickedUp?.Invoke();
 
             // Disable trigger collider so we don't trigger the UI when we look at the weapon in our hand
             sphereCollider.enabled = false;

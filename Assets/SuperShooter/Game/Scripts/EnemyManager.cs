@@ -21,13 +21,19 @@ namespace SuperShooter
         private bool IsWaveComplete => enemiesRemaining == 0;
 
 
-        [Header("Config")]
+        [Header("Enemy Config")]
         public Transform[] spawnPoints;
         public GameObject[] enemyTypes;
         public float timeBetweenWaves = 20f;
         private float nextWaveTimer = 0;
 
-        public int baseDamageModifier;  // Future
+        [Header("Enemy Properties")]
+        /// <summary>Applies a multiplier to each spawned enemy's <see cref="CharacterEntity.maxHealth"/>.</summary>
+        public float currentHealthMultiplier = 1;
+        /// <summary>Applies a multiplier to each spawned enemy's <see cref="EnemyCharacter.XPValue"/>.</summary>
+        public float currentXPRewardMultiplier = 1;
+        /// <summary>Applies a multiplier to each spawned enemy's damage output value.</summary>
+        public float currentDamageMultiplier = 1;
 
         // ------------------------------------------------- //
 
@@ -51,7 +57,7 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
-        public void BeginNextWave()
+        public void StartNextWave()
         {
 
             // Check that we have prefabs to spawn
@@ -104,10 +110,17 @@ namespace SuperShooter
             // Set its transform's parent to our own object.
 
 
+
             // Get the entity's info and store it
             var entity = GetComponent<EnemyCharacter>();
             entity.CharacterDied.AddListener(OnEnemyDied);
             enemiesInScene.Add(entity);
+
+
+            // Set the entities health and XP reward multiplier for this wave.
+            entity.XPValue = Mathf.RoundToInt(entity.XPValue * currentXPRewardMultiplier);
+            entity.maxHealth = Mathf.RoundToInt(entity.maxHealth * currentHealthMultiplier);
+            entity.ResetHealth();
 
             // Finished.
 
@@ -150,7 +163,7 @@ namespace SuperShooter
         // ------------------------------------------------- //
 
 
-        public void ResetEverything()
+        public void Reset()
         {
 
             // TODO
@@ -217,7 +230,7 @@ namespace SuperShooter
                 // If the amount of time to wait between waves has elapsed.
                 if (nextWaveTimer >= timeBetweenWaves)
                 {
-                    BeginNextWave();
+                    StartNextWave();
                 }
 
             }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -10,41 +11,115 @@ namespace SuperShooter
     {
 
         [Header("DEBUGState")]
-        public int gamePhase = 1;
+        public int gamePhase = 1;       // Number of times the player has completed a full cycle of areas.
         public int currentArea = 0;     // 0 = Tutorial. 1 = Area 1. 2 = Area 2, etc.
 
+        [Header("List of Areas")]
+        public GameObject[] playAreas;      // Area parent objects. Child objects are expected to have spawn points.
+        public GameObject[] tutorialArea;   // Tutorial parent objects.
 
-        [Header("EnemyConfig")]
-        public EnemyManager manager;
-
-
-        // ------------------------------------------------- //
-
-
-        // ------------------------------------------------- //
+        [Header("Enemy Config")]
+        public EnemyManager enemies;
 
 
         // ------------------------------------------------- //
 
-        void Start()
+        // Singleton
+        public static GameMaster Main { get; private set; }
+
+        public static bool Exists => Main != null;
+
+
+        // ------------------------------------------------- //
+
+        private void Awake()
+        {
+            Main = this;
+        }
+
+        // ------------------------------------------------- //
+
+        private void Start()
         {
 
             // Do checks
-            if (manager == null)
+            if (enemies == null)
                 Debug.LogError($"The {nameof(GameMaster)} does not have an {nameof(EnemyManager)}!");
             else
             {
 
                 // Subscribe to its events.
-                manager.WaveStarted.AddListener(EnemyWaveStarted);
-                manager.WaveCompleted.AddListener(EnemyWaveCompleted);
-                manager.SequenceCompleted.AddListener(EnemySequenceCompleted);
+                enemies.WaveStarted.AddListener(EnemyWaveStarted);
+                enemies.WaveCompleted.AddListener(EnemyWaveCompleted);
+                enemies.SequenceCompleted.AddListener(EnemySequenceCompleted);
 
             }
 
 
 
         }
+
+        // ------------------------------------------------- //
+
+        public void StartTutorial()
+        {
+
+        }
+
+        // ------------------------------------------------- //
+
+        public void StartNextArea()
+        {
+
+
+            // Is current area the last area?
+            if (currentArea == playAreas.Length)
+            {
+                // All areas have been completed.
+                gamePhase++;
+
+                Debug.Log($"---------- PHASE {gamePhase} BEGIN ----------");
+
+                // TODO
+                // Provide option to leave the game world? WIN Condition A.
+
+                // Reset stuff?
+
+
+                return;
+            }
+
+
+            // Next area!
+            currentArea++;
+
+            Debug.Log($"----------  AREA {currentArea} START ----------");
+
+            
+            // Get the new area's collection of spawn points.
+            // This is for the enemy manager to know where to spawn things in.
+            var spawnPoints = playAreas[currentArea].GetComponentsInChildren<SpawnPoint>();
+
+            // Set up new set of waves of enemies.
+            // We reset the manager in case things need cleaning up.
+            // We then pass in the spawn points for the area, and configure enemy properties.
+            enemies.Reset();
+            enemies.spawnPoints = spawnPoints.Select(sp => sp.transform).ToArray();
+            enemies.currentHealthMultiplier = gamePhase;
+            enemies.currentDamageMultiplier = gamePhase;
+            enemies.currentXPRewardMultiplier = gamePhase;
+
+            // Aaaaaand GO!
+            enemies.StartNextWave();
+
+
+        }
+
+        // ------------------------------------------------- //
+
+
+        // ------------------------------------------------- //
+
 
         // ------------------------------------------------- //
 

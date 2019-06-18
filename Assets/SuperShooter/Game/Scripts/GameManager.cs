@@ -18,7 +18,7 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
-        private SpawnPoints spawnPoints;
+        private PlayerSpawnPoints spawnPoints;
 
         public PlayerCharacter PlayerCharacter { get; private set; }
 

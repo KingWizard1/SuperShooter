@@ -209,7 +209,7 @@ namespace SuperShooter
             // DEBUG
             if (Input.GetKeyDown(KeyCode.BackQuote))
             {
-                var nextSpawn = SpawnPoints.Main.GetNextPlayerSpawnPoint();
+                var nextSpawn = PlayerSpawnPoints.Main.GetNextPlayerSpawnPoint();
                 //transform.SetPositionAndRotation(nextSpawn.position, nextSpawn.rotation);
                 transform.position = nextSpawn.position;
                 //transform.Rotate(nextSpawn.eulerAngles);

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using NaughtyAttributes;
 
 namespace SuperShooter
 {
@@ -22,7 +23,9 @@ namespace SuperShooter
 
 
         [Header("Enemy Config")]
-        public Transform[] spawnPoints;
+        [ReorderableList]
+        public SpawnPoint[] spawnPoints;
+        [ReorderableList]
         public GameObject[] enemyTypes;
         public float timeBetweenWaves = 20f;
         private float nextWaveTimer = 0;
@@ -54,6 +57,7 @@ namespace SuperShooter
         {
 
         }
+
 
         // ------------------------------------------------- //
 
@@ -106,6 +110,8 @@ namespace SuperShooter
             // Spawn enemy at spawn point.
 
 
+
+
             // TODO
             // Set its transform's parent to our own object.
 
@@ -130,6 +136,8 @@ namespace SuperShooter
         
         private void OnEnemyDied(ICharacterEntity entity)
         {
+
+            // Update counts
 
             enemiesKilled++;
 

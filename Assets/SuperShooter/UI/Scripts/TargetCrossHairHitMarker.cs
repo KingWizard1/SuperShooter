@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace SuperShooter
 {
 
-    public class CrossHairHitMarker : MonoBehaviour
+    public class TargetCrossHairHitMarker : MonoBehaviour
     {
         [Header("Colours")]
         public Color color = Color.white;

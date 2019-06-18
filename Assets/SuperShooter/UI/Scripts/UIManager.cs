@@ -11,22 +11,19 @@ namespace SuperShooter
     {
 
         [Header("UI Elements")]
-        public GameObject playerStatus;
-        public GameObject pickupPrompt3D;
-        public GameObject crossHairSystem;
-        public GameObject progressionSystem;
-        public GameObject deathScreen;
+
 
         public TextMeshProUGUI contextText;
 
-        public CrossHairUI targetUI;
+        public DeathUI deathUI;
+        public TargetUI targetUI;
         public PauseScreenUI pauseUI;
         public PlayerStatusUI statusUI;
         public PlayerProgressionUI progressionUI;
 
         // ------------------------------------------------- //
 
-        public CrossHairUI CrossHair { get { return crossHairSystem.GetComponent<CrossHairUI>(); } }
+        //public TargetUI CrossHair { get { return crossHairSystem.GetComponent<TargetUI>(); } }
 
         // ------------------------------------------------- //
 
@@ -42,13 +39,10 @@ namespace SuperShooter
         {
             Main = this;
 
-            targetUI = crossHairSystem?.GetComponent<CrossHairUI>();
-            pauseUI = pauseUI?.GetComponent<PauseScreenUI>();
-            statusUI = playerStatus?.GetComponent<PlayerStatusUI>();
-
-            if (!targetUI) Debug.LogWarning($"There is no {nameof(CrossHairUI)} specified for the UI!");
+            if (!targetUI) Debug.LogWarning($"There is no {nameof(TargetUI)} specified for the UI!");
             if (!pauseUI) Debug.LogWarning($"There is no {nameof(PauseScreenUI)} specified for the UI!");
             if (!statusUI) Debug.LogWarning($"There is no {nameof(PlayerStatusUI)} specified for the UI!");
+            if (!progressionUI) Debug.LogWarning($"There is no {nameof(PlayerProgressionUI)} specified for the UI!");
         }
 
         // ------------------------------------------------- //
@@ -113,6 +107,11 @@ namespace SuperShooter
         public void SetPlayerProgression(PlayerCharacter player)
         {
             progressionUI?.SetXPBar(player);
+        }
+
+        public void SetPlayerTarget(CharacterEntity character)
+        {
+            targetUI?.SetTarget(character);
         }
 
         #endregion
@@ -182,10 +181,10 @@ namespace SuperShooter
 
         public void ShowDeathScreen(bool makeActive)
         {
-            if (deathScreen)
-                deathScreen.SetActive(makeActive);
+            if (deathUI)
+                deathUI.gameObject.SetActive(makeActive);
             else
-                Debug.LogError($"[UI] No {nameof(deathScreen)} assigned to {name}.");
+                Debug.LogError($"[UI] No {nameof(deathUI)} assigned to {name}.");
             
 
         }

@@ -5,33 +5,19 @@ using UnityEngine;
 namespace SuperShooter
 {
 
-    public class CrossHairUI : MonoBehaviour
+    public class CharacterHead : MonoBehaviour
     {
 
-        public GameObject crossHair;
-
-        public GameObject hitMarker;
-
         // ------------------------------------------------- //
-
-        private CrossHairHitMarker hit;
 
 
         // ------------------------------------------------- //
 
-        private void Awake()
+
+        // ------------------------------------------------- //
+
+        void Start()
         {
-            hit = hitMarker.GetComponent<CrossHairHitMarker>();
-        }
-
-
-        // ------------------------------------------------- //
-
-        public void ShowHitMarker(Color color)
-        {
-
-            hit.Show(color);
-
 
         }
 
@@ -40,6 +26,21 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
+
+        // ------------------------------------------------- //
+
+        void Update()
+        {
+
+        }
+
+        // ------------------------------------------------- //
+
+
+        // ------------------------------------------------- //
+
+
+        // ------------------------------------------------- //
 
     }
 

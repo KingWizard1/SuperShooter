@@ -43,51 +43,40 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
-        private void Update()
+        protected override void OnUpdate()
         {
 
-            switch (milestone)
+            switch (sequence)
             {
                 case 0:
 
                     // Wait till player picks up the gun in this area.
-                    if (weaponToPickup.isPickedUp)
-                    {
+                    if (!weaponToPickup.isPickedUp)
+                        return;
 
-                        // TODO
-                        // Open the doors
+                    // TODO
+                    // Open the doors
 
-                        // Activate the tutorial enemy.
-                        firstKill.gameObject.SetActive(true);
+                    // Activate the tutorial enemy.
+                    firstKill.gameObject.SetActive(true);
 
-                        // Next
-                        NextMilestone();
+                    // Next
+                    NextMilestone();
                         
-
-                    }
-
-                    break;
+                    return;
 
                 case 1:
 
                     // Wait till the tutorial enemy is dead.
-                    if (firstKill.isDead)
-                    {
-
-                        // Tutorial completed.
-
-                        Complete();
+                    if (!firstKill.isDead)
+                        return;
 
 
-                    }
+                    // Tutorial completed.
+                    Complete();
 
+                    return;
 
-                    break;
-
-                case 2:
-
-
-                    break;
 
             }
             

@@ -345,7 +345,7 @@ GameObject:
   - component: {fileID: 114973145238870596}
   - component: {fileID: 114310768618941658}
   m_Layer: 10
-  m_Name: FPSController
+  m_Name: FPSPlayer
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -413,12 +413,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   maxHealth: 100
+  characterName: New Character Entity
   currentXP: 0
   currentXPLevel: 0
-  initialXPRequiredToLevel: 100
+  initialXPRequiredToLevel: 75
   XPLevelScaleFactor: 1.25
   dashSpeed: 25
   dashDuration: 3
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  currentTarget: {fileID: 0}
 --- !u!114 &114973145238870596
 MonoBehaviour:
   m_ObjectHideFlags: 0

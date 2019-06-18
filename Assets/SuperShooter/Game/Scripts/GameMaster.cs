@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using NaughtyAttributes;
+using UnityEngine.UI;
 
 namespace SuperShooter
 {
@@ -21,8 +22,16 @@ namespace SuperShooter
         [ReorderableList]
         public GameObject[] tutorialArea;   // Tutorial parent objects.
 
+        public Text rqText;
+        public bool rq;
+
+
         [Header("Enemy Config")]
         public EnemyManager waveSpawner;
+
+        public float tenSec = 10;
+        public bool timerRunning = true;
+        int i;
 
 
         // ------------------------------------------------- //
@@ -44,6 +53,7 @@ namespace SuperShooter
 
         private void Start()
         {
+
 
             // Do checks
             if (waveSpawner == null)
@@ -98,7 +108,7 @@ namespace SuperShooter
 
             Debug.Log($"----------  AREA {currentArea} START ----------");
 
-            
+
             // Get the new area's collection of spawn points.
             // This is for the enemy manager to know where to spawn things in.
             var spawnPoints = playAreas[currentArea].GetComponentsInChildren<SpawnPoint>();
@@ -153,35 +163,85 @@ namespace SuperShooter
         // ------------------------------------------------- //
 
 
-        // ------------------------------------------------- //
-
-
-        // ------------------------------------------------- //
-
-
-        void Update()
+        public IEnumerator rageQuit()
         {
 
-            // Do stuff
+            var countDown = 10f;
 
-            UpdateUI();
+                if (Input.GetKeyDown(KeyCode.Tab) && countDown >= 1)
+                {
+
+
+                    //Switch to "Death Screen".
+                    //temporary...
+                    Application.Quit();
+                    Debug.Log("RAGE");
+                
+                }
+            
+
+
+            if (rq == false)
+            { 
+            rq = true;
+            
+                for (int i = 0; i < 10000; i++)
+                {
+                    while (countDown >= 0)
+                    {
+                        rqText.gameObject.SetActive(true);
+                        Debug.Log(i++);
+                        countDown -= Time.smoothDeltaTime;
+
+                        yield return null;
+                    }
+
+
+
+
+                }
+
+            }
+        }
+            // ------------------------------------------------- //
+
+
+            // ------------------------------------------------- //
+
+
+            void Update()
+            {
+
+                // Do stuff
+
+                UpdateUI();
+
+                // If Phase is over Give option to leave
+                if (currentArea == 5 || currentArea == 10 || currentArea == 15 || currentArea == 20)
+                {
+                    StartCoroutine(rageQuit());
+                }
+
+
+
+
+
+            }
+
+            // ------------------------------------------------- //
+
+            void UpdateUI()
+            {
+                // Eventually, update UI elements to indicate
+                // to the player the current state of the game.
+            }
+
+
+            // ------------------------------------------------- //
+
+
+            // ------------------------------------------------- //
 
         }
-
-        // ------------------------------------------------- //
-
-        void UpdateUI()
-        {
-            // Eventually, update UI elements to indicate
-            // to the player the current state of the game.
-        }
-
-
-        // ------------------------------------------------- //
-
-
-        // ------------------------------------------------- //
 
     }
-
-}

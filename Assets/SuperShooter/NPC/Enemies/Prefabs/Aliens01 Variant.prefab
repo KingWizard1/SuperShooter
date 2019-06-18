@@ -429,8 +429,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 4
-  maxHealth: 100
-  meleeDamage: 25
+  maxHealth: 10
+  meleeDamage: 10
   meleeRange: 5
   shootingRange: 10
   weapon: {fileID: 0}
@@ -450,19 +450,19 @@ MonoBehaviour:
   target: {fileID: 0}
   distanceToTarget: 0
   lastKnownTargetPosition: {x: 0, y: 0, z: 0}
-  state: 1
+  state: 0
   isGrounded: 0
   hasTarget: 0
   searchTime: 1
-  viewRadius: 0
+  detectionRadius: 50
   viewAngle: 0
   targetLayer:
     serializedVersion: 2
-    m_Bits: 0
-  obstacleMask:
+    m_Bits: 1024
+  obstructionLayer:
     serializedVersion: 2
-    m_Bits: 0
-  gravity: 10
+    m_Bits: 256
+  gravity: 20
   groundRayDistance: 1.1
 --- !u!65 &3133500370406351115
 BoxCollider:
@@ -8182,19 +8182,19 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.2500002
       objectReference: {fileID: 0}
-    - target: {fileID: 2300000, guid: 60ea8a8ee79fc564294d0a35f8b0ae4a, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6400000, guid: 60ea8a8ee79fc564294d0a35f8b0ae4a, type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 11400000, guid: 60ea8a8ee79fc564294d0a35f8b0ae4a, type: 3}
+    - target: {fileID: 2300000, guid: 60ea8a8ee79fc564294d0a35f8b0ae4a, type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 13600000, guid: 60ea8a8ee79fc564294d0a35f8b0ae4a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 60ea8a8ee79fc564294d0a35f8b0ae4a, type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}

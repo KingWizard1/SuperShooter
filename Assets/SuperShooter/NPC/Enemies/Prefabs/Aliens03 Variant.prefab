@@ -445,8 +445,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 4
-  maxHealth: 100
-  meleeDamage: 25
+  maxHealth: 10
+  meleeDamage: 10
   meleeRange: 5
   shootingRange: 10
   weapon: {fileID: 0}
@@ -488,18 +488,18 @@ MonoBehaviour:
   target: {fileID: 0}
   distanceToTarget: 0
   lastKnownTargetPosition: {x: 0, y: 0, z: 0}
-  state: 1
+  state: 0
   isGrounded: 0
   hasTarget: 0
   searchTime: 1
-  viewRadius: 0
+  detectionRadius: 50
   viewAngle: 0
   targetLayer:
     serializedVersion: 2
-    m_Bits: 0
-  obstacleMask:
+    m_Bits: 1024
+  obstructionLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   gravity: 10
   groundRayDistance: 1.1
 --- !u!1 &567822724752854075

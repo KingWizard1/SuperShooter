@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1315471591659120284}
   - component: {fileID: 6350152671251042577}
-  m_Layer: 15
+  m_Layer: 14
   m_Name: Line
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -139,7 +139,7 @@ GameObject:
   - component: {fileID: 7990497061413950663}
   - component: {fileID: 3552931736736015677}
   - component: {fileID: 6057552975972687361}
-  m_Layer: 15
+  m_Layer: 14
   m_Name: RigidLightBeam
   m_TagString: Bullet
   m_Icon: {fileID: 0}

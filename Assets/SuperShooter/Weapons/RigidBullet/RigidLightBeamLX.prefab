@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1315471591659120284}
   - component: {fileID: 6350152671251042577}
-  - component: {fileID: 8714902037987164627}
-  m_Layer: 15
+  - component: {fileID: 4180459344416421362}
+  m_Layer: 14
   m_Name: Line
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -127,7 +127,7 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 0
   m_Loop: 0
---- !u!114 &8714902037987164627
+--- !u!114 &4180459344416421362
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -136,7 +136,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4053403710245042513}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5b024aa3d3c44748bcfa8b713726d7e, type: 3}
+  m_Script: {fileID: 11500000, guid: 787c74a30f3547e4fb0c2b104f79260a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4597109189103825579
@@ -152,7 +152,7 @@ GameObject:
   - component: {fileID: 7990497061413950663}
   - component: {fileID: 3552931736736015677}
   - component: {fileID: 3296395909999648725}
-  m_Layer: 15
+  m_Layer: 14
   m_Name: RigidLightBeamLX
   m_TagString: Bullet
   m_Icon: {fileID: 0}

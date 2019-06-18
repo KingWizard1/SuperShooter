@@ -12,7 +12,7 @@ namespace SuperShooter
         //[Header("Numbers")]
         //public float speed = 50f;
 
-        [Header("References")]
+        [Header("Art")]
         public Transform line;
         public GameObject bulletHolePrefab;
 
@@ -136,20 +136,22 @@ namespace SuperShooter
             // Ignore other bullets
             if (collision.gameObject.GetComponent<RigidBullet>() != null)
                 return;
-
+            
             // -- Collisions
             // Fire the callback if not null.
             //Debug.Log($"Hit {collision.gameObject.name}!!!");
             hitCallback?.Invoke(this, collision);
 
+            
+
             // -- Art
             // Create bullet hole prefab at bullet contact point
-            if (bulletHolePrefab != null)
-            {
-                ContactPoint contact = collision.contacts[0];
-                Instantiate(bulletHolePrefab, contact.point, Quaternion.LookRotation(contact.normal) *
-                                                             Quaternion.AngleAxis(90, Vector3.right));
-            }
+            //if (bulletHolePrefab != null)
+            //{
+            //    ContactPoint contact = collision.contacts[0];
+            //    Instantiate(bulletHolePrefab, contact.point, Quaternion.LookRotation(contact.normal) *
+            //                                                 Quaternion.AngleAxis(90, Vector3.right));
+            //}
 
             // Destroy self
             Destroy(gameObject);

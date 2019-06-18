@@ -413,12 +413,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   maxHealth: 100
+  characterName: New Character Entity
   currentXP: 0
   currentXPLevel: 0
-  initialXPRequiredToLevel: 50
+  initialXPRequiredToLevel: 75
   XPLevelScaleFactor: 1.25
   dashSpeed: 25
   dashDuration: 3
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  currentTarget: {fileID: 0}
 --- !u!114 &114973145238870596
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -22,16 +22,20 @@ namespace SuperShooter
         public int lastXPRequiredToLevel { get; private set; }
         public float XPLevelScaleFactor = 1.25f;
 
-        [Header("Dash")]
+        [Header("Abilities")]
         public float dashSpeed = 25f;
         public float dashDuration = 3f;
+
+        [Header("Targeting")]
+        public LayerMask targetLayer;
+        public CharacterEntity currentTarget;
 
         // ------------------------------------------------- //
 
         // References
         private FPSController controller;
 
-        // Dashing
+        // Abilities
         private bool isDashing;
         private float dashTimer;
 
@@ -87,6 +91,7 @@ namespace SuperShooter
 
 
             UpdateAbilities();
+            UpdateTarget();
 
 
         }
@@ -101,18 +106,54 @@ namespace SuperShooter
 
         #region Update() Methods
 
+        // ------------------------------------------------- //
+
         private void UpdateUI()
         {
             UIManager.Main?.SetPlayerStatus(this);
             UIManager.Main?.SetPlayerWeaponStatus(controller.currentWeapon);
             UIManager.Main?.SetPlayerProgression(this);
+            UIManager.Main?.SetPlayerTarget(currentTarget);
         }
+
+        // ------------------------------------------------- //
 
         private void UpdateAbilities()
         {
 
             controller.MoveSpeedMod = Input.GetKey(KeyCode.F) ? dashSpeed : 0;
 
+
+        }
+
+        // ------------------------------------------------- //
+
+        private void UpdateTarget()
+        {
+
+            Ray crossHairRay = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2, Screen.height / 2));
+            if (Physics.Raycast(crossHairRay, out RaycastHit hit, Mathf.Infinity, targetLayer)) // or 1000f? Hmm.
+            {
+                // Did we hit a character?
+                var go = hit.transform.gameObject;
+                var target = go.GetComponentInParent<CharacterEntity>();
+                
+                if (target == null) {
+                    // No character, no target.
+                    currentTarget = null;
+                    return;
+                }
+
+
+                // Set target if its a targetable type.
+                if (target.type != TargetType.None && !target.isDead)
+                    currentTarget = target;
+                else
+                    currentTarget = null;
+
+            }
+            else
+                currentTarget = null;
 
         }
 
@@ -137,7 +178,7 @@ namespace SuperShooter
             // Give XP for dealing damage.
             // 1 XP should be given for each damage event, multiplied by the game phase.
             // TODO: MULTIPLY BY GAME PHASE.
-            GiveXP(1);
+            GiveXP(1 * GameMaster.Main?.gamePhase ?? 0);
 
         }
 

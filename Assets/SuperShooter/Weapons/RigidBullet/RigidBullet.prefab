@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1315471591659120284}
   - component: {fileID: 6350152671251042577}
-  m_Layer: 15
+  m_Layer: 14
   m_Name: Line
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 3224538108935700869}
   - component: {fileID: 7990497061413950663}
   - component: {fileID: 3552931736736015677}
-  m_Layer: 15
+  m_Layer: 14
   m_Name: RigidBullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -203,4 +203,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   line: {fileID: 1315471591659120284}
   bulletHolePrefab: {fileID: 5904778190403064552, guid: 2ad163943beee8a4dbdf56a179f0c554,
+    type: 3}
+  bloodSplatterPrefab: {fileID: 1000012909287652, guid: abb9f519b142e304d9c45b56afa768bc,
     type: 3}

@@ -430,7 +430,6 @@ namespace SuperShooter
 
             // Did we hit something of value?
             var entity =
-                obj.GetComponent<CharacterEntity>() ??
                 obj.GetComponentInParent<CharacterEntity>() ?? 
                 obj.GetComponentInChildren<CharacterEntity>();
 
@@ -441,8 +440,30 @@ namespace SuperShooter
             if (entity.type != TargetType.Player && entity.type != TargetType.None)
             {
 
-                // Deal damage !!
+                var damageToDeal = damage;
+
+                // Was it their head that we hit?
+                if (collision.gameObject.GetComponent<CharacterHead>())
+                    damageToDeal = Mathf.RoundToInt(damage * entity.headshotMultiplier);
+
+
+                // Deal damage
                 DealDamage(damage, entity);
+
+
+
+                // Art -- blood splatter!
+                if (entity.bloodSplatterPrefab != null)
+                {
+                    ContactPoint[] hitPoints = new ContactPoint[8];
+                    collision.GetContacts(hitPoints);
+                    if (hitPoints.Length > 0)
+                    {
+                        var rot = Quaternion.FromToRotation(Vector3.up, hitPoints[0].normal);
+                        Instantiate(entity.bloodSplatterPrefab, hitPoints[0].point, rot, entity.transform);
+                    }
+
+                }
 
             }
 

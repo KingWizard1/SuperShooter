@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using NaughtyAttributes;
 
 namespace SuperShooter
 {
@@ -15,11 +16,13 @@ namespace SuperShooter
         public int currentArea = 0;     // 0 = Tutorial. 1 = Area 1. 2 = Area 2, etc.
 
         [Header("List of Areas")]
+        [ReorderableList]
         public GameObject[] playAreas;      // Area parent objects. Child objects are expected to have spawn points.
+        [ReorderableList]
         public GameObject[] tutorialArea;   // Tutorial parent objects.
 
         [Header("Enemy Config")]
-        public EnemyManager enemies;
+        public EnemyManager waveSpawner;
 
 
         // ------------------------------------------------- //
@@ -43,15 +46,15 @@ namespace SuperShooter
         {
 
             // Do checks
-            if (enemies == null)
+            if (waveSpawner == null)
                 Debug.LogError($"The {nameof(GameMaster)} does not have an {nameof(EnemyManager)}!");
             else
             {
 
                 // Subscribe to its events.
-                enemies.WaveStarted.AddListener(EnemyWaveStarted);
-                enemies.WaveCompleted.AddListener(EnemyWaveCompleted);
-                enemies.SequenceCompleted.AddListener(EnemySequenceCompleted);
+                waveSpawner.WaveStarted.AddListener(EnemyWaveStarted);
+                waveSpawner.WaveCompleted.AddListener(EnemyWaveCompleted);
+                waveSpawner.SequenceCompleted.AddListener(EnemySequenceCompleted);
 
             }
 
@@ -103,14 +106,14 @@ namespace SuperShooter
             // Set up new set of waves of enemies.
             // We reset the manager in case things need cleaning up.
             // We then pass in the spawn points for the area, and configure enemy properties.
-            enemies.Reset();
-            enemies.spawnPoints = spawnPoints.Select(sp => sp.transform).ToArray();
-            enemies.currentHealthMultiplier = gamePhase;
-            enemies.currentDamageMultiplier = gamePhase;
-            enemies.currentXPRewardMultiplier = gamePhase;
+            waveSpawner.Reset();
+            waveSpawner.spawnPoints = spawnPoints.Select(sp => sp.transform).ToArray();
+            waveSpawner.currentHealthMultiplier = gamePhase;
+            waveSpawner.currentDamageMultiplier = gamePhase;
+            waveSpawner.currentXPRewardMultiplier = gamePhase;
 
             // Aaaaaand GO!
-            enemies.StartNextWave();
+            waveSpawner.StartNextWave();
 
 
         }

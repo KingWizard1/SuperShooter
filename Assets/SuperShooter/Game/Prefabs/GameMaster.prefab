@@ -43,3 +43,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e30e7b2f7904114cace2c1acb5898f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gamePhase: 1
+  currentArea: 0
+  playAreas: []
+  tutorialArea:
+  - {fileID: 0}
+  waveSpawner: {fileID: 0}

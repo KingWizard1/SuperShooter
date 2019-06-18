@@ -365,8 +365,7 @@ MonoBehaviour:
   type: 1
   maxHealth: 100
   currentXP: 0
-  currentXPLevel: 1
-  currentXPRequiredToLevel: 50
+  currentXPLevel: 0
   initialXPRequiredToLevel: 100
   XPLevelScaleFactor: 1.25
   dashSpeed: 25

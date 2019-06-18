@@ -1078,6 +1078,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 4
   maxHealth: 7
+  characterName: Armed Freak
   meleeDamage: 10
   meleeRange: 5
   shootingRange: 10

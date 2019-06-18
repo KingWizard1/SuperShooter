@@ -1012,7 +1012,7 @@ GameObject:
   - component: {fileID: 1845207561}
   - component: {fileID: 6603679701488929085}
   m_Layer: 0
-  m_Name: AlienGrunt01
+  m_Name: AlienTutorialGrunt01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1078,7 +1078,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 4
   maxHealth: 3
-  characterName: Mutant Freak
+  characterName: Alien Mutant??
   meleeDamage: 5
   meleeRange: 5
   shootingRange: 10

@@ -1078,6 +1078,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 4
   maxHealth: 15
+  characterName: Invading Inquisitor
   meleeDamage: 25
   meleeRange: 5
   shootingRange: 25

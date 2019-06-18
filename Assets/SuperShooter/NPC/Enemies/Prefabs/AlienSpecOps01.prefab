@@ -1078,6 +1078,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 4
   maxHealth: 10
+  characterName: Sneaky Intruder
   meleeDamage: 15
   meleeRange: 5
   shootingRange: 15

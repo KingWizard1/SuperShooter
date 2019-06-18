@@ -1078,6 +1078,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 4
   maxHealth: 25
+  characterName: Unwelcome Abomination
   meleeDamage: 40
   meleeRange: 5
   shootingRange: 10

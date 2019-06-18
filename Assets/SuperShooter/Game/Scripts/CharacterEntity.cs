@@ -30,6 +30,7 @@ namespace SuperShooter
         [Header("Entity")]
         public TargetType type;
         public int maxHealth = 100;
+        public string characterName = "New Character Entity";
 
         [Header("Events")]
         public UnityEvent<ICharacterEntity> CharacterDied;

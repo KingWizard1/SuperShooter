@@ -677,7 +677,7 @@ GameObject:
   - component: {fileID: 114252547702600566}
   - component: {fileID: 114240633621090620}
   m_Layer: 0
-  m_Name: AK12
+  m_Name: AK47
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -838,7 +838,7 @@ MonoBehaviour:
   headshotMultiplier: 2
   characterName: New Character Entity
   bloodSplatterPrefab: {fileID: 0}
-  baseName: AK12
+  baseName: AK47
   icon: {fileID: 21300000, guid: e47e502270b2a4c439b0ea6add71d2e8, type: 3}
   damage: 1
   clipsToStart: 3

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using NaughtyAttributes;
-using UnityEngine.UI;
 
 namespace SuperShooter
 {
@@ -13,21 +12,17 @@ namespace SuperShooter
     {
 
         [Header("DEBUGState")]
-        public int gamePhase = 1;       // Number of times the player has completed a full cycle of areas.
-        public int currentArea = 0;     // 0 = Tutorial. 1 = Area 1. 2 = Area 2, etc.
+        public int gamePhase;               // Number of times the player has completed a full cycle of areas.
+        public int currentArea;
 
         [Header("List of Areas")]
         [ReorderableList]
-        public GameObject[] playAreas;      // Area parent objects. Child objects are expected to have spawn points.
-        [ReorderableList]
-        public GameObject[] tutorialArea;   // Tutorial parent objects.
+        public GameArea[] gameplayAreas;    // Area parent objects. Child objects are expected to have spawn points.
+
 
         public Text rqText;
         public bool rq;
 
-
-        [Header("Enemy Config")]
-        public EnemyManager waveSpawner;
 
         public float tenSec = 10;
         public bool timerRunning = true;
@@ -54,28 +49,13 @@ namespace SuperShooter
         private void Start()
         {
 
+            gamePhase = 1;
+            currentArea = -1;
 
-            // Do checks
-            if (waveSpawner == null)
-                Debug.LogError($"The {nameof(GameMaster)} does not have an {nameof(EnemyManager)}!");
-            else
-            {
+            // Make all areas inactive right now.
+            //foreach (var area in gameplayAreas)
+            //    area.gameObject.SetActive(false);
 
-                // Subscribe to its events.
-                waveSpawner.WaveStarted.AddListener(EnemyWaveStarted);
-                waveSpawner.WaveCompleted.AddListener(EnemyWaveCompleted);
-                waveSpawner.SequenceCompleted.AddListener(EnemySequenceCompleted);
-
-            }
-
-
-
-        }
-
-        // ------------------------------------------------- //
-
-        public void StartTutorial()
-        {
 
         }
 
@@ -86,18 +66,10 @@ namespace SuperShooter
 
 
             // Is current area the last area?
-            if (currentArea == playAreas.Length)
+            if (currentArea == gameplayAreas.Length)
             {
-                // All areas have been completed.
-                gamePhase++;
 
-                Debug.Log($"---------- PHASE {gamePhase} BEGIN ----------");
-
-                // TODO
-                // Provide option to leave the game world? WIN Condition A.
-
-                // Reset stuff?
-
+                UpgradeGamePhaseByOne();
 
                 return;
             }
@@ -108,83 +80,59 @@ namespace SuperShooter
 
             Debug.Log($"----------  AREA {currentArea} START ----------");
 
+            // Play!
+            var nextArea = gameplayAreas[currentArea];
+            nextArea.Play();
 
-            // Get the new area's collection of spawn points.
-            // This is for the enemy manager to know where to spawn things in.
-            var spawnPoints = playAreas[currentArea].GetComponentsInChildren<SpawnPoint>();
 
-            // Set up new set of waves of enemies.
-            // We reset the manager in case things need cleaning up.
-            // We then pass in the spawn points for the area, and configure enemy properties.
-            waveSpawner.Reset();
-            waveSpawner.spawnPoints = spawnPoints.Select(sp => sp.transform).ToArray();
-            waveSpawner.currentHealthMultiplier = gamePhase;
-            waveSpawner.currentDamageMultiplier = gamePhase;
-            waveSpawner.currentXPRewardMultiplier = gamePhase;
-
-            // Aaaaaand GO!
-            waveSpawner.StartNextWave();
 
 
         }
 
         // ------------------------------------------------- //
 
-
-        // ------------------------------------------------- //
-
-
-        // ------------------------------------------------- //
-
-
-        // ------------------------------------------------- //
-
-        private void EnemyWaveStarted()
+        public void UpgradeGamePhaseByOne()
         {
+            // All areas have been completed.
+            gamePhase++;
 
-            // An enemy wave has begun.
+            Debug.Log($"---------- PHASE {gamePhase} BEGIN ----------");
 
-        }
+            // TODO
+            // Provide option to leave the game world? WIN Condition A.
 
-        private void EnemyWaveCompleted()
-        {
+            // Reset stuff?
 
-            // All enemies in current wave have died.
-
-        }
-
-        private void EnemySequenceCompleted()
-        {
-
-            // All waves have been defeated.
 
         }
 
         // ------------------------------------------------- //
 
 
+        // ------------------------------------------------- //
+        
         public IEnumerator rageQuit()
         {
 
             var countDown = 10f;
 
-                if (Input.GetKeyDown(KeyCode.Tab) && countDown >= 1)
-                {
+            if (Input.GetKeyDown(KeyCode.Tab) && countDown >= 1)
+            {
 
 
-                    //Switch to "Death Screen".
-                    //temporary...
-                    Application.Quit();
-                    Debug.Log("RAGE");
-                
-                }
-            
+                //Switch to "Death Screen".
+                //temporary...
+                Application.Quit();
+                Debug.Log("RAGE");
+
+            }
+
 
 
             if (rq == false)
-            { 
-            rq = true;
-            
+            {
+                rq = true;
+
                 for (int i = 0; i < 10000; i++)
                 {
                     while (countDown >= 0)
@@ -203,45 +151,49 @@ namespace SuperShooter
 
             }
         }
-            // ------------------------------------------------- //
+
+        // ------------------------------------------------- //
 
 
-            // ------------------------------------------------- //
+        // ------------------------------------------------- //
 
 
-            void Update()
+        // ------------------------------------------------- //
+
+
+        void Update()
+        {
+
+            // Do stuff
+
+
+
+            // If Phase is over Give option to leave
+            if (currentArea == 5 || currentArea == 10 || currentArea == 15 || currentArea == 20)
             {
-
-                // Do stuff
-
-                UpdateUI();
-
-                // If Phase is over Give option to leave
-                if (currentArea == 5 || currentArea == 10 || currentArea == 15 || currentArea == 20)
-                {
-                    StartCoroutine(rageQuit());
-                }
-
-
-
-
-
-            }
-
-            // ------------------------------------------------- //
-
-            void UpdateUI()
-            {
-                // Eventually, update UI elements to indicate
-                // to the player the current state of the game.
+                StartCoroutine(rageQuit());
             }
 
 
-            // ------------------------------------------------- //
-
-
-            // ------------------------------------------------- //
+            // Finally, update player interface
+            UpdateUI();
 
         }
 
+        // ------------------------------------------------- //
+
+        void UpdateUI()
+        {
+            // Eventually, update UI elements to indicate
+            // to the player the current state of the game.
+        }
+
+
+        // ------------------------------------------------- //
+
+
+        // ------------------------------------------------- //
+
     }
+
+}

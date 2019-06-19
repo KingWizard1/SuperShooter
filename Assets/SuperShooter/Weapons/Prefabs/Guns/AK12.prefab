@@ -835,6 +835,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   maxHealth: 100
+  headshotMultiplier: 2
+  characterName: New Character Entity
+  bloodSplatterPrefab: {fileID: 0}
   baseName: AK12
   icon: {fileID: 21300000, guid: e47e502270b2a4c439b0ea6add71d2e8, type: 3}
   damage: 1
@@ -847,7 +850,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 4597109189103825579, guid: 72a7d8b37eaebf046bdeb7c58ff95d43,
     type: 3}
   bulletOrigin: {fileID: 4765130856755074}
-  bulletSpeed: 100
+  bulletSpeed: 500
   bulletsPerShot: 1
   timeBetweenShots: 0
   lineDelay: 0.1
@@ -860,6 +863,11 @@ MonoBehaviour:
   - -25
   autoReload: 0
   infiniteAmmo: 0
+  PickedUp:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114240633621090620
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -432,6 +432,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   maxHealth: 100
+  headshotMultiplier: 2
+  characterName: New Character Entity
+  bloodSplatterPrefab: {fileID: 0}
   baseName: Pistol
   icon: {fileID: 21300000, guid: c3afe08250cafc74fbf04c4cdcee3edb, type: 3}
   damage: 2
@@ -444,7 +447,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 4597109189103825579, guid: 72a7d8b37eaebf046bdeb7c58ff95d43,
     type: 3}
   bulletOrigin: {fileID: 4622522180870426}
-  bulletSpeed: 150
+  bulletSpeed: 750
   bulletsPerShot: 1
   timeBetweenShots: 0
   lineDelay: 0.1
@@ -457,6 +460,11 @@ MonoBehaviour:
   - -10
   autoReload: 0
   infiniteAmmo: 0
+  PickedUp:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114033758541475090
 MonoBehaviour:
   m_ObjectHideFlags: 0

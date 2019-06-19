@@ -217,6 +217,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   maxHealth: 100
+  headshotMultiplier: 2
+  characterName: New Character Entity
+  bloodSplatterPrefab: {fileID: 0}
   baseName: Light Rifle
   icon: {fileID: 21300000, guid: 0f3ea483af5c82546876ca21529fba55, type: 3}
   damage: 1
@@ -229,7 +232,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 4597109189103825579, guid: c273307eb38a8ba478793a41824d9ba8,
     type: 3}
   bulletOrigin: {fileID: 8478216430788960644}
-  bulletSpeed: 350
+  bulletSpeed: 2000
   bulletsPerShot: 3
   timeBetweenShots: 0.075
   lineDelay: 0.1
@@ -242,6 +245,11 @@ MonoBehaviour:
   - -10
   autoReload: 0
   infiniteAmmo: 0
+  PickedUp:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &8040180999109587540
 GameObject:
   m_ObjectHideFlags: 0

@@ -6476,7 +6476,7 @@ PrefabInstance:
     - target: {fileID: 1942195259556002364, guid: 0af057dc2c08ac54cbf93b4c4d516873,
         type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 1942195259556002364, guid: 0af057dc2c08ac54cbf93b4c4d516873,
         type: 3}
@@ -8587,7 +8587,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4000012961768668, guid: a3768c8a9d1b90d4bb0eb0e4bdbe730c, type: 3}
       propertyPath: m_RootOrder
-      value: 18
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 4000012961768668, guid: a3768c8a9d1b90d4bb0eb0e4bdbe730c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -9923,6 +9923,85 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!1001 &1033097324
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2581900308347727005, guid: 72391287a106b71498d599ab672a0ef9,
+        type: 3}
+      propertyPath: m_Name
+      value: AlienInquisitor01Invincible
+      objectReference: {fileID: 0}
+    - target: {fileID: 2581900308347727006, guid: 72391287a106b71498d599ab672a0ef9,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -33.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 2581900308347727006, guid: 72391287a106b71498d599ab672a0ef9,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2581900308347727006, guid: 72391287a106b71498d599ab672a0ef9,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 34.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2581900308347727006, guid: 72391287a106b71498d599ab672a0ef9,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2581900308347727006, guid: 72391287a106b71498d599ab672a0ef9,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.880888
+      objectReference: {fileID: 0}
+    - target: {fileID: 2581900308347727006, guid: 72391287a106b71498d599ab672a0ef9,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2581900308347727006, guid: 72391287a106b71498d599ab672a0ef9,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.47332484
+      objectReference: {fileID: 0}
+    - target: {fileID: 2581900308347727006, guid: 72391287a106b71498d599ab672a0ef9,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 2581900308347727006, guid: 72391287a106b71498d599ab672a0ef9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2581900308347727006, guid: 72391287a106b71498d599ab672a0ef9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 123.49901
+      objectReference: {fileID: 0}
+    - target: {fileID: 2581900308347727006, guid: 72391287a106b71498d599ab672a0ef9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8996423506982670780, guid: 72391287a106b71498d599ab672a0ef9,
+        type: 3}
+      propertyPath: maxHealth
+      value: 9999
+      objectReference: {fileID: 0}
+    - target: {fileID: 8996423506982670780, guid: 72391287a106b71498d599ab672a0ef9,
+        type: 3}
+      propertyPath: characterName
+      value: Schnazberry
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 72391287a106b71498d599ab672a0ef9, type: 3}
 --- !u!1 &1052655143
 GameObject:
   m_ObjectHideFlags: 0
@@ -10962,7 +11041,7 @@ PrefabInstance:
     - target: {fileID: 5699037498119620797, guid: 30f589670d19d1c4eb82a781f2502d00,
         type: 3}
       propertyPath: m_RootOrder
-      value: 16
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 5699037498119620797, guid: 30f589670d19d1c4eb82a781f2502d00,
         type: 3}
@@ -12157,7 +12236,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4000013488956786, guid: abb9f519b142e304d9c45b56afa768bc, type: 3}
       propertyPath: m_RootOrder
-      value: 17
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 4000013488956786, guid: abb9f519b142e304d9c45b56afa768bc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -12614,6 +12693,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 931423996}
+--- !u!114 &1238282042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1238282037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8322f7733ab03cd4297563de17cc8ffc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 4
+  maxHealth: 9999
+  headshotMultiplier: 1
+  characterName: The Red Giant
+  bloodSplatterPrefab: {fileID: 0}
 --- !u!1 &1249416205
 GameObject:
   m_ObjectHideFlags: 0
@@ -20387,7 +20483,7 @@ Transform:
   - {fileID: 1253853923}
   - {fileID: 2581900308347727006}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2071926565
 GameObject:

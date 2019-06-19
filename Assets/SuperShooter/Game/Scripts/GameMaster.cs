@@ -20,7 +20,7 @@ namespace SuperShooter
         public GameArea[] gameplayAreas;    // Area parent objects. Child objects are expected to have spawn points.
 
 
-        public Text rqText;
+        public MonoBehaviour rqText;
         public bool rq;
 
 

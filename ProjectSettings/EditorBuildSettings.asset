@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/SuperShooter/Scenes/Trackday.unity
     guid: ab1d4b9baf6846047a31265fd83ba8cc
+  - enabled: 1
+    path: Assets/SuperShooter/Scenes/FloodedGrounds.unity
+    guid: e26fa99bb4a2a7847b4a10316315a443
   m_configObjects: {}

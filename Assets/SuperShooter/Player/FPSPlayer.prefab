@@ -256,7 +256,7 @@ MonoBehaviour:
   volumeTrigger: {fileID: 4597451510964996}
   volumeLayer:
     serializedVersion: 2
-    m_Bits: 1048832
+    m_Bits: 1048576
   stopNaNPropagation: 1
   antialiasingMode: 1
   temporalAntialiasing:
@@ -413,7 +413,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   maxHealth: 100
+  headshotMultiplier: 2
   characterName: New Character Entity
+  bloodSplatterPrefab: {fileID: 0}
   currentXP: 0
   currentXPLevel: 0
   initialXPRequiredToLevel: 75

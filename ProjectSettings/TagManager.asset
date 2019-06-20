@@ -13,6 +13,9 @@ TagManager:
   - BulletSpawn
   - LevelPart
   - Dummie
+  - SpawnPoint
+  - MansionSpawn
+  - CourtyardSpawn
   layers:
   - Default
   - TransparentFX

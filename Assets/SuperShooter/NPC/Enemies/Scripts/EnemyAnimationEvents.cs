@@ -56,6 +56,19 @@ namespace SuperShooter
             _character.AnimationKickEvent(true);
         }
 
+
+      //  public void destroyThisEnemy()
+      //  {
+      //      if (GetComponent<DestroyEnemy>().animFinished == true)
+        //    {
+              //  Destroy(this.gameObject);
+         //   }
+      //  }
+
+        private void Update()
+        {
+         //   destroyThisEnemy();
+        }
         #endregion
 
         // ------------------------------------------------- //

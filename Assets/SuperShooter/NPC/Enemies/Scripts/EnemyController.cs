@@ -56,6 +56,7 @@ namespace SuperShooter
         [Header("Physics")]
         public float gravity = 10f;
         public float groundRayDistance = 1.1f;
+        public float delay = 1f;
 
         //bool hasChecked;
 
@@ -187,6 +188,9 @@ namespace SuperShooter
                 {
                     Search();
                 }
+
+                
+                
             }
 
         }

@@ -27,6 +27,7 @@ namespace SuperShooter
         public SpawnPoint[] spawnPoints;
         [ReorderableList]
         public GameObject[] enemyTypes;
+        public GameObject[] waves;
         public float timeBetweenWaves = 20f;
         private float nextWaveTimer = 0;
 
@@ -55,7 +56,7 @@ namespace SuperShooter
 
         void Start()
         {
-
+           // waves.Length.Equals(25);
         }
 
 
@@ -66,7 +67,7 @@ namespace SuperShooter
 
             // Check that we have prefabs to spawn
             if (enemyTypes == null || enemyTypes.Length < 1) {
-                Debug.LogError($"{name} does not have any {nameof(enemyTypes)} to spawn!");
+               // Debug.LogError($"{name} does not have any {nameof(enemyTypes)} to spawn!");
                 return;
             }
 
@@ -108,6 +109,7 @@ namespace SuperShooter
 
             // TODO
             // Spawn enemy at spawn point.
+           // Instantiate(enemyTypes[i], spawnPoints[i], )
 
 
 
@@ -177,6 +179,8 @@ namespace SuperShooter
             // TODO
             // Reset this EnemyManager to a state where it can be re-used
             // for a new set of waves of enemies.
+
+
 
 
 

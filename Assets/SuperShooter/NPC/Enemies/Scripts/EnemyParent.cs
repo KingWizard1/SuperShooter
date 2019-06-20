@@ -10,16 +10,25 @@ namespace SuperShooter
     {
         // Start is called before the first frame update
 
-
+        public bool spawned;
         // Update is called once per frame
 
         public void Update()
         {
-            if (transform.childCount < 1)
+            
+            if (transform.childCount < 1 && spawned == true)
             {
-                Destroy(this.gameObject);
+                spawned = false;
+                this.gameObject.SetActive(false);
+                
+            }
+            if (transform.childCount > 0)
+            {
+                spawned = true;
             }
         }
+
+    
 
         private void OnDestroy()
         {

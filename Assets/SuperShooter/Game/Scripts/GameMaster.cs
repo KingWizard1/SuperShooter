@@ -28,7 +28,7 @@ namespace SuperShooter
         public float tenSec = 10;
         public bool timerRunning = true;
         int i;
-        float sec = 5f;
+        float sec = 10f;
 
 
         // ------------------------------------------------- //
@@ -147,7 +147,7 @@ namespace SuperShooter
                     while (countDown >= 0)
                     {
                         //rqText.gameObject.SetActive(true);
-                        Debug.Log(i++);
+                       // Debug.Log(i++);
                         countDown -= Time.smoothDeltaTime;
 
                         yield return null;

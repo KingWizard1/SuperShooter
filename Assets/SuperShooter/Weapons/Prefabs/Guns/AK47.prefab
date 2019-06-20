@@ -838,7 +838,7 @@ MonoBehaviour:
   headshotMultiplier: 2
   characterName: New Character Entity
   bloodSplatterPrefab: {fileID: 0}
-  baseName: AK47
+  baseName: AK12
   icon: {fileID: 21300000, guid: e47e502270b2a4c439b0ea6add71d2e8, type: 3}
   damage: 1
   clipsToStart: 3
@@ -855,8 +855,8 @@ MonoBehaviour:
   timeBetweenShots: 0
   lineDelay: 0.1
   applyHandOffset: 1
-  playerHandOffset: {x: 0, y: 0.05, z: 0.2}
-  playerHandADSOffset: {x: 0, y: 0.069, z: -0.3}
+  playerHandOffset: {x: -0.04, y: 0.05, z: 0.1}
+  playerHandADSOffset: {x: 0, y: 0.082, z: -0.3}
   timeToADS: 0.05
   timeToUnADS: 0.05
   zoomLevelOffsets:
@@ -868,6 +868,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  scaleNormal: {x: 0, y: 0, z: 0}
+  scaleWhenPickedUp: {x: 0, y: 0, z: 0}
 --- !u!114 &114240633621090620
 MonoBehaviour:
   m_ObjectHideFlags: 0

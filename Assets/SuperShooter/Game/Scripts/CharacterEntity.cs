@@ -30,6 +30,7 @@ namespace SuperShooter
         [Header("Entity")]
         public TargetType type;
         public int maxHealth = 100;
+        //public int startHealth = 100;
         public float headshotMultiplier = 2;
         public string characterName = "New Character Entity";
 
@@ -47,7 +48,23 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
-        /// <summary>Resets character to back to its maximum health value, and updates <see cref="isDead"/>.</summary>
+        /// <summary>Adds/replenishes health to the character by the specified amount.</summary>
+        public void AddHealth(int amount)
+        {
+            health += amount;
+            if (health > maxHealth)
+                health = maxHealth;
+        }
+
+        /// <summary>Sets the current amount of health the character has to the specified amount.</summary>
+        public void SetHealth(int newAmount)
+        {
+            if (newAmount > maxHealth)
+                newAmount = maxHealth;
+            health = newAmount;
+        }
+
+        /// <summary>Resets character to back to its starting health value, and updates <see cref="isDead"/>.</summary>
         public void ResetHealth()
         {
             health = maxHealth;

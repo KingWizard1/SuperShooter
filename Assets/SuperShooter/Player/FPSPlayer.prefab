@@ -412,9 +412,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
-  maxHealth: 100
+  maxHealth: 200
+  startHealth: 100
   headshotMultiplier: 2
-  characterName: New Character Entity
+  characterName: Playa Characta
   bloodSplatterPrefab: {fileID: 0}
   currentXP: 0
   currentXPLevel: 0
@@ -447,16 +448,17 @@ MonoBehaviour:
   interactScanDistance: 10
   groundRayDistance: 1.6
   playerHand: {fileID: 4324149899550320}
-  allowBackwardsRunning: 0
+  canRunBackwards: 0
   isInvincible: 0
   isDoubleSpeed: 0
   isZoomed: 0
-  aimed: 0
+  isAiming: 0
   attachedCamera: {fileID: 20107630638721488}
   aimTarget: {fileID: 0}
   maxWeapons: 4
   Cam: {fileID: 1041676389413348}
   currentWeapon: {fileID: 0}
+  weapons: []
 --- !u!114 &114310768618941658
 MonoBehaviour:
   m_ObjectHideFlags: 0

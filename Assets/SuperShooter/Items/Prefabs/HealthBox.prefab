@@ -411,7 +411,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1670462514144680338}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -428,9 +428,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 064be6fa2ce749d4ba0c794694a21cd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayName: Health
-  consumableType: 1
-  healthAmount: 25
+  respawnTime: 30
+  actionWhenConsumed: 1
+  amount: 10
 --- !u!114 &3793438292771987740
 MonoBehaviour:
   m_ObjectHideFlags: 0

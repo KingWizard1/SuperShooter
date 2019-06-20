@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
+#if DEBUG
+
 namespace SuperShooter
 {
     [CustomEditor(typeof(UFOEnemySpawner))]
@@ -30,3 +32,6 @@ namespace SuperShooter
     }
 
 }
+
+
+#endif

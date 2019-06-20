@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/SuperShooter/Scenes/Trackday.unity
     guid: ab1d4b9baf6846047a31265fd83ba8cc
   - enabled: 1
+    path: Assets/_Packages/BaneTools/BaneMenu/BaneMenu.unity
+    guid: f09c4672744ed4b488cdda0e389c5222
+  - enabled: 1
     path: Assets/SuperShooter/Scenes/FloodedGrounds.unity
     guid: e26fa99bb4a2a7847b4a10316315a443
   m_configObjects: {}

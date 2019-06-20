@@ -452,8 +452,8 @@ MonoBehaviour:
   timeBetweenShots: 0
   lineDelay: 0.1
   applyHandOffset: 1
-  playerHandOffset: {x: -0.11, y: 0.15, z: 0.3}
-  playerHandADSOffset: {x: 0, y: 0.125, z: 0.25}
+  playerHandOffset: {x: -0.11, y: 0.15, z: 0.24}
+  playerHandADSOffset: {x: 0, y: 0.125, z: 0.17}
   timeToADS: 0.04
   timeToUnADS: 0.04
   zoomLevelOffsets:
@@ -465,6 +465,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  scaleNormal: {x: 0, y: 0, z: 0}
+  scaleWhenPickedUp: {x: 0, y: 0, z: 0}
 --- !u!114 &114033758541475090
 MonoBehaviour:
   m_ObjectHideFlags: 0

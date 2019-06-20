@@ -22,6 +22,7 @@ namespace SuperShooter
 
         public MonoBehaviour rqText;
         public bool rq;
+        public bool textOn;
 
 
         public float tenSec = 10;
@@ -116,12 +117,14 @@ namespace SuperShooter
         {
 
             yield return new WaitForSeconds(2);
-
-            rqText.gameObject.SetActive(true);
+            if (textOn == true)
+            {
+                rqText.gameObject.SetActive(true);
+            }
 
             var countDown = 10f;
 
-            if (Input.GetKeyDown(KeyCode.Tab) && countDown >= 1)
+            if (Input.GetKeyDown(KeyCode.Tab) && textOn == true)
             {
 
 
@@ -137,6 +140,7 @@ namespace SuperShooter
             if (rq == false)
             {
                 rq = true;
+                textOn = true;
 
                 for (int i = 0; i < 10000; i++)
                 {
@@ -156,6 +160,7 @@ namespace SuperShooter
 
             }
             yield return new WaitForSeconds(sec);
+            textOn = false;
             rqText.gameObject.SetActive(false);
         }
 

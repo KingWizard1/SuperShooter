@@ -33,6 +33,7 @@ namespace SuperShooter
         public int damage = 1;
         public int clipsToStart = 32;
         public int maxAmmoPerClip = 24;
+        public int maxPossibleAmmo = 999;
         public float spread = 2f;
         public float recoil = 1f;
         public float shootRate = .2f;
@@ -482,6 +483,8 @@ namespace SuperShooter
         {
             // Add ammo
             ammoRemaining += amount;
+            if (ammoRemaining > maxPossibleAmmo)
+                ammoRemaining = maxPossibleAmmo;
 
             // Refresh states
             UpdateAmmunitionStates();

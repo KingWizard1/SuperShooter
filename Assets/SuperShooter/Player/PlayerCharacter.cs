@@ -276,6 +276,16 @@ namespace SuperShooter
 
         #region Player Abilities
 
+        public void AddAmmo(int amount)
+        {
+
+            foreach (var weapon in controller.weapons)
+            {
+                weapon.AddAmmo(amount);
+            }
+
+        }
+
         public void Dash()
         {
             // reset timer to full duration. it will count down in Update()
@@ -291,11 +301,6 @@ namespace SuperShooter
             Reincarnate();
             controller.characterEnabled = true;
 
-        }
-
-        public void AddHealth(int amount)
-        {
-            health += 20;
         }
 
 

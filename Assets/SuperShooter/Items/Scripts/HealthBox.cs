@@ -1,12 +1,19 @@
-﻿
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace SuperShooter
 {
     public class HealthBox : Consumable
     {
-        public int healthAmount;
+
+        [Header("Health Box")]
+        public int amount = 10;
+
+
+        public override void Consume(PlayerCharacter player)
+        {
+            base.Consume(player);
+            player.AddHealth(amount);
+        }
+
     }
 }

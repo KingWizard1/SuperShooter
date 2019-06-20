@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using NaughtyAttributes;
 
 namespace SuperShooter
 {
@@ -39,11 +40,13 @@ namespace SuperShooter
         private Vector3 playerHandADSPosition = new Vector3(0f, -.15f, 0f);
 
         [Header("Powerups")]
-        public bool allowBackwardsRunning;
+        public bool canRunBackwards;
         public bool isInvincible;
         public bool isDoubleSpeed;
         public bool isZoomed;
-        public bool aimed;
+
+        [Header("States")]
+        public bool isAiming;
 
         [Header("References")]
         public Camera attachedCamera;
@@ -67,12 +70,6 @@ namespace SuperShooter
 
         /// <summary>The controller's current movement state.</summary>
         public MovementState MovementState { get; private set; }
-
-        #endregion
-
-        // ------------------------------------------------- //
-
-        #region Protected
 
         #endregion
 
@@ -104,7 +101,8 @@ namespace SuperShooter
         private Throwable currentThrowable;        // Current throwable.
 
         public Weapon currentWeapon;       // Current weapon. Public for testing, make private later.
-        private List<Weapon> weapons = new List<Weapon>();  // Weapons on hand.
+        [ReorderableList]
+        public List<Weapon> weapons = new List<Weapon>();  // Weapons on hand.
         private int currentWeaponIndex = 0; // Current weapon index.
 
 
@@ -355,7 +353,7 @@ namespace SuperShooter
 
             // If vertical axis is positive (up), and horizontal axis is anything (left/right).
             bool movingBackward = inputV < 0;
-            bool canRun = allowBackwardsRunning ? true : !movingBackward;
+            bool canRun = canRunBackwards ? true : !movingBackward;
 
             // Update current movement state
             if (input.magnitude > 0)
@@ -395,9 +393,9 @@ namespace SuperShooter
 
             // Camera - "Run FOV".
             // If running and not aiming, move to a different FOV.
-            if (MovementState == MovementState.Running && aimed == false) 
+            if (MovementState == MovementState.Running && isAiming == false) 
                 cameraLook.ZoomTo(cameraLook.defaultFOV + 5, 1.5f);
-            else if (aimed == false)
+            else if (isAiming == false)
                 cameraLook.ZoomToDefault(1.5f);
 
 
@@ -549,7 +547,7 @@ namespace SuperShooter
             if (Input.GetKeyDown(KeyCode.Mouse1))
             {
 
-                aimed = true;
+                isAiming = true;
                 // Switch to ADS
                 currentWeapon.SwitchToADS();
 
@@ -567,7 +565,7 @@ namespace SuperShooter
             else if (Input.GetKeyUp(KeyCode.Mouse1))
             {
 
-                aimed = false; 
+                isAiming = false; 
                 // Switch to hip fire
                 currentWeapon.SwitchToHipFire();
 
@@ -643,34 +641,6 @@ namespace SuperShooter
                 AttachItemToPlayerHand(item);
 
             }
-
-            if (item is Consumable)
-            {
-
-                var consumable = item as Consumable;
-                switch (consumable.consumableType)
-                {
-                    case ConsumableType.Ammo:
-
-                        var ammoBox = consumable as AmmoBox;
-
-                        foreach (var w in weapons)
-                        {
-                            w.AddAmmo(ammoBox.ammoAmount);
-                        }
-
-                        break;
-                    case ConsumableType.Health:
-
-                        var healthBox = consumable as HealthBox;
-                        ((PlayerCharacter)owner).AddHealth(healthBox.healthAmount);
-
-                        break;
-                    default:
-                        break;
-                }
-            }
-
 
             // Tell the weapon to change its behavior, its being picked up.
             item.Pickup(this);

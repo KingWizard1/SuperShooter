@@ -164,7 +164,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7996688710593967498}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -181,9 +181,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e386e0b104f5204a814fddf46a54fbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayName: Ammo
-  consumableType: 0
-  ammoAmount: 5
+  respawnTime: 30
+  actionWhenConsumed: 1
+  amount: 25
 --- !u!114 &1159569779
 MonoBehaviour:
   m_ObjectHideFlags: 0

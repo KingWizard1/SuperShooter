@@ -27,6 +27,7 @@ namespace SuperShooter
         public float tenSec = 10;
         public bool timerRunning = true;
         int i;
+        float sec = 5f;
 
 
         // ------------------------------------------------- //
@@ -114,6 +115,10 @@ namespace SuperShooter
         public IEnumerator rageQuit()
         {
 
+            yield return new WaitForSeconds(2);
+
+            rqText.gameObject.SetActive(true);
+
             var countDown = 10f;
 
             if (Input.GetKeyDown(KeyCode.Tab) && countDown >= 1)
@@ -137,7 +142,7 @@ namespace SuperShooter
                 {
                     while (countDown >= 0)
                     {
-                        rqText.gameObject.SetActive(true);
+                        //rqText.gameObject.SetActive(true);
                         Debug.Log(i++);
                         countDown -= Time.smoothDeltaTime;
 
@@ -150,6 +155,8 @@ namespace SuperShooter
                 }
 
             }
+            yield return new WaitForSeconds(sec);
+            rqText.gameObject.SetActive(false);
         }
 
         // ------------------------------------------------- //

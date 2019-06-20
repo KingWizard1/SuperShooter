@@ -293,6 +293,11 @@ namespace SuperShooter
 
         }
 
+        public void AddHealth(int amount)
+        {
+            health += 20;
+        }
+
 
         #endregion
 

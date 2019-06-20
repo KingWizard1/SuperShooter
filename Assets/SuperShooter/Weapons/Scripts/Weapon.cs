@@ -64,6 +64,10 @@ namespace SuperShooter
         public UnityEvent PickedUp;
         UnityEvent<ICharacterEntity> TargetChanged;
 
+        [Header("Scaling")]
+        public Vector3 scaleNormal;
+        public Vector3 scaleWhenPickedUp;
+
 
         // ------------------------------------------------- //
 
@@ -103,6 +107,7 @@ namespace SuperShooter
         //private BoxCollider boxCollider;
         private LineRenderer lineRenderer;
         private SphereCollider sphereCollider;
+        private Transform gunTransform;
 
         private Spin pickupSpin;
         private GameObject pickupGlow;
@@ -162,6 +167,8 @@ namespace SuperShooter
             //boxCollider = GetComponent<BoxCollider>();
             lineRenderer = GetComponent<LineRenderer>();
             sphereCollider = GetComponent<SphereCollider>();
+
+
 
             pickupSpin = GetComponent<Spin>();
             pickupGlow = transform.Find("PickupGlow")?.gameObject;
@@ -471,6 +478,16 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
+        public void AddAmmo(int amount)
+        {
+            // Add ammo
+            ammoRemaining += amount;
+
+            // Refresh states
+            UpdateAmmunitionStates();
+
+        }
+
         /// <summary>Deplete the ammount of ammo currently in the weapon's magazine by the specified amount.</summary>
         /// <param name="amount"></param>
         private void DepleteAmmoInClip(int amount)
@@ -634,6 +651,13 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
+        void ScaleOnPickup()
+        {
+            if (isPickedUp == false)
+            {
+                // have the ability to scale
+            }
+        }
 
         // ------------------------------------------------- //
 

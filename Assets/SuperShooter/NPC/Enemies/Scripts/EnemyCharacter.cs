@@ -32,6 +32,7 @@ namespace SuperShooter
 
         [Header("Rewards")]
         public int XPValue;
+        public IInteractablePickup[] dropItems;
         
         // ------------------------------------------------- //
 

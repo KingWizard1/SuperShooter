@@ -644,9 +644,36 @@ namespace SuperShooter
 
             }
 
+            if (item is Consumable)
+            {
+
+                var consumable = item as Consumable;
+                switch (consumable.consumableType)
+                {
+                    case ConsumableType.Ammo:
+
+                        var ammoBox = consumable as AmmoBox;
+
+                        foreach (var w in weapons)
+                        {
+                            w.AddAmmo(ammoBox.ammoAmount);
+                        }
+
+                        break;
+                    case ConsumableType.Health:
+
+                        var healthBox = consumable as HealthBox;
+                        ((PlayerCharacter)owner).AddHealth(healthBox.healthAmount);
+
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+
             // Tell the weapon to change its behavior, its being picked up.
             item.Pickup(this);
-
         }
 
         private void DetachAllWeapons()

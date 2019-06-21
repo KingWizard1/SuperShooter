@@ -16,6 +16,8 @@ TagManager:
   - SpawnPoint
   - MansionSpawn
   - CourtyardSpawn
+  - StreetSpawn
+  - ChurchSpawn
   layers:
   - Default
   - TransparentFX

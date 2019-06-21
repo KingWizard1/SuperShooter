@@ -40,18 +40,6 @@ AnimatorController:
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
---- !u!114 &114465518751064432
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 738bd508df9a1cd45b22c4c39158986d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1101 &1101001327644030704
 AnimatorStateTransition:
   m_ObjectHideFlags: 3
@@ -77,11 +65,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
-<<<<<<< HEAD
---- !u!1101 &1101076767807561012
-AnimatorStateTransition:
-  m_ObjectHideFlags: 3
-=======
 --- !u!1101 &1101045399562229202
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -107,7 +90,6 @@ AnimatorStateTransition:
 --- !u!1101 &1101071835633741452
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
->>>>>>> d2f87bc5010bc6740d3f0c87c06e89e502ba27a7
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -115,36 +97,21 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: characterState
-<<<<<<< HEAD
-    m_EventTreshold: 65
-  m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: 1102387092019529336}
-=======
     m_EventTreshold: 17
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102204011410076694}
->>>>>>> d2f87bc5010bc6740d3f0c87c06e89e502ba27a7
   m_Solo: 0
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
   m_TransitionDuration: 0.25
-<<<<<<< HEAD
-  m_TransitionOffset: 0.1
-  m_ExitTime: 0.75
-=======
   m_TransitionOffset: 0
   m_ExitTime: 0.96753246
->>>>>>> d2f87bc5010bc6740d3f0c87c06e89e502ba27a7
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
-<<<<<<< HEAD
-  m_CanTransitionToSelf: 0
-=======
   m_CanTransitionToSelf: 1
->>>>>>> d2f87bc5010bc6740d3f0c87c06e89e502ba27a7
 --- !u!1101 &1101100363199387704
 AnimatorStateTransition:
   m_ObjectHideFlags: 3
@@ -1073,11 +1040,7 @@ AnimatorStateMachine:
     m_Position: {x: 264, y: 216, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102387092019529336}
-<<<<<<< HEAD
-    m_Position: {x: 252, y: 420, z: 0}
-=======
     m_Position: {x: 264, y: 348, z: 0}
->>>>>>> d2f87bc5010bc6740d3f0c87c06e89e502ba27a7
   - serializedVersion: 1
     m_State: {fileID: 1102049719379605568}
     m_Position: {x: 24, y: 276, z: 0}

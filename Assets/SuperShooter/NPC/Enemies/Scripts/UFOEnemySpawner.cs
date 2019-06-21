@@ -1,10 +1,15 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace SuperShooter
 {
 
     public class UFOEnemySpawner : MonoBehaviour
     {
+
+        public MonoBehaviour roundCounter;
+        public bool rq;
+        public bool textOn;
 
         [Header("Setup")]
         public GameObject[] spawnPoints;
@@ -147,7 +152,7 @@ namespace SuperShooter
                 nextWave = true;
                 Debug.Log("round 1 over");
                 currentWave = 2;
-              
+                roundCount();
 
                 nextWave = false;
 
@@ -158,7 +163,7 @@ namespace SuperShooter
                 nextWave = true;
                 Debug.Log("round 2 over");
                 currentWave = 3;
-               
+                roundCount();
 
                 nextWave = false;
 
@@ -619,7 +624,44 @@ namespace SuperShooter
 
         }
         // ------------------------------------------------- //
+        public IEnumerator roundCount()
+        {
 
+            
+            if (textOn == true)
+            {
+                roundCounter.gameObject.SetActive(true);
+            }
+
+            var countDown = 10f;
+
+
+            if (rq == false)
+            {
+                rq = true;
+                textOn = true;
+
+                for (int i = 0; i < 10000; i++)
+                {
+                    while (countDown >= 0)
+                    {
+                        //rqText.gameObject.SetActive(true);
+                        // Debug.Log(i++);
+                        countDown -= Time.smoothDeltaTime;
+
+                        yield return null;
+                    }
+
+
+
+
+                }
+
+            }
+            yield return new WaitForSeconds(3);
+            textOn = false;
+            roundCounter.gameObject.SetActive(false);
+        }
 
     }
 

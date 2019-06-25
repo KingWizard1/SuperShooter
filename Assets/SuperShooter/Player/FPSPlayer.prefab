@@ -412,8 +412,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
-  maxHealth: 200
-  startHealth: 100
+  maxHealth: 100
   headshotMultiplier: 2
   characterName: Playa Characta
   bloodSplatterPrefab: {fileID: 0}

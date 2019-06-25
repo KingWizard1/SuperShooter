@@ -57,6 +57,9 @@ namespace SuperShooter
         public float timeToUnADS = 0.05f;
         public float[] zoomLevelOffsets = new float[1] { -10f };
 
+        [Header("Audio")]
+        public AudioSource sfxBulletFired;
+
         [Header("Cheats")]
         public bool autoReload = false;
         public bool infiniteAmmo = false;
@@ -65,9 +68,6 @@ namespace SuperShooter
         public UnityEvent PickedUp;
         UnityEvent<ICharacterEntity> TargetChanged;
 
-        [Header("Scaling")]
-        public Vector3 scaleNormal;
-        public Vector3 scaleWhenPickedUp;
 
 
         // ------------------------------------------------- //
@@ -376,7 +376,7 @@ namespace SuperShooter
 
             // -----------------
 
-            var shotsFired = 0;
+            //var shotsFired = 0;
 
             // Instantiate a bullet. Its script will do the rest.
             if (bulletPrefab != null)
@@ -392,11 +392,15 @@ namespace SuperShooter
 
                 while (ammoInBarrel > 0)
                 {
-                    var rigidBullet = RigidBullet.SpawnNew(bulletPrefab, bulletOrigin.position, crossHairDirection, hitCallback);
-                    rigidBullet.FireWithDelay(bulletOrigin.position, direction, bulletSpeed, bulletDelay);
+                    var bullet = RigidBullet.SpawnNew(bulletPrefab, bulletOrigin.position, crossHairDirection);
+                    bullet.hitCallback = hitCallback;
+                    bullet.fireCallback = fireCallback;
+                    bullet.FireWithDelay(bulletOrigin.position, direction, bulletSpeed, bulletDelay);
+
                     bulletDelay += timeBetweenShots;
+
                     ammoInBarrel--;
-                    shotsFired++;
+                    //shotsFired++;
                 }
 
 
@@ -408,8 +412,9 @@ namespace SuperShooter
             }
 
 
+            // NOTE: Ammo now gets depleted in the fireCallback (when the bullet is actually FIRED).
             // Deplete ammo by number of bullets fired
-            DepleteAmmoInClip(shotsFired);
+            //DepleteAmmoInClip(shotsFired);
 
             // Reset timer
             shootTimer = 0;
@@ -428,6 +433,16 @@ namespace SuperShooter
         }
 
         // ------------------------------------------------- //
+
+        private void fireCallback(RigidBullet script)
+        {
+            DepleteAmmoInClip(1);
+
+            //GameAudio.Master.Effects.Play(sfxBulletFired, script.transform);
+            if (sfxBulletFired != null)
+                sfxBulletFired.PlayOneShot(sfxBulletFired.clip);
+            
+        }
 
         private void hitCallback(RigidBullet script, Collision collision)
         {

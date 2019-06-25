@@ -20,6 +20,7 @@ namespace SuperShooter
         [Header("Binding (Optional)")]
         public Transform attachTo;
 
+
         // ------------------------------------------------- //
 
         private GameObject clipContainer;
@@ -31,8 +32,8 @@ namespace SuperShooter
 
             // Create an empty game object on which to play all our clips on.
             // This is just to keep the heirarchy neat and tidy I guess.
-            var container = new GameObject();
-            container.transform.SetParent(transform);
+            clipContainer = new GameObject();
+            clipContainer.transform.SetParent(transform);
 
 
             // Check if there are any pre-defined AudioSources on this transform.
@@ -52,19 +53,26 @@ namespace SuperShooter
         {
             if (attachTo)
                 transform.SetPositionAndRotation(attachTo.position, attachTo.rotation);
+            
 
         }
 
 
         // ------------------------------------------------- //
 
-        public void PlaySound(AudioClip clip, bool loop = false)
+        public void PlayOneShot(AudioClip clip)
         {
 
+            // Create
             var source = gameObject.AddComponent<AudioSource>();
 
+            // Configure
             source.clip = clip;
-            source.loop = loop;
+            source.loop = false;
+            source.Play();
+
+            // Auto destroy
+            Destroy(source, clip.length);
 
 
         }
@@ -72,7 +80,10 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
-
+        //public void RemoveAudioSource(AudioSource source)
+        //{
+        //    Destroy(source);
+        //}
 
         // ------------------------------------------------- //
 

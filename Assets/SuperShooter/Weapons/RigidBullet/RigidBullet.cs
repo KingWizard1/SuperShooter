@@ -20,13 +20,13 @@ namespace SuperShooter
         private Renderer rend;
         private Rigidbody rigid;
 
-        private AudioSource sound;
-
         // ------------------------------------------------- //
 
         public delegate void HitCallback(RigidBullet script, Collision collision);
+        public delegate void FireCallback(RigidBullet script);
 
-        private HitCallback hitCallback;
+        public HitCallback hitCallback;
+        public FireCallback fireCallback;
 
         // ------------------------------------------------- //
 
@@ -37,13 +37,12 @@ namespace SuperShooter
         /// <param name="origin">The world-space coordinates to spawn the bullet at.</param>
         /// <param name="rotation">The world-space rotation of the bullet.</param>
         /// <param name="hitCallback">The function to call when the bullet collides with an object.</param>
-        public static RigidBullet SpawnNew(GameObject bulletPrefab, Vector3 origin, Quaternion rotation, HitCallback hitCallback = null)
+        public static RigidBullet SpawnNew(GameObject bulletPrefab, Vector3 origin, Quaternion rotation)
         {
             var bullet = Instantiate(bulletPrefab, origin, rotation);
             var script = bullet.GetComponent<RigidBullet>();
             if (script == null)
                 Debug.LogError($"Cannot properly instantiate bullet: prefab '{bulletPrefab.name}' does not have a {nameof(RigidBullet)} script attached to it.");
-            script.hitCallback = hitCallback;
             return script;
         }
 
@@ -55,7 +54,6 @@ namespace SuperShooter
             col = GetComponent<Collider>();
             rend = GetComponentInChildren<Renderer>();
             rigid = GetComponent<Rigidbody>();
-            sound = GetComponent<AudioSource>();
         }
 
         // ------------------------------------------------- //
@@ -88,6 +86,7 @@ namespace SuperShooter
                 if (fireTimer >= fireTime) {
                     fired = true;
                     fireFunction?.Invoke();
+                    fireCallback?.Invoke(this);
                 }
             }
         }
@@ -114,7 +113,6 @@ namespace SuperShooter
                 // Turn on
                 rend.enabled = true;
                 if (col) col.enabled = true;
-                if (sound) sound.Play();
 
                 // Set line position to origin
                 line.transform.position = lineOrigin;

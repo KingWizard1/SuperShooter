@@ -1603,6 +1603,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 132383624}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &132851728 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1000012909287652, guid: abb9f519b142e304d9c45b56afa768bc,
+    type: 3}
+  m_PrefabInstance: {fileID: 1206255366}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &136448634
 GameObject:
   m_ObjectHideFlags: 0
@@ -3006,6 +3012,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2013364175}
     m_Modifications:
+    - target: {fileID: 1000011945391522, guid: e476e04281cadac4fa2ec16a79952ce6, type: 3}
+      propertyPath: m_Name
+      value: SparksEffect 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4000014129045996, guid: e476e04281cadac4fa2ec16a79952ce6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.41
@@ -3049,10 +3059,6 @@ PrefabInstance:
     - target: {fileID: 4000014129045996, guid: e476e04281cadac4fa2ec16a79952ce6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000011945391522, guid: e476e04281cadac4fa2ec16a79952ce6, type: 3}
-      propertyPath: m_Name
-      value: SparksEffect 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e476e04281cadac4fa2ec16a79952ce6, type: 3}
@@ -12970,19 +12976,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 472608, guid: 8c67a9f3ccb17194ebf03e2327df0c98, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 472608, guid: 8c67a9f3ccb17194ebf03e2327df0c98, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 45
-      objectReference: {fileID: 0}
-    - target: {fileID: 472608, guid: 8c67a9f3ccb17194ebf03e2327df0c98, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 45
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 1238282038, guid: 8c67a9f3ccb17194ebf03e2327df0c98, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 931423996}
+    m_RemovedComponents:
+    - {fileID: 1238282042, guid: 8c67a9f3ccb17194ebf03e2327df0c98, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8c67a9f3ccb17194ebf03e2327df0c98, type: 3}
 --- !u!1 &1238282037 stripped
 GameObject:
@@ -12990,33 +12989,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1238282036}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1238282038
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1238282037}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f3929740cdbb794991359d746f883e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 931423996}
---- !u!136 &1238282039
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1238282037}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.32859698
-  m_Height: 2.0044868
-  m_Direction: 1
-  m_Center: {x: 0, y: 1.0024985, z: 0.00000009685755}
 --- !u!114 &1238282042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13026,14 +12998,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 1238282037}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8322f7733ab03cd4297563de17cc8ffc, type: 3}
+  m_Script: {fileID: 11500000, guid: 17e37a4ba971b3d46809675b5681f66b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   type: 4
-  maxHealth: 9999
-  headshotMultiplier: 1
+  maxHealth: 5000
+  headshotMultiplier: 2
   characterName: The Red Giant
-  bloodSplatterPrefab: {fileID: 0}
+  bloodSplatterPrefab: {fileID: 132851728}
+  meleeDamage: 25
+  meleeRange: 5
+  shootingRange: 10
+  weapon: {fileID: 0}
+  XPValue: 5000
+  dead: 0
+  expireTime: 5
+  me: {fileID: 0}
 --- !u!1 &1249416205
 GameObject:
   m_ObjectHideFlags: 0
@@ -15992,16 +15972,86 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f51d104fa61aa8c4089fef4e68ced2e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnPoint: {fileID: 0}
-  spawnPoint2: {fileID: 0}
+  roundCounter: {fileID: 0}
+  rq: 0
+  textOn: 0
+  spawnPoints: []
+  spawnPoints2: []
+  spawnPoints3: []
+  spawnPoints4: []
   Parent: {fileID: 0}
   Parent2: {fileID: 0}
+  Parent3: {fileID: 0}
+  Parent4: {fileID: 0}
+  Parent5: {fileID: 0}
+  Parent6: {fileID: 0}
+  Parent7: {fileID: 0}
+  Parent8: {fileID: 0}
+  Parent9: {fileID: 0}
+  Parent10: {fileID: 0}
+  Parent11: {fileID: 0}
+  Parent12: {fileID: 0}
+  Parent13: {fileID: 0}
+  Parent14: {fileID: 0}
+  Parent15: {fileID: 0}
+  Parent16: {fileID: 0}
+  Parent17: {fileID: 0}
+  Parent18: {fileID: 0}
+  Parent19: {fileID: 0}
+  Parent20: {fileID: 0}
   enemyPrefabs: []
-  UFO: {fileID: 0}
   enemiesToSpawn: 3
   Wave2EnemiesToSpawn: 7
+  Wave3EnemiesToSpawn: 11
+  Wave4EnemiesToSpawn: 14
+  Wave5EnemiesToSpawn: 22
+  Wave6EnemiesToSpawn: 32
+  Wave7EnemiesToSpawn: 44
+  Wave8EnemiesToSpawn: 60
+  Wave9EnemiesToSpawn: 60
+  Wave10EnemiesToSpawn: 60
+  Wave11EnemiesToSpawn: 60
+  Wave12EnemiesToSpawn: 60
+  Wave13EnemiesToSpawn: 60
+  Wave14EnemiesToSpawn: 60
+  Wave15EnemiesToSpawn: 60
+  Wave16EnemiesToSpawn: 60
+  Wave17EnemiesToSpawn: 60
+  Wave18EnemiesToSpawn: 60
+  Wave19EnemiesToSpawn: 60
+  Wave20EnemiesToSpawn: 60
   timeBetweenSpawns: 1
   Wave2: 0
+  Wave3: 0
+  round1: 0
+  round2: 0
+  round3: 0
+  round4: 0
+  round5: 0
+  round6: 0
+  round7: 0
+  round8: 0
+  round9: 0
+  round10: 0
+  round11: 0
+  round12: 0
+  round13: 0
+  round14: 0
+  round15: 0
+  round16: 0
+  round17: 0
+  round18: 0
+  round19: 0
+  round20: 0
+  spawnAmount: 5
+  spawnRate: 5
+  index2: 0
+  index3: 0
+  index4: 0
+  currentWave: 0
+  nextWave: 0
+  spawned: 0
+  spawnTimer: 0
 --- !u!1 &1570168931
 GameObject:
   m_ObjectHideFlags: 0
@@ -20862,7 +20912,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2065302343
 Transform:
   m_ObjectHideFlags: 0
@@ -21624,6 +21674,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: AlienMonster01
+      objectReference: {fileID: 0}
+    - target: {fileID: 2581900308347727005, guid: 48fbf491775213046822042910d1537c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2581900308347727006, guid: 48fbf491775213046822042910d1537c,
         type: 3}

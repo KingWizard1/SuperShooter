@@ -75,9 +75,12 @@ namespace SuperShooter
 
         private void Update()
         {
-
-            UpdateAgentProperties();
-            UpdateCharacterState();
+            if (_controller != null)
+            {
+                UpdateAgentProperties();
+                UpdateCharacterState();
+            }
+            
 
             if (dead == true)
             {

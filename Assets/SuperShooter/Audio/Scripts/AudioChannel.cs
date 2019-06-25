@@ -46,6 +46,29 @@ namespace SuperShooter
 
         }
 
+        public void PlayWithTransform(AudioSource s, Transform t, bool destroyWithTransform = false)
+        {
+
+            
+
+        }
+
+        public void PlayOneShot(AudioClip clip)
+        {
+
+            // Create
+            var source = gameObject.AddComponent<AudioSource>();
+
+            // Configure
+            source.clip = clip;
+            source.loop = false;
+            source.Play();
+
+            // Auto destroy
+            Destroy(source, clip.length);
+
+
+        }
 
         // ------------------------------------------------- //
 

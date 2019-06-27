@@ -1,11 +1,36 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using UnityEngine;
 
 namespace SuperShooter
 {
+
+    public static class AudioSourceExt
+    {
+        /// <summary>Plays the audio clip attached to this audio source.</summary>
+        /// <param name="source"></param>
+        public static void PlayOneShot(this AudioSource source)
+        {
+            source.PlayOneShot(source.clip);
+        }
+
+        public static void PlayOneShotDelayed(this AudioSource source, /*AudioClip clip, */float delay, MonoBehaviour host)
+        {
+
+
+            host.StartCoroutine(playback());
+
+            IEnumerator playback()
+            {
+                yield return new WaitForSeconds(delay);
+                source.PlayOneShot(source.clip);
+            }
+
+        }
+
+    }
 
     public static class TransformExt
     {

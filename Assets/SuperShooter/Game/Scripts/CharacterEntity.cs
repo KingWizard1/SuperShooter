@@ -35,6 +35,7 @@ namespace SuperShooter
         public string characterName = "New Character Entity";
 
         [Header("Art")]
+        public Sprite icon;
         public GameObject bloodSplatterPrefab;
 
         [Header("Events")]

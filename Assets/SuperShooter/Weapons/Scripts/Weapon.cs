@@ -24,10 +24,9 @@ namespace SuperShooter
     [RequireComponent(typeof(SphereCollider))]
     public class Weapon : CharacterEntity, IWeapon, IInteractablePickup
     {
-        [SerializeField]
+
         public string baseName = "New Weapon";
 
-        public Sprite icon;
 
         [Header("Numbers")]
         public int damage = 1;
@@ -58,7 +57,8 @@ namespace SuperShooter
         public float[] zoomLevelOffsets = new float[1] { -10f };
 
         [Header("Audio")]
-        public AudioSource sfxBulletFired;
+        public AudioSource[] sfxBulletFired;
+        public AudioSource[] sfxBulletShellFall;
 
         [Header("Cheats")]
         public bool autoReload = false;
@@ -66,6 +66,7 @@ namespace SuperShooter
 
         [Header("Events")]
         public UnityEvent PickedUp;
+        public UnityEvent BulletFired;
         UnityEvent<ICharacterEntity> TargetChanged;
 
 
@@ -393,8 +394,8 @@ namespace SuperShooter
                 while (ammoInBarrel > 0)
                 {
                     var bullet = RigidBullet.SpawnNew(bulletPrefab, bulletOrigin.position, crossHairDirection);
-                    bullet.hitCallback = hitCallback;
-                    bullet.fireCallback = fireCallback;
+                    bullet.hitCallback = _hitCallback;
+                    bullet.fireCallback = _fireCallback;
                     bullet.FireWithDelay(bulletOrigin.position, direction, bulletSpeed, bulletDelay);
 
                     bulletDelay += timeBetweenShots;
@@ -434,17 +435,29 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
-        private void fireCallback(RigidBullet script)
+        private void _fireCallback(RigidBullet script)
         {
             DepleteAmmoInClip(1);
 
-            //GameAudio.Master.Effects.Play(sfxBulletFired, script.transform);
-            if (sfxBulletFired != null)
-                sfxBulletFired.PlayOneShot(sfxBulletFired.clip);
-            
+            // Run event
+            BulletFired?.Invoke();
+
+
+            // AUDIO
+            if (sfxBulletFired.Length > 0) {
+                var rand = Random.Range(0, sfxBulletFired.Length);
+                sfxBulletFired[rand].PlayOneShot();
+            }
+
+            if (sfxBulletShellFall.Length > 0) {
+                var rand = Random.Range(0, sfxBulletShellFall.Length);
+                sfxBulletShellFall[rand].PlayOneShotDelayed(1f, this);
+            }
+                
+
         }
 
-        private void hitCallback(RigidBullet script, Collision collision)
+        private void _hitCallback(RigidBullet script, Collision collision)
         {
             //Debug.Log($"Hit {collision.gameObject.name} CALLBACK!!!");
 

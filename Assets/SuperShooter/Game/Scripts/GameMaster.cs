@@ -539,7 +539,7 @@ namespace SuperShooter
             {
                 nextWave = true;
                 Debug.Log("round 20 over");
-                currentWave = 21;
+                currentWave = 1;
                 nextWave = false;
 
             }

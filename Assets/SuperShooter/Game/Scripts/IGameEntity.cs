@@ -14,6 +14,8 @@ namespace SuperShooter
         /// <summary><see cref="MonoBehaviour"/></summary>
         Transform transform { get; }
 
+        //GameObject gameObject { get; }
+
         // ----------------------------------------------------- //
 
         //EntityModifier Modifiers { get; }

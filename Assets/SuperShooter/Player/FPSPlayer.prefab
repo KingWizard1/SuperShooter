@@ -138,6 +138,7 @@ GameObject:
   - component: {fileID: 3489475281826726826}
   - component: {fileID: 114342676579227726}
   - component: {fileID: 114626133326315404}
+  - component: {fileID: 469273778}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -171,7 +172,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.39569244, g: 0.5886667, b: 0.7169812, a: 0}
   m_projectionMatrixMode: 1
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
@@ -300,6 +301,14 @@ MonoBehaviour:
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
   m_AfterStackBundles: []
+--- !u!81 &469273778
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041676389413348}
+  m_Enabled: 1
 --- !u!1 &1438766186792504
 GameObject:
   m_ObjectHideFlags: 0
@@ -415,6 +424,8 @@ MonoBehaviour:
   maxHealth: 100
   headshotMultiplier: 2
   characterName: Playa Characta
+  characterModel: {fileID: 234176996}
+  icon: {fileID: 0}
   bloodSplatterPrefab: {fileID: 0}
   currentXP: 0
   currentXPLevel: 0

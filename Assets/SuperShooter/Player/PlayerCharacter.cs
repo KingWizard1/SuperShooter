@@ -58,6 +58,11 @@ namespace SuperShooter
             // Get the first player controller we come across.
             controller = GetComponentInChildren<FPSController>();
 
+            // Hide the character model from the camera.
+            if (characterModel == null)
+                Debug.LogWarning($"{name} does not have a {nameof(characterModel)} assigned to its {nameof(PlayerCharacter)} component.");
+            else
+                characterModel.GetComponent<Renderer>().enabled = false;
         }
 
         // ------------------------------------------------- //
@@ -65,7 +70,7 @@ namespace SuperShooter
         private void Start()
         {
             // Set controller owner
-            controller.owner = this;
+            controller.characterEntity = this;
 
             // Setup
             ResetHealth();

@@ -34,6 +34,9 @@ namespace SuperShooter
         public float headshotMultiplier = 2;
         public string characterName = "New Character Entity";
 
+        [Header("Model")]
+        public GameObject characterModel;
+
         [Header("Art")]
         public Sprite icon;
         public GameObject bloodSplatterPrefab;

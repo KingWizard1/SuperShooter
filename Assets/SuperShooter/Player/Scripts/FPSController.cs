@@ -19,10 +19,10 @@ namespace SuperShooter
     }
 
     [RequireComponent(typeof(CharacterController))]
-    public class FPSController : MonoBehaviour, ICharacterController
+    public class FPSController : MonoBehaviour, ICharacterController, IInteractor
     {
 
-        public ICharacterEntity owner { get; set; }
+        public ICharacterEntity characterEntity { get; set; }
 
         [Header("Mechanics")]
         public float runSpeed = 10f;
@@ -157,7 +157,7 @@ namespace SuperShooter
         {
 
             playerHandPosition = playerHand.localPosition;
-            bool equip = GetComponent<OpenDoors>();
+
         }
 
 
@@ -171,7 +171,7 @@ namespace SuperShooter
             if (weapons.Count > 0)
             {
                 // Configure the weapon so it knows it should be in its picked up state.
-                weapons[0].Pickup(this);
+                weapons[0].Interact(this);
 
                 // 'Select' this weapon. Disables all weapons except the specified one,
                 // as well as ensures our indexes are correct and ready for weapon switching.
@@ -188,7 +188,7 @@ namespace SuperShooter
         private void Update()
         {
             // Do nothing if dead.
-            if (owner != null && owner.isDead)
+            if (character != null && characterEntity.isDead)
                 return;
 
             UpdateMovement();
@@ -415,39 +415,55 @@ namespace SuperShooter
             Ray interactRay = attachedCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f));
 
             // Shoot ray in a range
-            if (Physics.Raycast(interactRay, out RaycastHit hit, interactScanDistance))
-            {
-                // Try getting Interactable object
-                var interactable = hit.collider.GetComponent<IInteractable>();
+            if (!Physics.Raycast(interactRay, out RaycastHit hit, interactScanDistance))
+                return;
 
-                // Bail if there's nothing to interact with
-                if (interactable == null)
-                    return;
+            // Try getting Interactable object on the object or on its parent
+            var interactable = hit.collider.GetComponentInParent<IInteractable>();
 
-                // Range to target
-                float dist = Vector3.Distance(transform.position, interactable.transform.position);
-                //print("Distance to other: " + dist);
+            // Bail if there's nothing to interact with
+            if (interactable == null)
+                return;
 
-                bool withinInteractRange = dist <= interactRange;
+            // Range to target
+            float dist = Vector3.Distance(transform.position, interactable.transform.position);
+                
 
-                // Enable the UI and show the interactable name
-                //var interactableName = interactable.GetDisplayName();
-                //var interactablePosition = ((MonoBehaviour)interactable).transform.position;
-                if (withinInteractRange)
-                    UIManager.Main?.ShowActionText(interactable, withinInteractRange);
+            bool withinInteractRange = dist <= interactRange;
+            bool isPlayerInteracting = Input.GetKeyDown(KeyCode.E);
 
-                // Can the interactable be picked up by characters?
-                if (interactable is IInteractablePickup)
-                {
+            // Bail if not within interact range of the object
+            if (!withinInteractRange)
+                return;
+            
+            // Enable the UI and show the interactable name
+            UIManager.Main?.ShowActionText(interactable, withinInteractRange);
 
-                    // Pickup the interactable if key is being pressed on this frame.
+            // Bail here if the player isn't pressing the interact button
+            if (isPlayerInteracting) {
+
+                // Do stuff based on type of interactable
+                if (interactable is IInteractablePickup) {
+
+                    // Pickup the interactable.
                     // We MUST cast the interactable to its pickup version when passing it in.
-                    if (withinInteractRange && Input.GetKeyDown(KeyCode.E))
-                        Pickup((IInteractablePickup)interactable);
+                    Pickup((IInteractablePickup)interactable);
+
+                }
+                else {
+
+                    // Its a generic interactable. Interact with it.
+                    interactable.Interact(this);
+
                 }
 
             }
 
+        }
+
+        public void DisplayInteractionError(string error)
+        {
+            UIManager.Main?.ShowActionErrorText(error);
         }
 
         // ------------------------------------------------- //
@@ -643,7 +659,7 @@ namespace SuperShooter
             }
 
             // Tell the weapon to change its behavior, its being picked up.
-            item.Pickup(this);
+            item.Interact(this);
         }
 
         private void DetachAllWeapons()

@@ -119,7 +119,7 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
-        public void Pickup(ICharacterController owner)
+        public void Interact(IInteractor owner)
         {
             // Disable physics (set to true)
             //rigid.isKinematic = true;

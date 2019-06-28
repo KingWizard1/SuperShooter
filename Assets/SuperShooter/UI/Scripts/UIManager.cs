@@ -12,18 +12,14 @@ namespace SuperShooter
 
         [Header("UI Elements")]
 
-
         public TextMeshProUGUI contextText;
+        public TextMeshProUGUI contextErrorText;
 
         public DeathUI deathUI;
         public TargetUI targetUI;
         public PauseScreenUI pauseUI;
         public PlayerStatusUI statusUI;
         public PlayerProgressionUI progressionUI;
-
-        // ------------------------------------------------- //
-
-        //public TargetUI CrossHair { get { return crossHairSystem.GetComponent<TargetUI>(); } }
 
         // ------------------------------------------------- //
 
@@ -39,10 +35,12 @@ namespace SuperShooter
         {
             Main = this;
 
-            if (!targetUI) Debug.LogWarning($"There is no {nameof(TargetUI)} specified for the UI!");
-            if (!pauseUI) Debug.LogWarning($"There is no {nameof(PauseScreenUI)} specified for the UI!");
-            if (!statusUI) Debug.LogWarning($"There is no {nameof(PlayerStatusUI)} specified for the UI!");
-            if (!progressionUI) Debug.LogWarning($"There is no {nameof(PlayerProgressionUI)} specified for the UI!");
+            if (!targetUI) Debug.LogWarning($"There is no {nameof(TargetUI)} assigned to the UI!");
+            if (!pauseUI) Debug.LogWarning($"There is no {nameof(PauseScreenUI)} assigned to the UI!");
+            if (!statusUI) Debug.LogWarning($"There is no {nameof(PlayerStatusUI)} assigned to the UI!");
+            if (!progressionUI) Debug.LogWarning($"There is no {nameof(PlayerProgressionUI)} assigned to the UI!");
+            if (!contextText) Debug.LogWarning($"There is no {nameof(contextText)} assigned to the UI!");
+            if (!contextErrorText) Debug.LogWarning($"There is no {nameof(contextErrorText)} assigned to the UI!");
         }
 
         // ------------------------------------------------- //
@@ -50,6 +48,9 @@ namespace SuperShooter
         void Start()
         {
             SetActionText(string.Empty);
+
+            ShowActionErrorText(string.Empty);
+
         }
 
         #endregion
@@ -175,6 +176,15 @@ namespace SuperShooter
         {
             if (contextText && !useTheForce)
                 contextText.text = string.Empty;
+        }
+
+        // ------------------------------------------------- //
+
+        public void ShowActionErrorText(string text)
+        {
+            contextErrorText.canvasRenderer.SetAlpha(1);    // Reset the canvas alpha back to 1.
+            contextErrorText.text = text;
+            contextErrorText.CrossFadeAlpha(0, 3f, false);  // Changes the canvasRenderer's alpha. Not the text color alpha.
         }
 
         // ------------------------------------------------- //

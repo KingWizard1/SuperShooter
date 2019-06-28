@@ -4,10 +4,10 @@ using UnityEngine;
 namespace SuperShooter
 {
 
-    public interface ICharacterController
+    public interface ICharacterController : IGameEntity
     {
 
-        ICharacterEntity owner { get; }
+        ICharacterEntity characterEntity { get; }
 
         bool characterEnabled { get; set; }
 

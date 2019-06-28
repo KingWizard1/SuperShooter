@@ -12,6 +12,8 @@ namespace SuperShooter
         public Weapon weaponToPickup;
 
         public EnemyCharacter firstKill;
+
+        public InteractiveDoubleDoor doorToOpen;
         
 
         // ------------------------------------------------- //
@@ -25,7 +27,7 @@ namespace SuperShooter
         protected override bool OnStart()
         {
 
-            if (weaponToPickup == null || firstKill == null) {
+            if (weaponToPickup == null || firstKill == null || doorToOpen == null) {
                 Debug.LogWarning($"One or more required objects have not been assigned to {name}");
                 return false;
             }
@@ -54,8 +56,8 @@ namespace SuperShooter
                     if (!weaponToPickup.isPickedUp)
                         return;
 
-                    // TODO
                     // Open the doors
+                    doorToOpen.OpenDoor();
 
                     // Activate the tutorial enemy.
                     firstKill.gameObject.SetActive(true);

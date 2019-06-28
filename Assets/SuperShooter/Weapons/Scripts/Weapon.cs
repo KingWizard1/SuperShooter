@@ -1,7 +1,7 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using NaughtyAttributes;
 
 namespace SuperShooter
 {
@@ -77,25 +77,25 @@ namespace SuperShooter
         public ICharacterController owner { get; private set; }
 
         // Runtime Mechanics
-        public int ammoInClip { get; private set; }
-        public int ammoInBarrel { get; private set; }
-        public int ammoRemaining { get; private set; }
+        [ShowNativeProperty] public int ammoInClip { get; private set; }
+        [ShowNativeProperty] public int ammoInBarrel { get; private set; }
+        [ShowNativeProperty] public int ammoRemaining { get; private set; }
 
-        public bool isADS { get; private set; }
+        [ShowNativeProperty] public bool isADS { get; private set; }
 
-        public bool isFullClip { get; private set; }    // "Do you want to mess with this?"
-        public bool isLastClip { get; private set; }
-        public bool isLastReload { get; private set; }
-        public bool isBarrelLoaded { get; private set; }
-        public bool isReloadRequired { get; private set; }
-        public bool isReloadPossible { get; private set; }
-        public bool isTriggerPressed { get; private set; }
-        public bool isOutOfAmmo { get; private set; }
+        [ShowNativeProperty] public bool isFullClip { get; private set; }    // "Do you want to mess with this?"
+        [ShowNativeProperty] public bool isLastClip { get; private set; }
+        [ShowNativeProperty] public bool isLastReload { get; private set; }
+        [ShowNativeProperty] public bool isBarrelLoaded { get; private set; }
+        [ShowNativeProperty] public bool isReloadRequired { get; private set; }
+        [ShowNativeProperty] public bool isReloadPossible { get; private set; }
+        [ShowNativeProperty] public bool isTriggerPressed { get; private set; }
+        [ShowNativeProperty] public bool isOutOfAmmo { get; private set; }
 
-        public bool isPickedUp => owner != null;
+        [ShowNativeProperty] public bool isPickedUp => owner != null;
 
 
-        public bool readyToFire { get; private set; }
+        [ShowNativeProperty] public bool readyToFire { get; private set; }
 
         // ------------------------------------------------- //
 
@@ -297,11 +297,11 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
-        public void Pickup(ICharacterController owner)
+        public void Interact(IInteractor owner)
         {
             // Try transfer ownership
             this.owner = owner;
-
+            
             //// Disable physics (set to true)
             //rigid.isKinematic = true;
 
@@ -525,7 +525,7 @@ namespace SuperShooter
         {
             // Deplete ammunition
             ammoInClip -= amount;
-            ammoInBarrel -= amount;
+            //ammoInBarrel -= amount;
             if (ammoInClip <= 0) {
                 ammoInClip = 0;     // Don't want to go in the minus.
                 if (autoReload)     // Cheating!
@@ -590,7 +590,7 @@ namespace SuperShooter
             isLastReload = ammoRemaining <= maxAmmoPerClip;
             isOutOfAmmo = ammoRemaining == 0 && ammoInClip == 0;
             isReloadPossible = ammoRemaining > 0 || infiniteAmmo;
-            isReloadRequired = ammoInClip == 0 || ammoInBarrel == 0;
+            isReloadRequired = ammoInClip == 0 /*|| ammoInBarrel == 0*/;
             isBarrelLoaded = ammoInBarrel == bulletsPerShot;
         }
 
@@ -665,19 +665,19 @@ namespace SuperShooter
         public override void OnDamageTaken(int amount, ICharacterEntity from)
         {
             // Make sure our owner's character takes the damage too !
-            owner?.owner?.TakeDamage(amount, from);
+            owner?.characterEntity?.TakeDamage(amount, from);
         }
 
         public override void OnDamageDealt(int amount, ICharacterEntity target)
         {
             // Make sure our owner's character is notified that they dealt damage!
-            owner?.owner?.OnDamageDealt(amount, target);
+            owner?.characterEntity?.OnDamageDealt(amount, target);
         }
 
         public override void OnTargetKilled(ICharacterEntity target)
         {
             // Make sure our owner's character is notified that they killed a target!
-            owner?.owner?.OnTargetKilled(target);
+            owner?.characterEntity?.OnTargetKilled(target);
         }
 
         // ------------------------------------------------- //

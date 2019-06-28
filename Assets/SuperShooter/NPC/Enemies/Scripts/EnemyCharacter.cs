@@ -42,9 +42,7 @@ namespace SuperShooter
 
         private Animator _animator;
         private EnemyController _controller;
-        public bool dead;
-        public float expireTime = 5;
-        public GameObject me;
+        
 
         // ------------------------------------------------- //
 
@@ -64,8 +62,7 @@ namespace SuperShooter
 
         private void Start()
         {
-            me = this.gameObject;
-
+            
             ResetHealth();
             
 
@@ -81,16 +78,6 @@ namespace SuperShooter
                 UpdateCharacterState();
             }
             
-
-            if (dead == true)
-            {
-               
-
-                Destroy(this.gameObject, 2);
-                
-            }
-
-
         }
 
 
@@ -250,8 +237,7 @@ namespace SuperShooter
             // Death/fall animation
             var randomFallAnim = Random.Range((int)EnemyCharacterState.DiedBackward, (int)EnemyCharacterState.DiedForward);
             SetCharacterState((EnemyCharacterState)randomFallAnim);
-            dead = true;
-
+            
 
         }
 

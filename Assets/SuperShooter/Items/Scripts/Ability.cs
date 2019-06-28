@@ -87,11 +87,11 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
-        public void Pickup(ICharacterController owner)
+        public void Interact(IInteractor interactor)
         {
             // Disable physics (set to true)
             //rigid.isKinematic = true;
-
+            
 
             // Disable trigger collider so we don't trigger the UI when we look at the weapon in our hand
             pickupCollider.enabled = false;

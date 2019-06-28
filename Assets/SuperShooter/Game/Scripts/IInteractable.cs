@@ -33,6 +33,7 @@ namespace SuperShooter
     public abstract class Interactable : MonoBehaviour, IInteractable
     {
         [Header("Interactable")]
+        /// <summary>Determines whether the object is in a state to accept interactions.</summary>
         public bool canInteract = true;
 
         // ------------------------------------------------- //

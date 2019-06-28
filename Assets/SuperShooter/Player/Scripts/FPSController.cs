@@ -425,10 +425,13 @@ namespace SuperShooter
             if (interactable == null)
                 return;
 
+            // Bail if the interactable isn't allowing interactions right now
+            if (!((Interactable)interactable).canInteract)
+                return;
+
             // Range to target
             float dist = Vector3.Distance(transform.position, interactable.transform.position);
-                
-
+            
             bool withinInteractRange = dist <= interactRange;
             bool isPlayerInteracting = Input.GetKeyDown(KeyCode.E);
 

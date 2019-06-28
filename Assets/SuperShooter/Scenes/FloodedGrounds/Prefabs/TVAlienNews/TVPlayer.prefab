@@ -29,7 +29,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8305049951561518313}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &6263797171988454797
 AudioSource:
@@ -175,8 +175,8 @@ Transform:
   m_LocalScale: {x: 2.5, y: 2, z: 2}
   m_Children:
   - {fileID: 8309460402086080320}
-  - {fileID: 8305049952186700812}
   - {fileID: 2775487293763352546}
+  - {fileID: 8305049952186700812}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -245,7 +245,7 @@ Transform:
   m_LocalScale: {x: 0.06846417, y: 1, z: 0.05204537}
   m_Children: []
   m_Father: {fileID: 8305049951561518313}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!33 &8305049952186700801
 MeshFilter:
@@ -315,7 +315,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1385399857301454, guid: 2e20a9d5d499bdb47989d3e52387e91b, type: 3}
       propertyPath: m_Name
-      value: TV-box
+      value: TVBox
       objectReference: {fileID: 0}
     - target: {fileID: 4596888441288056, guid: 2e20a9d5d499bdb47989d3e52387e91b, type: 3}
       propertyPath: m_LocalPosition.x

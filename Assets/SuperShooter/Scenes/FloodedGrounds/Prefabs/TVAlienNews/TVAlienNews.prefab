@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2601277969512880304}
   - component: {fileID: 6180958317205696148}
   m_Layer: 0
-  m_Name: TVNews
+  m_Name: TVAlienNews
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49,7 +49,6 @@ MonoBehaviour:
   staticVolume: 0.1
   player: {fileID: 7726426187159484834}
   audioSource: {fileID: 5662655396556204231}
-  timer: 0
 --- !u!1001 &1763354157589837130
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -65,37 +64,37 @@ PrefabInstance:
     - target: {fileID: 8305049951561518313, guid: e474fde6c3ce2c44da2a168301200698,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 469.123
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8305049951561518313, guid: e474fde6c3ce2c44da2a168301200698,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 28.044
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8305049951561518313, guid: e474fde6c3ce2c44da2a168301200698,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 504.659
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8305049951561518313, guid: e474fde6c3ce2c44da2a168301200698,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8305049951561518313, guid: e474fde6c3ce2c44da2a168301200698,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.38613427
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8305049951561518313, guid: e474fde6c3ce2c44da2a168301200698,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8305049951561518313, guid: e474fde6c3ce2c44da2a168301200698,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9224426
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8305049951561518313, guid: e474fde6c3ce2c44da2a168301200698,
         type: 3}
@@ -110,13 +109,18 @@ PrefabInstance:
     - target: {fileID: 8305049951561518313, guid: e474fde6c3ce2c44da2a168301200698,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 45.428
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8305049951561518313, guid: e474fde6c3ce2c44da2a168301200698,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8305049952186700814, guid: e474fde6c3ce2c44da2a168301200698,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: f60e6e2523ba60149b8df72a862fad5e, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e474fde6c3ce2c44da2a168301200698, type: 3}
 --- !u!4 &7726426187159484835 stripped

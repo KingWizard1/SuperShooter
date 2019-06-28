@@ -38,7 +38,6 @@ namespace SuperShooter
         public GameObject characterModel;
 
         [Header("Art")]
-        public Sprite icon;
         public GameObject bloodSplatterPrefab;
 
         [Header("Events")]

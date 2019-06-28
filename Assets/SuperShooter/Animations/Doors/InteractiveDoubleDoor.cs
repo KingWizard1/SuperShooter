@@ -63,7 +63,7 @@ namespace SuperShooter
             isOpen = open;
             isLocked = locked;
 
-            canInteract = !(isOpen && isLocked);   // i.e. It's open, but can't be closed, so its not interactable in this state.
+            isInteractable = !(isOpen && isLocked);   // i.e. It's open, but can't be closed, so its not interactable in this state.
 
             SetAnim();
         }

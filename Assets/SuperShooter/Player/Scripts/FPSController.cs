@@ -426,7 +426,7 @@ namespace SuperShooter
                 return;
 
             // Bail if the interactable isn't allowing interactions right now
-            if (!((Interactable)interactable).canInteract)
+            if (!interactable.isInteractable)
                 return;
 
             // Range to target

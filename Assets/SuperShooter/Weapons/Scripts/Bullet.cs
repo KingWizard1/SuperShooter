@@ -193,13 +193,6 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
-        public virtual string GetDisplayName()
-        {
-            return (!string.IsNullOrEmpty(baseName)) ? baseName : "Bullet";
-        }
-
-        // ------------------------------------------------- //
-
 
         // ------------------------------------------------- //
 

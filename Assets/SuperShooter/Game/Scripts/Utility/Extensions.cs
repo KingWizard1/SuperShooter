@@ -13,7 +13,8 @@ namespace SuperShooter
         /// <param name="source"></param>
         public static void PlayOneShot(this AudioSource source)
         {
-            source.PlayOneShot(source.clip);
+            if (source != null && source.clip != null)
+                source.PlayOneShot(source.clip);
         }
 
         public static void PlayOneShotDelayed(this AudioSource source, /*AudioClip clip, */float delay, MonoBehaviour host)

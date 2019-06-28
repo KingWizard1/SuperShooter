@@ -166,7 +166,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4930424547387771431}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.015000346, y: 0, z: -8.100002}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.5000002, y: 2, z: 1.5000002}
   m_Children:
   - {fileID: 4930424546266708575}
@@ -369,7 +369,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8984032338170906483}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.004, z: 0.835}
+  m_LocalPosition: {x: 0, y: -0.009, z: 0.835}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8982249274661980299}
@@ -404,7 +404,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8984651545750742019}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.5, y: 2.1, z: 12.14}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4930424546194503030}
@@ -551,6 +551,7 @@ MonoBehaviour:
   maxHealth: 100
   headshotMultiplier: 2
   characterName: New Character Entity
+  characterModel: {fileID: 0}
   icon: {fileID: 21300000, guid: e47e502270b2a4c439b0ea6add71d2e8, type: 3}
   bloodSplatterPrefab: {fileID: 0}
   baseName: AK47

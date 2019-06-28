@@ -88,7 +88,7 @@ namespace SuperShooter
         /// <summary>Updates the ability bar on the UI.</summary>
         public void SetPlayerAbilityStatus(Ability ability)
         {
-            var name = ability.GetDisplayName();
+            var name = ability.displayName;
             var maximum = ability.MaxDuration;
             var current = ability.TimeRemaining;
             var isActive = ability.IsActive;

@@ -59,7 +59,7 @@ namespace SuperShooter
             {
 
                 // Set text
-                weaponText.text = weapon.GetDisplayName();
+                weaponText.text = weapon.baseName;
                 ammoText.text = $"{weapon.ammoInClip}";
                 ammoText2.text = $"+{weapon.ammoRemaining}";
 

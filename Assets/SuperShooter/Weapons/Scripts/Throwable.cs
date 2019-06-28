@@ -8,7 +8,7 @@ namespace SuperShooter
     [RequireComponent(typeof(BoxCollider))]
     [RequireComponent(typeof(LineRenderer))]
     [RequireComponent(typeof(SphereCollider))]
-    public class Throwable : MonoBehaviour, IInteractablePickup
+    public class Throwable : Interactable, IInteractablePickup
     {
         [SerializeField]
         public string baseName = "New Throwable";
@@ -263,14 +263,9 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
-        public virtual string GetDisplayName()
+        public override string GetInteractionString()
         {
-            return (!string.IsNullOrEmpty(baseName)) ? baseName : "Unnamed Weapon";
-        }
-
-        public string GetInteractionString()
-        {
-            return "Pickup" + GetDisplayName();
+            return "Pickup" + baseName;
         }
 
         // ------------------------------------------------- //

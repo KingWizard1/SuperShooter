@@ -14,11 +14,13 @@ namespace SuperShooter
     public interface IInteractable : IGameEntity
     {
 
+        /// <summary>Determines whether the object is in a state to accept interactions.</summary>
+        bool isInteractable { get; }
+
+        /// <summary>Retrieves the display string to be used to indicate to the player how they will interact with the object.</summary>
         string GetInteractionString();
 
-        [Obsolete("Do not implement this. It needs to be removed as it is not appropriate/generic enough for interactables.")]
-        string GetDisplayName();
-
+        /// <summary>Perform the default interaction with the object.</summary>
         void Interact(IInteractor interactor);
 
     }
@@ -33,12 +35,13 @@ namespace SuperShooter
     public abstract class Interactable : MonoBehaviour, IInteractable
     {
         [Header("Interactable")]
+        [SerializeField]
+        private bool _isInteractable = true;
         /// <summary>Determines whether the object is in a state to accept interactions.</summary>
-        public bool canInteract = true;
+        public bool isInteractable { get => _isInteractable; set { _isInteractable = value; } }
+
 
         // ------------------------------------------------- //
-
-        public virtual string GetDisplayName() => "Display name not set (and obsolete!)";
 
         public abstract string GetInteractionString();
 
@@ -46,7 +49,7 @@ namespace SuperShooter
 
         public void Interact(IInteractor interactor)
         {
-            if (canInteract)
+            if (isInteractable)
                 OnInteract(interactor);
         }
 

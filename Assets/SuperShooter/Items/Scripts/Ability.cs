@@ -8,7 +8,7 @@ namespace SuperShooter
     //[RequireComponent(typeof(BoxCollider))]
     //[RequireComponent(typeof(LineRenderer))]
     [RequireComponent(typeof(SphereCollider))]
-    public class Ability : MonoBehaviour, IInteractablePickup
+    public class Ability : Interactable, IInteractablePickup
     {
         [SerializeField]
         public string displayName = "New Ability";
@@ -188,14 +188,9 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
-        public virtual string GetDisplayName()
+        public override string GetInteractionString()
         {
-            return (!string.IsNullOrEmpty(displayName)) ? displayName : "Unnamed Ability";
-        }
-
-        public string GetInteractionString()
-        {
-            return "Pickup" + GetDisplayName();
+            return "Pickup" + displayName;
         }
 
         // ------------------------------------------------- //

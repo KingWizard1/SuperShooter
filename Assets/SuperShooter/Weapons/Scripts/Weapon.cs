@@ -5,13 +5,17 @@ using NaughtyAttributes;
 
 namespace SuperShooter
 {
-    public interface IWeapon : ICharacterEntity
+    // FUTURE. Weapon class is actually a gun class. And needs to derive from a Weapon base class that inherits Interactable.
+
+    public interface IWeapon : IGameEntity
     {
+
         ICharacterController owner { get; }
 
     }
 
-    public enum WeaponFiringMechanism
+
+    public enum GunFiringMechanism
     {
         //Manual = 0,
         SemiAutomatic = 1,
@@ -22,52 +26,49 @@ namespace SuperShooter
     [RequireComponent(typeof(BoxCollider))]
     [RequireComponent(typeof(LineRenderer))]
     [RequireComponent(typeof(SphereCollider))]
-    public class Weapon : CharacterEntity, IWeapon, IInteractablePickup
+    public class Weapon : Interactable, IWeapon, IInteractablePickup
     {
 
         public string baseName = "New Weapon";
 
+        [Header("UI Elements")]
+        public Sprite icon;
 
-        [Header("Numbers")]
-        public int damage = 1;
-        public int clipsToStart = 32;
-        public int maxAmmoPerClip = 24;
-        public int maxPossibleAmmo = 999;
-        public float spread = 2f;
-        public float recoil = 1f;
-        public float shootRate = .2f;
+        
+        [BoxGroup("Numbers")] public int damage = 1;
+        [BoxGroup("Numbers")] public int clipsToStart = 32;
+        [BoxGroup("Numbers")] public int maxAmmoPerClip = 24;
+        [BoxGroup("Numbers")] public int maxPossibleAmmo = 999;
+        [BoxGroup("Numbers")] public float spread = 2f;
+        [BoxGroup("Numbers")] public float recoil = 1f;
+        [BoxGroup("Numbers")] public float shootRate = .2f;
 
-        [Header("Firing/Bullets")]
-        public WeaponFiringMechanism mechanism = WeaponFiringMechanism.SemiAutomatic;
-        public GameObject bulletPrefab;
-        public Transform bulletOrigin;
-        public float bulletSpeed = 50f;
-        public int bulletsPerShot = 1;
-        public float timeBetweenShots = 0;
-        //public float bulletForce = 1f;
-        //public int bulletRange = 10;
-        public float lineDelay = .1f;
+        [BoxGroup("Firing/Bullets")] public GunFiringMechanism mechanism = GunFiringMechanism.SemiAutomatic;
+        [BoxGroup("Firing/Bullets")] public GameObject bulletPrefab;
+        [BoxGroup("Firing/Bullets")] public Transform bulletOrigin;
+        [BoxGroup("Firing/Bullets")] public float bulletSpeed = 50f;
+        [BoxGroup("Firing/Bullets")] public int bulletsPerShot = 1;
+        [BoxGroup("Firing/Bullets")] public float timeBetweenShots = 0;
+        [BoxGroup("Firing/Bullets")] public float lineDelay = .1f;
 
-        [Header("Position / Scope")]
-        public bool applyHandOffset = true;
-        public Vector3 playerHandOffset = Vector3.zero;
-        public Vector3 playerHandADSOffset = Vector3.zero;
-        public float timeToADS = 0.15f;
-        public float timeToUnADS = 0.05f;
-        public float[] zoomLevelOffsets = new float[1] { -10f };
+        [BoxGroup("Position / Scope")] public bool applyHandOffset = true;
+        [BoxGroup("Position / Scope")] public Vector3 playerHandOffset = Vector3.zero;
+        [BoxGroup("Position / Scope")] public Vector3 playerHandADSOffset = Vector3.zero;
+        [BoxGroup("Position / Scope")] public float timeToADS = 0.15f;
+        [BoxGroup("Position / Scope")] public float timeToUnADS = 0.05f;
+        [BoxGroup("Position / Scope")] public float[] zoomLevelOffsets = new float[1] { -10f };
 
-        [Header("Audio")]
-        public AudioSource[] sfxBulletFired;
-        public AudioSource[] sfxBulletShellFall;
+        [BoxGroup("Audio")] public AudioSource sfxPickedUp;
+        [BoxGroup("Audio")] [ReorderableList] public AudioSource[] sfxBulletFired;
+        [BoxGroup("Audio")] [ReorderableList] public AudioSource[] sfxBulletShellFall;
 
         [Header("Cheats")]
         public bool autoReload = false;
         public bool infiniteAmmo = false;
 
-        [Header("Events")]
-        public UnityEvent PickedUp;
-        public UnityEvent BulletFired;
-        UnityEvent<ICharacterEntity> TargetChanged;
+        [BoxGroup("Events")] public UnityEvent PickedUp;
+        [BoxGroup("Events")] public UnityEvent BulletFired;
+        [BoxGroup("Events")] UnityEvent<ICharacterEntity> TargetChanged;
 
 
 
@@ -175,15 +176,10 @@ namespace SuperShooter
             pickupSpin = GetComponent<Spin>();
             pickupGlow = transform.Find("PickupGlow")?.gameObject;
         }
-
-        public virtual string GetDisplayName()
+        
+        public override string GetInteractionString()
         {
-            return (!string.IsNullOrEmpty(baseName)) ? baseName : "Weapon";
-        }
-
-        public string GetInteractionString()
-        {
-            return $"Pickup {GetDisplayName()}";
+            return $"Pickup {baseName}";
         }
 
         // ------------------------------------------------- //
@@ -202,11 +198,11 @@ namespace SuperShooter
 
             // Check we can shoot from somewhere
             if (bulletOrigin == null)
-                Debug.LogWarning(string.Format(FPSMessages.WARN_WEAPON_NO_SHOT_ORIGIN, GetDisplayName()));
+                Debug.LogWarning(string.Format(FPSMessages.WARN_WEAPON_NO_SHOT_ORIGIN, baseName));
 
             // Check we have a bullet prefab to shoot
             if (bulletPrefab == null)
-                Debug.LogWarning(string.Format(FPSMessages.WARN_WEAPON_NO_BULLET_PREFAB, GetDisplayName()));
+                Debug.LogWarning(string.Format(FPSMessages.WARN_WEAPON_NO_BULLET_PREFAB, baseName));
 
             // Set ammo, load the barrel
             ammoInClip = maxAmmoPerClip;
@@ -308,6 +304,9 @@ namespace SuperShooter
             // Tell all whose listening that we've been picked up.
             PickedUp?.Invoke();
 
+            // Play picked up sound
+            sfxPickedUp?.PlayOneShot();
+
             // Disable trigger collider so we don't trigger the UI when we look at the weapon in our hand
             sphereCollider.enabled = false;
 
@@ -335,7 +334,7 @@ namespace SuperShooter
         {
             // If this is a semi-automatic weapon, and the trigger is being held, we can't fire.
             // This is because our chamber was emptied on the last frame that the trigger was pressed down.
-            if (mechanism == WeaponFiringMechanism.SemiAutomatic && isTriggerPressed)
+            if (mechanism == GunFiringMechanism.SemiAutomatic && isTriggerPressed)
                 return;
 
             // Set trigger bool. It was released, now its pressed.
@@ -484,7 +483,7 @@ namespace SuperShooter
 
 
                 // Deal damage
-                DealDamage(damage, entity);
+                entity.TakeDamage(damage, owner.characterEntity);
 
 
 
@@ -662,23 +661,23 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
-        public override void OnDamageTaken(int amount, ICharacterEntity from)
-        {
-            // Make sure our owner's character takes the damage too !
-            owner?.characterEntity?.TakeDamage(amount, from);
-        }
+        //public override void OnDamageTaken(int amount, ICharacterEntity from)
+        //{
+        //    // Make sure our owner's character takes the damage too !
+        //    owner?.characterEntity?.TakeDamage(amount, from);
+        //}
 
-        public override void OnDamageDealt(int amount, ICharacterEntity target)
-        {
-            // Make sure our owner's character is notified that they dealt damage!
-            owner?.characterEntity?.OnDamageDealt(amount, target);
-        }
+        //public override void OnDamageDealt(int amount, ICharacterEntity target)
+        //{
+        //    // Make sure our owner's character is notified that they dealt damage!
+        //    owner?.characterEntity?.OnDamageDealt(amount, target);
+        //}
 
-        public override void OnTargetKilled(ICharacterEntity target)
-        {
-            // Make sure our owner's character is notified that they killed a target!
-            owner?.characterEntity?.OnTargetKilled(target);
-        }
+        //public override void OnTargetKilled(ICharacterEntity target)
+        //{
+        //    // Make sure our owner's character is notified that they killed a target!
+        //    owner?.characterEntity?.OnTargetKilled(target);
+        //}
 
         // ------------------------------------------------- //
 

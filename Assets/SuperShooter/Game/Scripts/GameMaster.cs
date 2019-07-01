@@ -11,24 +11,13 @@ namespace SuperShooter
     public class GameMaster : MonoBehaviour
     {
 
-        [Header("DEBUGState")]
-        public int gamePhase;               // Number of times the player has completed a full cycle of areas.
-        public int currentArea;
+        [Header("Debug")]
+        [ShowNonSerializedField] public int gamePhase;               // Number of times the player has completed a full cycle of areas.
+        [ShowNonSerializedField] public int currentArea;
 
         [Header("List of Areas")]
         [ReorderableList]
         public GameArea[] gameplayAreas;    // Area parent objects. Child objects are expected to have spawn points.
-
-
-        public MonoBehaviour rqText;
-        public bool rq;
-        public bool textOn;
-
-
-        public float tenSec = 10;
-        public bool timerRunning = true;
-        int i;
-        float sec = 10f;
 
 
         // ------------------------------------------------- //
@@ -113,56 +102,6 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
         
-        public IEnumerator rageQuit()
-        {
-
-            yield return new WaitForSeconds(2);
-            if (textOn == true)
-            {
-                rqText.gameObject.SetActive(true);
-            }
-
-            var countDown = 10f;
-
-            if (Input.GetKeyDown(KeyCode.Tab) && textOn == true)
-            {
-
-
-                //Switch to "Death Screen".
-                //temporary...
-                Application.Quit();
-                Debug.Log("RAGE");
-
-            }
-
-
-
-            if (rq == false)
-            {
-                rq = true;
-                textOn = true;
-
-                for (int i = 0; i < 10000; i++)
-                {
-                    while (countDown >= 0)
-                    {
-                        //rqText.gameObject.SetActive(true);
-                       // Debug.Log(i++);
-                        countDown -= Time.smoothDeltaTime;
-
-                        yield return null;
-                    }
-
-
-
-
-                }
-
-            }
-            yield return new WaitForSeconds(sec);
-            textOn = false;
-            rqText.gameObject.SetActive(false);
-        }
 
         // ------------------------------------------------- //
 
@@ -183,7 +122,7 @@ namespace SuperShooter
             // If Phase is over Give option to leave
             if (currentArea == 5 || currentArea == 10 || currentArea == 15 || currentArea == 20)
             {
-                StartCoroutine(rageQuit());
+                //StartCoroutine(rageQuit());
             }
 
 

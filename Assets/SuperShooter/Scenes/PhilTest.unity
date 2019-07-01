@@ -12809,16 +12809,13 @@ MonoBehaviour:
   maxHealth: 5000
   headshotMultiplier: 2
   characterName: The Red Giant
-  icon: {fileID: 0}
+  characterModel: {fileID: 0}
   bloodSplatterPrefab: {fileID: 132851728}
   meleeDamage: 25
   meleeRange: 5
   shootingRange: 10
   weapon: {fileID: 0}
   XPValue: 5000
-  dead: 0
-  expireTime: 5
-  me: {fileID: 0}
 --- !u!1 &1249416205
 GameObject:
   m_ObjectHideFlags: 0
@@ -20654,7 +20651,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2065302343
 Transform:
   m_ObjectHideFlags: 0

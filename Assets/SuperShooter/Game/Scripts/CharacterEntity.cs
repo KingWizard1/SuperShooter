@@ -25,6 +25,8 @@ namespace SuperShooter
         Enemy = 4,
     }
 
+    public delegate void CharacterEntityDelegate(ICharacterEntity entity);
+
     public class CharacterEntity : GameEntity, ICharacterEntity
     {
         [Header("Entity")]
@@ -40,8 +42,9 @@ namespace SuperShooter
         [Header("Art")]
         public GameObject bloodSplatterPrefab;
 
-        [Header("Events")]
-        public UnityEvent<ICharacterEntity> CharacterDied;
+        //[Header("Events")]
+        //public UnityEvent<ICharacterEntity> CharacterDied;
+        public CharacterEntityDelegate CharacterDied;
 
         // ------------------------------------------------- //
 
@@ -154,6 +157,9 @@ namespace SuperShooter
 
             // Die
             isDead = true;
+
+            // Delegate event
+            CharacterDied?.Invoke(this);
 
             //
             OnDeath();

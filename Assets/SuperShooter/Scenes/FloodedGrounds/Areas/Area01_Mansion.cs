@@ -12,6 +12,7 @@ namespace SuperShooter
         [Header("Enemies")]
         public EnemyManager waveSpawner;
         public int numberOfWaves = 3;
+        public int enemiesPerWave = 3;
 
 
         // ------------------------------------------------- //
@@ -51,10 +52,11 @@ namespace SuperShooter
             // We then pass in the spawn points for the area, and configure enemy properties.
             waveSpawner.Reset();
             waveSpawner.spawnPoints = GetSpawnPoints();
+            waveSpawner.numberOfWaves = numberOfWaves;
+            waveSpawner.baseEnemiesPerWave = enemiesPerWave * GameMaster.Main.gamePhase;
             waveSpawner.currentHealthMultiplier = GameMaster.Main.gamePhase;
             waveSpawner.currentDamageMultiplier = GameMaster.Main.gamePhase;
             waveSpawner.currentXPRewardMultiplier = GameMaster.Main.gamePhase;
-            waveSpawner.numberOfWaves = numberOfWaves;
 
             // Aaaaaand GO!
             waveSpawner.StartNextWave();

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -232,13 +233,17 @@ namespace SuperShooter
         {
 
             // Disable AI
-            _controller.Stop();
+            _controller?.Stop();
+
+            // Disable colliders
+            GetComponentsInChildren<Collider>().All(c => c.enabled = false);
 
             // Death/fall animation
             var randomFallAnim = Random.Range((int)EnemyCharacterState.DiedBackward, (int)EnemyCharacterState.DiedForward);
             SetCharacterState((EnemyCharacterState)randomFallAnim);
-            
 
+            // Destroy
+            DestroyWithAnimation(10f);
         }
 
 
@@ -250,5 +255,38 @@ namespace SuperShooter
         #endregion
 
         // ------------------------------------------------- //
+
+        public void DestroyWithAnimation(float timeTillDestroy = 5f, float timeToDestroy = 3f)
+        {
+
+            StartCoroutine(__destroy());
+
+            IEnumerator __destroy()
+            {
+
+                yield return new WaitForSeconds(timeTillDestroy);
+
+                float elapsedTime = 0;
+                float startScale = transform.localScale.x;
+                float endScale = 0;
+                float lerpValue = 0;
+
+                while (elapsedTime < timeToDestroy)
+                {
+                    lerpValue = Mathf.Lerp(startScale, endScale, (elapsedTime / timeToDestroy));
+                    transform.localScale = new Vector3(lerpValue, lerpValue, lerpValue);
+                    elapsedTime += Time.deltaTime;
+                    yield return null;
+                }
+
+                Destroy(gameObject);
+
+            }
+
+        }
+
+
+        // ------------------------------------------------- //
+
     }
 }

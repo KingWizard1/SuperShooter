@@ -486,6 +486,10 @@ namespace SuperShooter
                 entity.TakeDamage(damage, owner.characterEntity);
 
 
+                // Inform owner they dealt damage
+                owner.characterEntity.OnDamageDealt(damage, entity);
+
+
 
                 // Art -- blood splatter!
                 if (entity.bloodSplatterPrefab != null)

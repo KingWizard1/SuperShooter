@@ -48,6 +48,12 @@ namespace SuperShooter
         protected override void OnUpdate()
         {
 
+#if UNITY_EDITOR
+            // Dev skip.
+            if (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.S))
+                Complete();
+#endif
+
             switch (sequence)
             {
                 case 0:

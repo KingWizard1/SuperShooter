@@ -18,10 +18,10 @@ namespace SuperShooter
         [ShowNonSerializedField] public int baseEnemiesPerWave = 1;
 
         [ShowNonSerializedField] private bool isRunning;                        // True if the spawner has started its first wave. False when all waves are complete.
-        [ShowNonSerializedField] private bool isActive;                         // True if there is a wave currently active. False if not running, or in between waves.
+        [ShowNativeProperty]     public bool isActive { get; private set; }     // True if there is a wave currently active. False if not running, or in between waves.
         [ShowNonSerializedField] private int curEnemiesPerWave = 1;
         [ShowNonSerializedField] private int enemiesSpawnedThisWave;
-        [ShowNonSerializedField] private int enemiesRemaining;
+        [ShowNativeProperty]     public int enemiesRemaining { get; private set; }
         [ShowNonSerializedField] private int enemiesKilled;
 
         /// <summary>True if <see cref="enemiesRemaining"/> equals zero.</summary>
@@ -79,11 +79,14 @@ namespace SuperShooter
 
             if (isActive) {
 
-                if (!IsWaveComplete || enemiesSpawnedThisWave != curEnemiesPerWave)
+                if (enemiesSpawnedThisWave != curEnemiesPerWave)
                     _SpawnNextEnemy();
-                else
+
+                else if (IsWaveComplete)
                     _FinishTheWave();
 
+                else { }
+                    // Do nothing
 
             }
             else if (IsWaveComplete) {
@@ -142,10 +145,11 @@ namespace SuperShooter
 
             enemiesSpawnedThisWave = 0;
 
-            curEnemiesPerWave = baseEnemiesPerWave + currentWave;
+            curEnemiesPerWave = baseEnemiesPerWave + (currentWave > 1 ? currentWave : 0);
 
             enemiesRemaining = curEnemiesPerWave;
-            
+
+            nextWaveTimer = timeBetweenWaves;
 
             // Let our listeners know.
             WaveStarted.Invoke();
@@ -236,7 +240,7 @@ namespace SuperShooter
             enemiesInScene.Clear();
 
             // Invoke wave completed event.
-            WaveCompleted.Invoke();
+            WaveCompleted?.Invoke();
 
             // Are we finished?
             isFinished = currentWave == numberOfWaves;
@@ -257,7 +261,7 @@ namespace SuperShooter
                 Debug.Log($"Enemy spawn sequence complete! No more waves!");
 
                 // Invoke enemy spawn sequence completed.
-                SequenceCompleted.Invoke();
+                SequenceCompleted?.Invoke();
 
             }
 

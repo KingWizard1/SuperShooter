@@ -541,11 +541,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfadabdf44ed1204bbac0314d4657c85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canInteract: 1
+  _isInteractable: 1
   leftDoor: {fileID: 6358511910260320439}
   rightDoor: {fileID: 6358511909253640314}
   isOpen: 0
-  isLocked: 1
+  isLocked: 0
   SFXDoorOpen: {fileID: 1563489140573165216}
   SFXDoorShut: {fileID: 858177425982382716}
   SFXDoorLocked: {fileID: 562861150890002971}

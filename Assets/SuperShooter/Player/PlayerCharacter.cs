@@ -81,10 +81,14 @@ namespace SuperShooter
 
         private void Update()
         {
+            // LOSE condition
+            controller.enabled = !GameMaster.Main.isGameOver;
+            if (GameMaster.Main.isGameOver)
+                return;
+
 
             // Do nothing if dead.
-            if (isDead)
-            {
+            if (isDead) {
 #if DEBUG
                 // RESPAWN CHEAT.
                 if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.R))
@@ -170,8 +174,7 @@ namespace SuperShooter
 
         public override void BackFromTheDead()
         {
-            // Reset UI
-            UIManager.Main?.ShowDeathScreen(false);
+            GameMaster.Main?.CancelGameOver();
         }
 
         public override void OnDamageDealt(int amount, ICharacterEntity target)
@@ -182,8 +185,16 @@ namespace SuperShooter
 
             // Give XP for dealing damage.
             // 1 XP should be given for each damage event, multiplied by the game phase.
-            // TODO: MULTIPLY BY GAME PHASE.
-            GiveXP(1 * GameMaster.Main?.gamePhase ?? 0);
+            var xp = 1 * GameMaster.Main?.gamePhase ?? 0;
+            GiveXP(xp);
+
+            // Show XP earned
+            //UIManager.Main?.progressionUI?.ShowBulletHit(xp);
+
+            // WORKS, BUT WRONG.
+            // It's not being called normally because its the WEAPON that is doing damage.
+            if (target.isDead)
+                OnTargetKilled(target);
 
         }
 
@@ -202,13 +213,8 @@ namespace SuperShooter
             // Disable the FPSController's character controller.
             controller.characterEnabled = false;
 
-            // Show restart prompt
-#if DEBUG
-            UIManager.Main?.SetActionText("Press CTRL+R to cast Reincarnate");
-#endif
-
-            // Show kill screen
-            UIManager.Main?.ShowDeathScreen(true);
+            // Game over!
+            GameMaster.Main?.GameOver("YOU DIED.", "You were no match against the invaders.");
 
 
         }
@@ -225,6 +231,9 @@ namespace SuperShooter
             if (target is EnemyCharacter enemy)
             {
                 GiveXP(enemy.XPValue);
+
+                UIManager.Main?.progressionUI?.ShowEnemyKilled(enemy.XPValue);
+
             }
 
         }

@@ -1080,17 +1080,14 @@ MonoBehaviour:
   maxHealth: 6
   headshotMultiplier: 2
   characterName: Mutant Freak
-  icon: {fileID: 0}
+  characterModel: {fileID: 0}
   bloodSplatterPrefab: {fileID: 1000012909287652, guid: abb9f519b142e304d9c45b56afa768bc,
     type: 3}
   meleeDamage: 5
   meleeRange: 5
   shootingRange: 10
   weapon: {fileID: 0}
-  XPValue: 6
-  dead: 0
-  expireTime: 5
-  me: {fileID: 0}
+  XPValue: 5
 --- !u!114 &1845207561
 MonoBehaviour:
   m_ObjectHideFlags: 0

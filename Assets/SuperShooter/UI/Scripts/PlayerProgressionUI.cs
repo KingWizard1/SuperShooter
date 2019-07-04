@@ -6,34 +6,33 @@ namespace SuperShooter
 {
     public class PlayerProgressionUI : MonoBehaviour
     {
-        
-        public TextMeshProUGUI xpText1;
-        public TextMeshProUGUI xpText2;
-        public TextMeshProUGUI xpText3;
+        [Header("XP Texts")]
+        public TextMeshProUGUI xpBulletHit;
+        public TextMeshProUGUI xpEnemyKilled;
+        public TextMeshProUGUI xpHeadshot;
+        public TextMeshProUGUI xpWaveCompleted;
+        public TextMeshProUGUI xpAreaCleared;
+        public float xpTextFadeoutTime = 4f;
 
+        [Header("XP Bar")]
         public Slider xpBar;
         public TextMeshProUGUI xpBarTextL;
         public TextMeshProUGUI xpBarTextC;
         public TextMeshProUGUI xpBarTextR;
 
-        public float textFadeInTimer = 0.15f;
-        public float textHoldTimer = 1f;
-        public float textFadeOutTimer = 1f;
-
         // ------------------------------------------------- //
 
-        private float XPText1Timer = 0;
-        private float XPText2Timer = 0;
-        private float XPText3Timer = 0;
 
 
         // ------------------------------------------------- //
 
         private void Start()
         {
-            xpText1.enabled = false;
-            xpText2.enabled = false;
-            xpText3.enabled = false;
+            ShowBulletHit(0);
+            ShowEnemyKilled(0);
+            ShowEnemyHeadshot(0);
+            ShowWaveCompleted(0);
+            ShowAreaCleared(0);
 
             ShowHideXPBar(false);
         }
@@ -49,6 +48,48 @@ namespace SuperShooter
             //if (XPText1Timer > textFadeOutTimer)
 
 
+        }
+
+        // ------------------------------------------------- //
+
+        public void ShowBulletHit(int xp)
+        {
+            if (xp == 0) xpBulletHit.text = string.Empty;
+            else xpBulletHit.text = $"Bullet Hit +{xp}";
+            xpBulletHit.canvasRenderer.SetAlpha(1);
+            xpBulletHit.CrossFadeAlpha(0, xpTextFadeoutTime, false);
+        }
+
+        public void ShowEnemyKilled(int xp)
+        {
+            if (xp == 0) xpEnemyKilled.text = string.Empty;
+            else xpEnemyKilled.text = $"Enemy Killed +{xp}";
+            xpEnemyKilled.canvasRenderer.SetAlpha(1);
+            xpEnemyKilled.CrossFadeAlpha(0, xpTextFadeoutTime, false);
+        }
+
+        public void ShowEnemyHeadshot(int xp)
+        {
+            if (xp == 0) xpHeadshot.text = string.Empty;
+            else xpHeadshot.text = $"Headshot! +{xp}";
+            xpHeadshot.canvasRenderer.SetAlpha(1);
+            xpHeadshot.CrossFadeAlpha(0, xpTextFadeoutTime, false);
+        }
+
+        public void ShowWaveCompleted(int xp)
+        {
+            if (xp == 0) xpWaveCompleted.text = string.Empty;
+            else xpWaveCompleted.text = $"Wave Completed! +{xp}";
+            xpWaveCompleted.canvasRenderer.SetAlpha(1);
+            xpWaveCompleted.CrossFadeAlpha(0, xpTextFadeoutTime, false);
+        }
+
+        public void ShowAreaCleared(int xp)
+        {
+            if (xp == 0) xpAreaCleared.text = string.Empty;
+            else xpAreaCleared.text = $"+{xp}";
+            xpAreaCleared.canvasRenderer.SetAlpha(1);
+            xpAreaCleared.CrossFadeAlpha(0, xpTextFadeoutTime, false);
         }
 
         // ------------------------------------------------- //
@@ -80,15 +121,6 @@ namespace SuperShooter
 
         }
 
-        // ------------------------------------------------- //
-
-        public void SetXPText1(string text)
-        {
-            xpText1.text = text;
-            xpText1.enabled = true;
-            xpText1.alpha = 100;
-            xpText1.CrossFadeAlpha(0, 4f, false);
-        }
 
         // ------------------------------------------------- //
 

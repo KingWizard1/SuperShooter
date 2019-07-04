@@ -1080,13 +1080,14 @@ MonoBehaviour:
   maxHealth: 10
   headshotMultiplier: 2
   characterName: Alien Mutant??
+  characterModel: {fileID: 0}
   bloodSplatterPrefab: {fileID: 1000012909287652, guid: abb9f519b142e304d9c45b56afa768bc,
     type: 3}
   meleeDamage: 5
   meleeRange: 5
   shootingRange: 10
   weapon: {fileID: 0}
-  XPValue: 10
+  XPValue: 5
 --- !u!114 &1845207561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1116,6 +1117,7 @@ MonoBehaviour:
     m_Bits: 256
   gravity: 20
   groundRayDistance: 1.1
+  delay: 1
 --- !u!195 &6603679701488929085
 NavMeshAgent:
   m_ObjectHideFlags: 0

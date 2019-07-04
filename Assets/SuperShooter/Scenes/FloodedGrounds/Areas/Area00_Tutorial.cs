@@ -35,12 +35,18 @@ namespace SuperShooter
             // Disable for now
             firstKill.gameObject.SetActive(false);
 
+            weaponToPickup.gameObject.SetActive(false);
+
             return true;
 
         }
 
         // ------------------------------------------------- //
 
+        protected override void OnPlay()
+        {
+            weaponToPickup.gameObject.SetActive(true);
+        }
 
 
         // ------------------------------------------------- //
@@ -48,11 +54,11 @@ namespace SuperShooter
         protected override void OnUpdate()
         {
 
-#if UNITY_EDITOR
-            // Dev skip.
-            if (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.S))
-                Complete();
-#endif
+//#if UNITY_EDITOR
+//            // Dev skip.
+//            if (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.S))
+//                Complete();
+//#endif
 
             switch (sequence)
             {

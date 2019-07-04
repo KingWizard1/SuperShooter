@@ -8,7 +8,7 @@ namespace SuperShooter
     public enum GameAreaCompletionAction
     {
         Nothing = 0,
-        GoToNextArea = 1,
+        StartNextArea = 1,
         WinTheGame = 64,
         GameOver = -1,
     }
@@ -30,15 +30,16 @@ namespace SuperShooter
         public bool failedToStart = false;
 
         [Header("Area Config")]
-        [ReorderableList]
-        public SpawnPoint[] spawnPoints;
-
+        [ReorderableList] public TriggerEventHandler[] startTriggers;
+        [ReorderableList] public SpawnPoint[] spawnPoints;
 
         [Header("Sequence Config")]
-        public GameAreaCompletionAction actionWhenComplete = GameAreaCompletionAction.GoToNextArea;
+        public GameAreaCompletionAction actionWhenComplete = GameAreaCompletionAction.StartNextArea;
 
 
         // ------------------------------------------------- //
+
+        public bool HasStartTrigger => startTriggers != null && startTriggers.Length > 0;
 
 
         // ------------------------------------------------- //
@@ -53,13 +54,17 @@ namespace SuperShooter
                 return;
             }
 
-            // Call override
+            // Call Start override
             failedToStart = OnStart();
             if (!failedToStart) {
                 Debug.LogError($"Scripted area '{name}' ran into problems during its {nameof(OnStart)} function. Disabling.");
                 enabled = false;
             }
-            
+
+            // Setup trigger callbacks
+            foreach (var trigger in startTriggers)
+                trigger.OnTriggered += Play;
+
         }
 
         // ------------------------------------------------- //
@@ -68,6 +73,8 @@ namespace SuperShooter
         protected abstract bool OnStart();
 
         protected virtual void OnUpdate() { }
+
+        protected virtual void OnUpdateUI() { }
 
         // ------------------------------------------------- //
 
@@ -129,6 +136,8 @@ namespace SuperShooter
             // Signal the derived class to handle its current sequence.
             OnUpdate();
 
+            // Signal the derived class to handle relevant UI elements.
+            OnUpdateUI();
         }
 
         // ------------------------------------------------- //
@@ -152,7 +161,7 @@ namespace SuperShooter
             // What's next?
             switch (actionWhenComplete)
             {
-                case GameAreaCompletionAction.GoToNextArea:
+                case GameAreaCompletionAction.StartNextArea:
 
                     GameMaster.Main?.StartNextArea();
 
@@ -160,17 +169,18 @@ namespace SuperShooter
 
                 case GameAreaCompletionAction.WinTheGame:
 
-                    // Future
+                    throw new System.NotImplementedException($"Action {nameof(GameAreaCompletionAction.WinTheGame)} not implemented.");
 
                     break;
 
                 case GameAreaCompletionAction.GameOver:
 
-                    // Future
+                    throw new System.NotImplementedException($"Action {nameof(GameAreaCompletionAction.GameOver)} not implemented.");
 
                     break;
 
                 case GameAreaCompletionAction.Nothing:
+
                     break;
             }
 

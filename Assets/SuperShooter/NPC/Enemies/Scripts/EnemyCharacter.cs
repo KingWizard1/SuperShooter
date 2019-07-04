@@ -236,20 +236,21 @@ namespace SuperShooter
             _controller?.Stop();
 
             // Disable colliders
-            GetComponentsInChildren<Collider>().All(c => c.enabled = false);
+            foreach (var c in GetComponentsInChildren<Collider>())
+                c.enabled = false;
 
             // Death/fall animation
             var randomFallAnim = Random.Range((int)EnemyCharacterState.DiedBackward, (int)EnemyCharacterState.DiedForward);
             SetCharacterState((EnemyCharacterState)randomFallAnim);
 
             // Destroy
-            DestroyWithAnimation(10f);
+            //DestroyWithAnimation(10f);
         }
 
 
         public override void BackFromTheDead()
         {
-            _controller.Search();
+            throw new System.NotImplementedException("Enemy cannot be brought back from the dead... yet!");
         }
 
         #endregion

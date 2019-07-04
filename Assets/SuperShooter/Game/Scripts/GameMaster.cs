@@ -14,6 +14,7 @@ namespace SuperShooter
         [Header("Debug")]
         [ShowNonSerializedField] public int gamePhase;               // Number of times the player has completed a full cycle of areas.
         [ShowNonSerializedField] public int currentArea;
+        [ShowNonSerializedField] public bool isGameOver = false;
 
         [Header("List of Areas")]
         [ReorderableList]
@@ -68,12 +69,16 @@ namespace SuperShooter
 
             // Next area!
             currentArea++;
-
-            Debug.Log($"----------  AREA {currentArea} START ----------");
-
-            // Play!
             var nextArea = gameplayAreas[currentArea];
-            nextArea.Play();
+
+            Debug.Log($"----------  AREA {currentArea}: '{nextArea.name}' START ----------");
+
+
+            // Auto start it if it doesnt have a collider trigger to start it
+            if (nextArea.HasStartTrigger)
+                Debug.Log("Waiting for start trigger to be triggered.");
+            else
+                nextArea.Play();
 
 
 
@@ -102,6 +107,30 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
         
+        public void GameOver(string gameOverText, string gameOverReason)
+        {
+
+            isGameOver = true;
+
+            Debug.Log($"----- GAME OVER: {gameOverText} {gameOverReason} -----");
+
+            
+            // Show kill screen
+            UIManager.Main?.deathUI?.Show(gameOverText, gameOverReason);
+
+            // Show restart prompt
+#if DEBUG
+            UIManager.Main?.SetActionText("Press CTRL+R to cast Reincarnate");
+#endif
+
+        }
+
+        public void CancelGameOver()
+        {
+            isGameOver = false;
+
+            UIManager.Main?.deathUI?.Hide();
+        }
 
         // ------------------------------------------------- //
 

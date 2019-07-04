@@ -15,6 +15,7 @@ namespace SuperShooter
         public TextMeshProUGUI contextText;
         public TextMeshProUGUI contextErrorText;
 
+        public AreaUI areaUI;
         public DeathUI deathUI;
         public TargetUI targetUI;
         public PauseScreenUI pauseUI;
@@ -35,6 +36,7 @@ namespace SuperShooter
         {
             Main = this;
 
+            if (!areaUI) Debug.LogWarning($"There is no {nameof(AreaUI)} assigned to the UI!");
             if (!targetUI) Debug.LogWarning($"There is no {nameof(TargetUI)} assigned to the UI!");
             if (!pauseUI) Debug.LogWarning($"There is no {nameof(PauseScreenUI)} assigned to the UI!");
             if (!statusUI) Debug.LogWarning($"There is no {nameof(PlayerStatusUI)} assigned to the UI!");
@@ -51,6 +53,7 @@ namespace SuperShooter
 
             ShowActionErrorText(string.Empty);
 
+            deathUI?.Hide();
         }
 
         #endregion
@@ -189,15 +192,15 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
-        public void ShowDeathScreen(bool makeActive)
-        {
-            if (deathUI)
-                deathUI.gameObject.SetActive(makeActive);
-            else
-                Debug.LogError($"[UI] No {nameof(deathUI)} assigned to {name}.");
+        //public void ShowDeathScreen()
+        //{
+        //    if (deathUI)
+        //        deathUI.gameObject.SetActive(makeActive);
+        //    else
+        //        Debug.LogError($"[UI] No {nameof(deathUI)} assigned to {name}.");
             
 
-        }
+        //}
 
 
         // ------------------------------------------------- //

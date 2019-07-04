@@ -4,6 +4,8 @@ using NaughtyAttributes;
 
 namespace SuperShooter
 {
+    public delegate void TriggerEventDelegate();
+
     [RequireComponent(typeof(Collider))]
     public class TriggerEventHandler : MonoBehaviour
     {
@@ -23,6 +25,12 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
+        public bool isTriggered = false;
+
+        public TriggerEventDelegate OnTriggered;
+
+        // ------------------------------------------------- //
+
         private Collider col;
 
         // ------------------------------------------------- //
@@ -32,6 +40,11 @@ namespace SuperShooter
             col = GetComponent<Collider>();
         }
 
+        private void Start()
+        {
+            isTriggered = false;
+        }
+
         // ------------------------------------------------- //
 
         private void OnTriggerEnter(Collider other)
@@ -39,6 +52,10 @@ namespace SuperShooter
 
             if (playerOnly && other.tag != "Player")
                 return;
+
+            isTriggered = true;
+
+            OnTriggered?.Invoke();
 
             OnEnter?.Invoke();
 

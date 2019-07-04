@@ -12,6 +12,7 @@ public class TMPSetTextToName : MonoBehaviour
     [Header("Text")]
     public string text;
     public string prefix;
+    public bool visibleInGame = false;
 
     [Header("Text Options")]
     public bool usePrefix = true;
@@ -84,7 +85,11 @@ public class TMPSetTextToName : MonoBehaviour
     void Update()
     {
 
+        if (!visibleInGame)
+            GetComponent<Renderer>().enabled = false;
+
         DisableIfNotAllowed();
+
 
         ApplyText();
 

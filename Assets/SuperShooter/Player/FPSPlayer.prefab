@@ -425,11 +425,10 @@ MonoBehaviour:
   headshotMultiplier: 2
   characterName: Playa Characta
   characterModel: {fileID: 234176996}
-  icon: {fileID: 0}
   bloodSplatterPrefab: {fileID: 0}
   currentXP: 0
   currentXPLevel: 0
-  initialXPRequiredToLevel: 75
+  initialXPRequiredToLevel: 350
   XPLevelScaleFactor: 1.25
   dashSpeed: 25
   dashDuration: 3
@@ -449,7 +448,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7980de37b66a474cb60a2f5e59f0f8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  runSpeed: 15
+  runSpeed: 10
   walkSpeed: 7.5
   gravity: 40
   crouchSpeed: 5

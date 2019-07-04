@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using TMPro;
 
 namespace SuperShooter
 {
@@ -8,29 +7,28 @@ namespace SuperShooter
     public class DeathUI : MonoBehaviour
     {
 
-        // ------------------------------------------------- //
-
-
-        // ------------------------------------------------- //
-
+        public TMPController deathText;
+        public TextMeshProUGUI deathText2;
 
         // ------------------------------------------------- //
 
-        void Start()
+
+        // ------------------------------------------------- //
+
+        public void Show(string deathText, string deathReason)
         {
+
+            this.deathText.SetText(deathText);
+            this.deathText2.text = deathReason;
+
+            gameObject.SetActive(true);
 
         }
 
-        // ------------------------------------------------- //
-
-
-        // ------------------------------------------------- //
-
-
-        // ------------------------------------------------- //
-
-        void Update()
+        public void Hide()
         {
+
+            gameObject.SetActive(false);
 
         }
 

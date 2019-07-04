@@ -22,6 +22,14 @@ namespace SuperShooter
 
         // ------------------------------------------------- //
 
+        public void SetText(string text)
+        {
+            body.text = text;
+            outline.text = text;
+        }
+
+        // ------------------------------------------------- //
+
         public void FadeIn()
         {
 

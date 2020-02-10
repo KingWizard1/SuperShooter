@@ -199,6 +199,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -249,6 +250,7 @@ LineRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -344,11 +346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0c791ad714f25f44b42effa3ebb14c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
-  maxHealth: 100
-  headshotMultiplier: 2
-  characterName: New Character Entity
-  bloodSplatterPrefab: {fileID: 0}
+  _isInteractable: 1
   baseName: Light Rifle
   icon: {fileID: 21300000, guid: 0f3ea483af5c82546876ca21529fba55, type: 3}
   damage: 1
@@ -373,10 +371,18 @@ MonoBehaviour:
   timeToUnADS: 0.05
   zoomLevelOffsets:
   - -10
-  sfxBulletFired: {fileID: 5439790058434288279}
+  sfxPickedUp: {fileID: 0}
+  sfxBulletFired:
+  - {fileID: 5439790058434288279}
+  sfxBulletShellFall: []
   autoReload: 0
   infiniteAmmo: 0
   PickedUp:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  BulletFired:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
